@@ -1,0 +1,569 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>히든밸리 펜션 | 곡성 계곡 감성 스테이 (구 원효계곡펜션)</title>
+<meta name="description" content="히든밸리 펜션(구 원효계곡펜션) — 곡성 원효계곡을 품은 감성 스테이. 편백·황토방·데크텐트, 실시간 예약과 요금 확인. 곡성 기차마을·섬진강 여행 거점. 자고 그리고 먹고, 히든밸리 샤브·갈비.">
+<meta name="keywords" content="히든밸리 펜션, 히든밸리펜션, 원효계곡펜션, 구 원효계곡펜션, 곡성 펜션, 곡성 계곡 펜션, 곡성 숙박, 섬진강 펜션, 곡성 기차마을 펜션, 편백 펜션, 황토방, 데크텐트, 글램핑">
+<meta property="og:title" content="히든밸리 펜션 · 곡성 계곡 스테이">
+<meta property="og:description" content="곡성 원효계곡을 품은 하룻밤. 실시간 예약 · 자고 그리고 먹고(히든밸리 샤브·갈비).">
+<meta property="og:type" content="website">
+<meta property="og:image" content="img/hero.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=IBM+Plex+Sans+KR:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+:root{
+  --paper:#f2f3ec; --panel:#fbfbf6; --ink:#1b241d; --sub:#4a544a;
+  --forest:#2c4a34; --forest-d:#223b29; --moss:#5f8352; --clay:#b5793f; --clay-d:#9c6532;
+  --stone:#8a8f83; --line:#dde0d3; --line2:#e8eae0;
+  --shadow:0 18px 50px -28px rgba(28,44,32,.5);
+  --maxw:1180px;
+  --serif:"Gowun Batang",serif; --mono:"IBM Plex Mono",monospace; --sans:"IBM Plex Sans KR",sans-serif;
+}
+@media (prefers-color-scheme:dark){:root{
+  --paper:#151a15; --panel:#1c231c; --ink:#eef1e8; --sub:#aab3a5;
+  --forest:#8fb583; --forest-d:#7ba46d; --moss:#a6c495; --clay:#d69a5f; --clay-d:#c2854a;
+  --stone:#8a9384; --line:#2c352b; --line2:#232b23;
+  --shadow:0 18px 50px -28px rgba(0,0,0,.7);
+}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-weight:400;line-height:1.7;-webkit-font-smoothing:antialiased;font-size:16px}
+img{max-width:100%;display:block}
+h1,h2,h3{font-family:var(--serif);font-weight:700;line-height:1.22;letter-spacing:-.01em;margin:0;text-wrap:balance}
+a{color:inherit}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px}
+.eyebrow{font-size:.8rem;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:var(--moss)}
+.klabel{font-size:.74rem;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--stone)}
+.btn{display:inline-flex;align-items:center;gap:.5em;font-weight:600;font-size:.95rem;padding:.85em 1.5em;border-radius:999px;border:1px solid transparent;cursor:pointer;text-decoration:none;transition:.2s}
+.btn-fill{background:var(--forest);color:#fff}.btn-fill:hover{background:var(--forest-d)}
+.btn-out{background:transparent;color:var(--ink);border-color:var(--line)}.btn-out:hover{border-color:var(--forest);color:var(--forest)}
+.btn-clay{background:var(--clay);color:#fff}.btn-clay:hover{background:var(--clay-d)}
+
+header{position:sticky;top:0;z-index:50;background:color-mix(in srgb,var(--paper) 90%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.nav{display:flex;align-items:center;justify-content:space-between;gap:20px;height:70px}
+.brand{display:flex;flex-direction:column;line-height:1.05;text-decoration:none}
+.brand b{font-family:var(--serif);font-size:1.18rem}
+.brand span{font-size:.66rem;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--moss)}
+.menu{display:flex;gap:26px;font-size:.94rem;font-weight:500}
+.menu a{text-decoration:none;color:var(--sub);transition:.15s}.menu a:hover{color:var(--forest)}
+.nav-cta{display:flex;align-items:center;gap:16px}
+.tel{font-weight:600;font-size:.95rem;white-space:nowrap}
+.tel small{display:block;font-size:.66rem;font-weight:600;letter-spacing:.16em;color:var(--stone);text-transform:uppercase}
+@media(max-width:900px){.menu,.tel{display:none}}
+
+.hero{position:relative;min-height:640px;display:flex;align-items:flex-end;background:#26372a url("img/hero.jpg") center 35%/cover no-repeat;color:#fff}
+.hero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(12,20,14,.42) 0%,rgba(12,20,14,.24) 42%,rgba(11,18,13,.8) 78%,rgba(9,15,10,.94) 100%),linear-gradient(90deg,rgba(9,15,10,.58) 0%,rgba(9,15,10,.2) 52%,transparent 74%)}
+.hero .wrap{position:relative;z-index:2;padding-bottom:54px;padding-top:120px}
+.hero .eyebrow{color:#c7dbb6}
+.hero h1{color:#fff;font-size:clamp(2.3rem,5vw,3.9rem);margin:.15em 0 .35em;max-width:16ch}
+.hero p{max-width:44ch;color:#e7ede1;font-size:1.06rem;margin:0 0 26px}
+.hero-cta{display:flex;gap:14px;flex-wrap:wrap}
+.hero-meta{position:relative;z-index:2;border-top:1px solid rgba(255,255,255,.2);margin-top:34px;display:flex;gap:38px;flex-wrap:wrap;padding-top:20px}
+.hero-meta b{font-family:var(--serif);font-size:1.5rem}
+.hero-meta span{display:block;font-size:.8rem;color:#cdd8c6}
+
+section{padding:82px 0}
+.shead{max-width:60ch;margin-bottom:40px}
+.shead h2{font-size:clamp(1.7rem,3.4vw,2.5rem);margin:.25em 0 0}
+.shead p{color:var(--sub);margin:.5em 0 0;font-size:1.05rem}
+
+.feat{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--line);border-radius:16px;overflow:hidden;background:var(--panel)}
+.feat>div{padding:28px 24px;border-right:1px solid var(--line2)}
+.feat>div:last-child{border-right:none}
+.feat .n{font-family:var(--mono);font-weight:500;font-size:.82rem;letter-spacing:.1em;color:var(--clay)}
+.feat h3{font-size:1.14rem;margin:.4em 0 .3em}
+.feat p{margin:0;color:var(--sub);font-size:.92rem;line-height:1.6}
+@media(max-width:820px){.feat{grid-template-columns:1fr 1fr}.feat>div:nth-child(2n){border-right:none}}
+@media(max-width:520px){.feat{grid-template-columns:1fr}.feat>div{border-right:none;border-bottom:1px solid var(--line2)}}
+
+/* room type block */
+.rtype{margin-top:56px}
+.rtype:first-of-type{margin-top:0}
+.rtype .rhead{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:18px}
+.rtype .rhead h3{font-size:1.8rem}
+.rtype .rhead .cap{color:var(--clay);font-weight:600;font-size:.95rem}
+.rtype .rhead .from{margin-left:auto;color:var(--sub);font-size:.95rem}
+.rtype .rhead .from b{font-family:var(--serif);font-size:1.4rem;color:var(--ink);font-variant-numeric:tabular-nums}
+.rtype .rdesc{color:var(--sub);max-width:70ch;margin-bottom:18px}
+.gal{display:grid;grid-template-columns:2fr 1fr 1fr;grid-auto-rows:150px;gap:10px}
+.gal img{width:100%;height:100%;object-fit:cover;border-radius:12px;background:var(--line)}
+.gal img:first-child{grid-row:span 2}
+@media(max-width:720px){.gal{grid-template-columns:1fr 1fr;grid-auto-rows:120px}.gal img:first-child{grid-row:span 2}}
+.rlist{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.rlist span{background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:.4em .9em;font-size:.86rem;color:var(--sub)}
+.rlist span b{color:var(--ink)}
+.ph-note{font-size:.8rem;color:var(--stone);margin-top:10px}
+
+/* gallery strip */
+.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.grid4 img{width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:12px;background:var(--line)}
+@media(max-width:720px){.grid4{grid-template-columns:1fr 1fr}}
+
+/* booking */
+.book{background:var(--forest);border-radius:24px;overflow:hidden;display:grid;grid-template-columns:1.05fr 1fr}
+.book .left{padding:48px 44px;color:#eef2e8}
+.book .left .eyebrow{color:#bcd3aa}.book .left h2{color:#fff;font-size:2rem;margin:.1em 0 .5em}
+.book .left p{color:#cfdcc6;font-size:.98rem;max-width:38ch}
+.book-note{margin-top:22px;font-size:.82rem;color:#a9bd9d;border-left:2px solid var(--moss);padding-left:14px;line-height:1.6}
+.book .form{background:var(--panel);padding:32px;display:flex;flex-direction:column;gap:15px}
+.fld{display:flex;flex-direction:column;gap:6px}
+.fld label{font-size:.78rem;font-weight:600;color:var(--sub)}
+.fld input,.fld select{font-family:var(--sans);font-size:1rem;padding:.7em .8em;border:1px solid var(--line);border-radius:11px;background:var(--paper);color:var(--ink);width:100%}
+.fld input:focus,.fld select:focus{outline:2px solid var(--moss);outline-offset:1px;border-color:var(--moss)}
+.fld-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.quote{margin-top:4px;border-top:1px solid var(--line);padding-top:16px}
+.quote .line{display:flex;justify-content:space-between;font-size:.88rem;color:var(--sub);padding:3px 0;font-variant-numeric:tabular-nums}
+.quote .badge{display:inline-block;font-size:.7rem;font-weight:700;padding:.2em .6em;border-radius:999px;margin-left:6px}
+.b-off{background:#e7efe0;color:#3d6b45}.b-mid{background:#dcecf4;color:#276089}.b-high{background:#f6e2d5;color:#a5551f}
+.total{display:flex;justify-content:space-between;align-items:baseline;margin-top:12px;padding-top:14px;border-top:2px solid var(--ink)}
+.total b{font-family:var(--serif);font-size:1.9rem;font-variant-numeric:tabular-nums}.total b small{font-size:.9rem;font-weight:400}
+.pay{margin-top:12px;background:var(--paper);border:1px dashed var(--line);border-radius:12px;padding:13px 15px;font-size:.84rem;color:var(--sub)}.pay b{color:var(--ink)}
+.consent{border-top:1px solid var(--line);padding-top:14px;display:flex;flex-direction:column;gap:9px}
+.cline{display:flex;align-items:center;gap:8px;font-size:.86rem;color:var(--sub);cursor:pointer}
+.cline input{width:16px;height:16px;accent-color:var(--forest);flex:none;margin:0}
+.cline.all{font-weight:600;color:var(--ink);border-bottom:1px dashed var(--line);padding-bottom:9px}
+.cline .req{color:var(--clay);font-weight:600}
+.cline a{color:var(--moss);margin-left:auto;font-size:.8rem;text-decoration:underline}
+.ctext{font-size:.8rem;color:var(--sub);background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:10px 12px;line-height:1.6}
+.nights-detail{max-height:130px;overflow:auto}
+@media(max-width:840px){.book{grid-template-columns:1fr}.book .left{padding:36px 28px}}
+
+/* hidden valley */
+.hv{position:relative;border-radius:24px;overflow:hidden;color:#f4e9de;background:#2a1f16}
+.hv img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.4}
+.hv .txt{position:relative;padding:64px 46px;max-width:60ch}
+.hv .eyebrow{color:var(--clay)}.hv h2{color:#fff;font-size:2rem;margin:.15em 0 .4em}
+.hv .soon{display:inline-block;margin-top:12px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.28);color:#f4e9de;font-size:.76rem;font-weight:600;letter-spacing:.1em;padding:.4em 1em;border-radius:999px;text-transform:uppercase}
+
+/* info */
+.info{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:30px}
+.card h3{font-size:1.3rem;margin-bottom:16px}
+.info dl{display:grid;grid-template-columns:auto 1fr;gap:12px 20px;margin:0;font-size:.94rem}
+.info dt{color:var(--stone);font-weight:600}.info dd{margin:0}
+.rules{list-style:none;padding:0;margin:0}
+.rules li{margin:0 0 10px;color:var(--sub);font-size:.93rem;padding-left:18px;position:relative}
+.rules li::before{content:"";position:absolute;left:0;top:.6em;width:6px;height:6px;border-radius:50%;background:var(--moss)}
+.addr b{font-family:var(--serif);font-size:1.15rem;display:block;margin-bottom:6px}
+.addr p{color:var(--sub);margin:.2em 0}
+.mapbtns{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+@media(max-width:760px){.info{grid-template-columns:1fr}}
+
+footer{background:#1f3629;color:#c7d4c0;padding:64px 0 34px;margin-top:24px}
+.footgrid{display:grid;grid-template-columns:1.5fr 1.1fr 1fr;gap:40px}
+.footgrid h5{font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:#8fae83;margin:0 0 16px;font-weight:700}
+.fcol p{margin:0 0 7px;font-size:.9rem;line-height:1.7;color:#bccdb1}
+.fcol p.sm{font-size:.82rem;color:#94ab8a}
+.fcol a{color:#eef2e8;text-decoration:none}
+.fcol a:hover{text-decoration:underline}
+.brand-col b{font-family:var(--serif);color:#fff;font-size:1.4rem;display:block;letter-spacing:-.01em}
+.brand-col .eng{font-size:.66rem;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:#8fae83;margin-top:8px;display:block}
+.brand-col .fcopy{margin-top:16px;color:#a9bd9d;font-size:.92rem;line-height:1.7;max-width:34ch}
+.fbtns{display:flex;flex-direction:column;gap:10px;align-items:stretch;max-width:200px}
+.fbtn{display:inline-flex;align-items:center;gap:.6em;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.2);color:#eef2e8;text-decoration:none;font-size:.9rem;font-weight:600;padding:.62em 1.05em;border-radius:10px;transition:.15s}
+.fbtn:hover{background:rgba(255,255,255,.16);border-color:rgba(255,255,255,.35)}
+.fbtn.call{background:var(--clay);border-color:var(--clay);color:#fff}
+.fbtn.call:hover{background:var(--clay-d)}
+.fbtn svg{width:18px;height:18px;flex:none;display:block}
+.credit{text-align:center;margin-top:44px;padding-top:22px;border-top:1px solid rgba(255,255,255,.12);font-size:.78rem;color:#7f9576;letter-spacing:.02em}
+@media(max-width:820px){.footgrid{grid-template-columns:1fr;gap:30px}.fbtns{max-width:none}}
+/* room cards */
+.roomcards{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:8px}
+.rc{background:var(--panel);border:1px solid var(--line);border-radius:14px;overflow:hidden;box-shadow:var(--shadow)}
+.rc img{width:100%;aspect-ratio:4/3;object-fit:cover;background:var(--line)}
+.rc .b{padding:14px 16px}
+.rc h4{margin:0;font-family:var(--serif);font-size:1.15rem}
+.rc .m{color:var(--sub);font-size:.85rem;margin:3px 0 8px}
+.rc .p{font-family:var(--serif);font-size:1.05rem;font-variant-numeric:tabular-nums}
+.rc .p small{color:var(--stone);font-size:.72rem;font-family:var(--sans)}
+.tagpill{display:inline-block;font-size:.7rem;font-weight:700;letter-spacing:.02em;padding:.25em .7em;border-radius:999px;margin-bottom:8px}
+.tagpill.live{background:#e0efe1;color:#2f6b3f}
+.tagpill.soon2{background:#f6e2d5;color:#a5551f}
+@media (prefers-color-scheme:dark){.tagpill.live{background:#1e3320;color:#9ed3a6}.tagpill.soon2{background:#3a231e;color:#e79a8c}}
+@media(max-width:820px){.roomcards{grid-template-columns:1fr 1fr}}
+@media(max-width:520px){.roomcards{grid-template-columns:1fr}}
+/* steps */
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.stp{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:22px 20px}
+.stp .num{font-family:var(--mono);font-weight:500;color:var(--clay);font-size:.9rem;letter-spacing:.1em}
+.stp h4{margin:.3em 0;font-size:1.05rem}
+.stp p{margin:0;color:var(--sub);font-size:.9rem}
+@media(max-width:820px){.steps{grid-template-columns:1fr 1fr}}
+/* reviews */
+.reviews{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.review{display:block;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px 20px;text-decoration:none;transition:.15s}
+.review:hover{border-color:var(--moss);transform:translateY(-2px)}
+.review .src{font-size:.75rem;color:var(--clay);font-weight:600}
+.review p{margin:6px 0 0;color:var(--ink);font-size:.92rem;line-height:1.5}
+@media(max-width:760px){.reviews{grid-template-columns:1fr}}
+/* faq */
+.faq details{background:var(--panel);border:1px solid var(--line);border-radius:12px;margin-bottom:10px}
+.faq summary{cursor:pointer;padding:16px 18px;font-weight:600;list-style:none}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";float:right;color:var(--moss);font-weight:700}
+.faq details[open] summary::after{content:"\2212"}
+.faq .a{padding:0 18px 16px;color:var(--sub);font-size:.93rem}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <a href="#" class="brand"><b>히든밸리 펜션</b><span>Hidden Valley</span></a>
+    <nav class="menu">
+      <a href="#intro">소개</a><a href="#rooms">객실</a><a href="#gallery">갤러리</a><a href="#around">주변</a>
+      <a href="#book">실시간 예약</a><a href="#valley">히든밸리</a><a href="#reviews">후기</a><a href="#info">오시는 길</a>
+    </nav>
+    <div class="nav-cta">
+      <a class="tel" href="tel:01079306100" style="text-decoration:none">010-7930-6100<small>Reservation</small></a>
+      <a href="#book" class="btn btn-fill">예약하기</a>
+    </div>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="wrap">
+    <div class="eyebrow">Healing Time · 섬진강 자락</div>
+    <h1>곡성 계곡을 품은 하룻밤</h1>
+    <p>맑은 원효계곡 물소리와 편백·황토의 온기. 도심을 벗어나 가장 깊은 쉼을 만나는 히든밸리 펜션.</p>
+    <div class="hero-cta">
+      <a href="#book" class="btn btn-fill">실시간 예약 &amp; 요금 확인</a>
+      <a href="#rooms" class="btn btn-out" style="color:#fff;border-color:rgba(255,255,255,.5)">객실 둘러보기</a>
+    </div>
+    <div class="hero-meta">
+      <div><b>9</b><span>객실 · 3가지 타입</span></div>
+      <div><b>2~10</b><span>인 · 소규모부터 대가족까지</span></div>
+      <div><b>4만원~</b><span>비수기 최저 요금</span></div>
+    </div>
+  </div>
+</div>
+
+<section id="intro">
+  <div class="wrap">
+    <div class="shead">
+      <span class="klabel">Why Hidden Valley</span>
+      <h2>계곡이 마당이 되는 곳</h2>
+      <p>펜션 바로 앞에 흐르는 맑은 원효계곡, 편백나무 향 가득한 객실과 한옥 황토방. 곡성 기차마을·섬진강 레일바이크·도깨비마을이 지척인 여행의 거점입니다.</p>
+    </div>
+    <div class="feat">
+      <div><div class="n">01</div><h3>계곡 물놀이</h3><p>펜션 앞 맑은 원효계곡에서 여름엔 물놀이, 사계절 산책을.</p></div>
+      <div><div class="n">02</div><h3>편백·황토 힐링</h3><p>편백나무 향의 객실과 서까래 한옥 황토방에서의 깊은 잠.</p></div>
+      <div><div class="n">03</div><h3>바비큐 &amp; 데크</h3><p>가족·모임을 위한 개별 바비큐와 자연 속 데크텐트.</p></div>
+      <div><div class="n">04</div><h3>곡성 여행 거점</h3><p>기차마을·섬진강·천문대까지 차로 가까운 여행의 중심.</p></div>
+    </div>
+    <div class="rlist" style="margin-top:20px">
+      <span>계곡 바로 앞</span><span>개별 바비큐</span><span>취사 가능</span>
+      <span>주차 공간</span><span>무선 인터넷</span><span>편백·황토방</span><span>데크텐트</span>
+    </div>
+  </div>
+</section>
+
+<section id="rooms" style="background:var(--panel);border-block:1px solid var(--line)">
+  <div class="wrap">
+    <div class="shead">
+      <span class="klabel">Rooms</span>
+      <h2>세 가지 결의 방</h2>
+      <p>넉넉한 편백, 한옥의 정취 황토방, 자연 속 데크텐트. 인원과 취향에 맞춰 고르세요.</p>
+    </div>
+
+    <div class="rtype">
+      <div class="rhead"><h3>편백</h3><span class="cap">기준 4~6인 · 최대 7~10인</span><span class="from">비수기 <b>140,000</b>원~</span></div>
+      <p class="rdesc">편백나무로 마감한 넓은 실내. 대가족·단체 모임에 넉넉한 대표 객실입니다. 은은한 편백 향이 하루의 피로를 풀어줍니다.</p>
+      <div class="gal">
+        <img src="img/pyeonbaek-1.jpg" alt="편백 객실" loading="lazy">
+        <img src="img/pyeonbaek-2.jpg" alt="편백 객실" loading="lazy">
+        <img src="img/pyeonbaek-3.jpg" alt="편백 객실" loading="lazy">
+        <img src="img/pyeonbaek-4.jpg" alt="편백 객실" loading="lazy">
+        <img src="img/pyeonbaek-5.jpg" alt="편백 객실" loading="lazy">
+      </div>
+      <div class="rlist"><span><b>편백1</b> 6/10인</span><span><b>편백2</b> 6/10인</span><span><b>편백3</b> 5/8인</span><span><b>편백4</b> 4/7인</span></div>
+    </div>
+
+    <div class="rtype">
+      <div class="rhead"><h3>황토</h3><span class="cap">기준 3인 · 최대 6인</span><span class="from">비수기 <b>130,000</b>원~</span></div>
+      <p class="rdesc">서까래와 창호지, 황토 바닥의 한옥 감성. 몸이 먼저 아는 편안함으로 커플·가족에게 인기 있는 객실입니다.</p>
+      <div class="gal">
+        <img src="img/hwangto-1.jpg" alt="황토방" loading="lazy">
+        <img src="img/hwangto-2.jpg" alt="황토방" loading="lazy">
+        <img src="img/hwangto-3.jpg" alt="황토방" loading="lazy">
+        <img src="img/hwangto-4.jpg" alt="황토방" loading="lazy">
+        <img src="img/hwangto-5.jpg" alt="황토방" loading="lazy">
+      </div>
+      <div class="rlist"><span><b>황토5</b> 3/6인</span><span><b>황토6</b> 3/6인</span></div>
+    </div>
+
+    <div class="rtype">
+      <div class="rhead"><h3>데크텐트</h3><span class="cap">기준 2인 · 최대 4인</span><span class="from">비수기 <b>40,000</b>원~</span></div>
+      <p class="rdesc">자연을 가장 가까이. 감성 캠핑을 원하는 커플·소가족을 위한 글램핑 데크텐트입니다.</p>
+      <div class="gal">
+        <img src="img/deck-1.jpg" alt="데크텐트 전경" loading="lazy">
+        <img src="img/deck-2.jpg" alt="데크텐트 전경" loading="lazy">
+        <img src="img/scene-2.jpg" alt="계곡 전경" loading="lazy">
+      </div>
+      <div class="rlist"><span><b>데크텐트1</b> 2/4인</span><span><b>데크텐트2</b> 2/4인</span><span><b>데크텐트3</b> 2/4인</span></div>
+      <p class="ph-note">* 데크텐트 실제 사진은 준비 중입니다 (현재 주변 전경으로 표시).</p>
+    </div>
+
+    <div style="margin-top:56px">
+      <div class="rhead" style="margin-bottom:18px"><h3 style="font-size:1.5rem">전체 객실 한눈에</h3><span class="from" style="margin-left:auto;color:var(--sub);font-size:.9rem">비수기 주중 기준가</span></div>
+      <div class="roomcards">
+        <div class="rc"><img src="img/pyeonbaek-1.jpg" alt="편백1" loading="lazy"><div class="b"><h4>편백1</h4><div class="m">편백 · 기준 6 / 최대 10인</div><div class="p">200,000<small>원~</small></div></div></div>
+        <div class="rc"><img src="img/pyeonbaek-2.jpg" alt="편백2" loading="lazy"><div class="b"><h4>편백2</h4><div class="m">편백 · 기준 6 / 최대 10인</div><div class="p">200,000<small>원~</small></div></div></div>
+        <div class="rc"><img src="img/pyeonbaek-3.jpg" alt="편백3" loading="lazy"><div class="b"><h4>편백3</h4><div class="m">편백 · 기준 5 / 최대 8인</div><div class="p">150,000<small>원~</small></div></div></div>
+        <div class="rc"><img src="img/pyeonbaek-4.jpg" alt="편백4" loading="lazy"><div class="b"><h4>편백4</h4><div class="m">편백 · 기준 4 / 최대 7인</div><div class="p">140,000<small>원~</small></div></div></div>
+        <div class="rc"><img src="img/hwangto-1.jpg" alt="황토5" loading="lazy"><div class="b"><h4>황토5</h4><div class="m">황토 · 기준 3 / 최대 6인</div><div class="p">130,000<small>원~</small></div></div></div>
+        <div class="rc"><img src="img/hwangto-2.jpg" alt="황토6" loading="lazy"><div class="b"><h4>황토6</h4><div class="m">황토 · 기준 3 / 최대 6인</div><div class="p">130,000<small>원~</small></div></div></div>
+        <div class="rc"><img src="img/deck-1.jpg" alt="데크텐트1" loading="lazy"><div class="b"><h4>데크텐트1</h4><div class="m">데크텐트 · 기준 2 / 최대 4인</div><div class="p">40,000<small>원~</small></div></div></div>
+        <div class="rc"><img src="img/deck-2.jpg" alt="데크텐트2" loading="lazy"><div class="b"><h4>데크텐트2</h4><div class="m">데크텐트 · 기준 2 / 최대 4인</div><div class="p">40,000<small>원~</small></div></div></div>
+        <div class="rc"><img src="img/scene-2.jpg" alt="데크텐트3" loading="lazy"><div class="b"><h4>데크텐트3</h4><div class="m">데크텐트 · 기준 2 / 최대 4인</div><div class="p">40,000<small>원~</small></div></div></div>
+      </div>
+      <p style="text-align:center;margin-top:24px"><a href="#book" class="btn btn-fill">날짜별 요금 확인 &amp; 예약</a></p>
+    </div>
+  </div>
+</section>
+
+<section id="gallery">
+  <div class="wrap">
+    <div class="shead">
+      <span class="klabel">Gallery</span>
+      <h2>원효계곡의 사계</h2>
+      <p>펜션을 감싸는 맑은 계곡과 자연 풍경.</p>
+    </div>
+    <div class="grid4">
+      <img src="img/scene-1.jpg" alt="원효계곡" loading="lazy">
+      <img src="img/scene-2.jpg" alt="원효계곡" loading="lazy">
+      <img src="img/scene-3.jpg" alt="원효계곡" loading="lazy">
+      <img src="img/pyeonbaek-6.jpg" alt="객실" loading="lazy">
+      <img src="img/hwangto-6.jpg" alt="황토방" loading="lazy">
+      <img src="img/pyeonbaek-1.jpg" alt="편백 객실" loading="lazy">
+      <img src="img/hwangto-3.jpg" alt="황토방" loading="lazy">
+      <img src="img/hero.jpg" alt="계곡 전경" loading="lazy">
+    </div>
+  </div>
+</section>
+
+<section id="around" style="padding-top:24px">
+  <div class="wrap">
+    <div class="shead">
+      <span class="klabel">Around</span>
+      <h2>곡성, 놀거리가 가득</h2>
+      <p>펜션을 중심으로 곡성의 대표 명소가 가까이 모여 있습니다.</p>
+    </div>
+    <div class="feat">
+      <div><div class="n">기차마을</div><h3>곡성 섬진강 기차마을</h3><p>증기기관차와 장미공원, 아이와 함께하기 좋은 곡성 대표 명소.</p></div>
+      <div><div class="n">레일바이크</div><h3>섬진강 레일바이크</h3><p>섬진강을 따라 달리는 레일바이크로 즐기는 시원한 강바람.</p></div>
+      <div><div class="n">도깨비마을</div><h3>곡성 도깨비마을</h3><p>이야기와 체험이 있는 이색 테마 마을.</p></div>
+      <div><div class="n">천문대</div><h3>섬진강 천문대</h3><p>맑은 밤하늘 아래 별빛을 만나는 곡성의 밤.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="guide" style="padding-top:24px">
+  <div class="wrap">
+    <div class="shead"><span class="klabel">How to book</span><h2>예약은 이렇게</h2></div>
+    <div class="steps">
+      <div class="stp"><div class="num">01</div><h4>날짜·객실 선택</h4><p>원하는 일정과 객실을 고르면 요금이 자동 계산됩니다.</p></div>
+      <div class="stp"><div class="num">02</div><h4>예약 신청</h4><p>성함·연락처·인원을 입력하고 신청합니다.</p></div>
+      <div class="stp"><div class="num">03</div><h4>무통장 입금</h4><p>안내된 계좌(우리은행)로 입금해 주세요.</p></div>
+      <div class="stp"><div class="num">04</div><h4>확정 문자</h4><p>입금이 확인되면 확정 문자를 보내드립니다.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="book" style="background:var(--panel);border-block:1px solid var(--line)">
+  <div class="wrap">
+    <div class="book">
+      <div class="left">
+        <div class="eyebrow">Real-time Booking</div>
+        <h2>날짜만 고르면<br>요금이 바로 나옵니다</h2>
+        <p>시즌과 요일에 따라 요금이 자동 계산됩니다. 날짜·객실을 고르고 바로 예약을 신청하세요.</p>
+        <div class="book-note">결제는 무통장입금 방식입니다. 예약 신청 후 입금이 확인되면 문자로 확정 안내를 드립니다. * 시즌 기간은 운영 기준으로 조정될 수 있습니다.</div>
+      </div>
+      <div class="form">
+        <div class="fld-row">
+          <div class="fld"><label for="ci">체크인</label><input type="date" id="ci"></div>
+          <div class="fld"><label for="co">체크아웃</label><input type="date" id="co"></div>
+        </div>
+        <div class="fld"><label for="room">객실 선택</label><select id="room"></select></div>
+        <div class="quote" id="quote"></div>
+        <div class="fld-row">
+          <div class="fld"><label for="gname">예약자 성함</label><input type="text" id="gname" placeholder="홍길동" autocomplete="name"></div>
+          <div class="fld"><label for="gphone">연락처</label><input type="tel" id="gphone" placeholder="010-0000-0000" autocomplete="tel"></div>
+        </div>
+        <div class="fld"><label for="guests">인원</label><input type="number" id="guests" min="1" value="2"></div>
+        <div class="consent">
+          <label class="cline all"><input type="checkbox" id="agAll"><span>전체 동의</span></label>
+          <label class="cline"><input type="checkbox" id="agPriv"><span><span class="req">[필수]</span> 개인정보 수집·이용 동의</span><a href="#" id="agPrivView" role="button">약관 보기</a></label>
+          <div id="agPrivText" class="ctext" hidden><b>수집 항목</b> 예약자 성함·연락처·인원 · <b>수집 목적</b> 예약 접수 및 확인 안내 · <b>보유 기간</b> 이용 완료 후 1년(관계 법령에 따름). 동의를 거부할 수 있으나, 미동의 시 예약 접수가 제한됩니다.</div>
+          <label class="cline"><input type="checkbox" id="agMkt"><span>[선택] 마케팅·이벤트 정보 수신 동의</span></label>
+        </div>
+        <button type="button" id="reserveBtn" class="btn btn-clay" style="width:100%;justify-content:center">예약 신청하기</button>
+        <div id="rstatus" style="font-size:.9rem;line-height:1.6"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="valley" style="padding-top:24px">
+  <div class="wrap">
+    <div class="hv">
+      <img src="img/scene-3.jpg" alt="" aria-hidden="true">
+      <div class="txt">
+        <div class="eyebrow">Hidden Valley Group · 자고 그리고 먹고</div>
+        <h2>히든밸리에서 즐기는 곡성의 하루</h2>
+        <p>계곡을 품은 펜션에서 자고, 히든밸리 샤브·카페·갈비에서 먹고. 하나의 브랜드로 완성하는 곡성 여행.</p>
+        <div class="soon">숙박 + 식사 패키지 준비 중</div>
+      </div>
+    </div>
+    <div class="roomcards" style="margin-top:20px;grid-template-columns:repeat(3,1fr)">
+      <div class="rc"><div class="b"><span class="tagpill live">운영 중</span><h4>히든밸리 펜션</h4><div class="m">편백·황토·데크텐트 · 곡성 원효계곡을 품은 숙박</div></div></div>
+      <div class="rc"><div class="b"><span class="tagpill live">운영 중</span><h4>히든밸리 샤브&amp;카페</h4><div class="m">샤브샤브 &amp; 카페 · <b>펜션과 같은 자리</b>(서계길 73-30)<br>저녁 16:30~ · 예약 0507-1419-9669 · 단체·주차</div></div></div>
+      <div class="rc"><div class="b"><span class="tagpill soon2">오픈 예정</span><h4>히든밸리 갈비</h4><div class="m">숯불 갈비 · 공사 중<br><span style="color:var(--stone)">2026 오픈 예정</span></div></div></div>
+    </div>
+    <div class="card" style="margin-top:16px">
+      <h3 style="font-size:1.3rem;margin-bottom:4px">히든밸리 샤브&amp;카페 <span style="font-size:.78rem;color:var(--moss);font-weight:600">· 운영 중 · 펜션과 같은 자리</span></h3>
+      <p style="color:var(--sub);margin:.3em 0 16px;max-width:70ch">최상급 소고기 <b>우삼겹·우목심 무한리필</b> + <b>50여 가지</b> 신선 야채 셀프바 무제한. 샤브 주문 시 인원수만큼 <b>전복·오징어·새싹삼</b> 제공. 통창 너머 계곡뷰, 식후엔 <b>2층 카페</b>까지.</p>
+      <div class="rlist">
+        <span>평일 점심 <b>22,900원</b></span>
+        <span>평일 저녁·주말·공휴일 <b>25,900원</b></span>
+        <span>어린이(초등) <b>16,900원</b></span>
+        <span>미취학(4~7세) <b>8,900원</b></span>
+      </div>
+      <dl style="display:grid;grid-template-columns:auto 1fr;gap:8px 18px;margin:18px 0 0;font-size:.92rem">
+        <dt style="color:var(--stone);font-weight:600">영업시간</dt><dd style="margin:0">오전 11:00 ~ 오후 9:00 <span style="color:var(--stone)">(브레이크타임 15:00~16:30)</span></dd>
+        <dt style="color:var(--stone);font-weight:600">주소</dt><dd style="margin:0">전남 곡성군 곡성읍 서계길 73-30 1층 (펜션과 같은 자리)</dd>
+        <dt style="color:var(--stone);font-weight:600">예약·문의</dt><dd style="margin:0">0507-1419-9669 · 주차 가능 · 단체 가능</dd>
+      </dl>
+    </div>
+    <p style="text-align:center;margin-top:16px;font-size:.85rem;color:var(--stone)">* 히든밸리 갈비는 2026 오픈 예정입니다. 매장 실제 사진은 순차 업데이트됩니다.</p>
+  </div>
+</section>
+
+<section id="reviews">
+  <div class="wrap">
+    <div class="shead"><span class="klabel">Reviews</span><h2>다녀간 분들의 후기</h2><p>네이버 블로그·인스타그램에 남겨주신 실제 방문 후기입니다.</p></div>
+    <div class="reviews">
+      <a class="review" href="https://blog.naver.com/seogyeri/223235428088" target="_blank" rel="noopener"><div class="src">네이버 블로그 후기</div><p>계곡 바로 앞, 편백 향 가득한 객실에서의 힐링 후기 →</p></a>
+      <a class="review" href="https://blog.naver.com/seogyeri/223234760375" target="_blank" rel="noopener"><div class="src">네이버 블로그 후기</div><p>가족과 함께한 곡성 계곡 펜션 1박 후기 →</p></a>
+      <a class="review" href="https://www.instagram.com/seogyeri_stay/" target="_blank" rel="noopener"><div class="src">인스타그램 @seogyeri_stay</div><p>펜션의 사계절 사진과 소식을 인스타에서 만나보세요 →</p></a>
+    </div>
+  </div>
+</section>
+
+<section id="faq" style="padding-top:24px">
+  <div class="wrap">
+    <div class="shead"><span class="klabel">FAQ</span><h2>자주 묻는 질문</h2></div>
+    <div class="faq">
+      <details><summary>입실·퇴실 시간은 어떻게 되나요?</summary><div class="a">입실 오후 3시(15:00), 퇴실 오전 11시입니다.</div></details>
+      <details><summary>바비큐·취사가 가능한가요?</summary><div class="a">개별 바비큐와 취사가 가능합니다. 숯·그릴 등 세부사항은 예약 시 문의해 주세요.</div></details>
+      <details><summary>반려동물 동반이 되나요?</summary><div class="a">죄송합니다. 반려동물 동반 입실은 불가합니다.</div></details>
+      <details><summary>주차는 가능한가요?</summary><div class="a">네, 주차 공간이 마련되어 있습니다.</div></details>
+      <details><summary>계곡이 가까운가요?</summary><div class="a">펜션 바로 앞에 원효계곡이 있어 물놀이와 산책을 즐기실 수 있습니다.</div></details>
+      <details><summary>결제·환불 규정은 어떻게 되나요?</summary><div class="a">무통장입금(우리은행 1002-067-626314, 예금주 한다연)이며, 숙박일 5일 전까지 전액 환불·5일 미만 50% 환불·당일 환불은 불가합니다.</div></details>
+    </div>
+  </div>
+</section>
+
+<section id="info" style="padding-top:40px">
+  <div class="wrap">
+    <div class="shead"><span class="klabel">Information</span><h2>이용 안내 &amp; 오시는 길</h2></div>
+    <div class="info">
+      <div class="card">
+        <h3>이용 안내</h3>
+        <dl>
+          <dt>입실</dt><dd>오후 3:00 (15:00)</dd>
+          <dt>퇴실</dt><dd>오전 11:00</dd>
+          <dt>결제</dt><dd>무통장입금 · 우리은행 1002-067-626314 (예금주 한다연)</dd>
+          <dt>문의</dt><dd>010-7930-6100</dd>
+        </dl>
+        <h3 style="margin:24px 0 14px;font-size:1.05rem">환불 규정</h3>
+        <ul class="rules">
+          <li>숙박일 <b>5일 전</b>까지 취소 시 전액 환불</li>
+          <li>숙박일 <b>5일 미만</b> 취소 시 50% 환불</li>
+          <li>이용 <b>당일 취소·환불 불가</b></li>
+          <li>애완동물 동반 입실 불가</li>
+        </ul>
+      </div>
+      <div class="card addr">
+        <h3>오시는 길</h3>
+        <b>히든밸리 펜션 (구 원효계곡펜션)</b>
+        <p>전라남도 곡성군 곡성읍 서계길 73-30</p>
+        <p>고객센터 010-7930-6100</p>
+        <div class="mapbtns">
+          <a class="btn btn-out" href="https://map.kakao.com/?q=전라남도 곡성군 곡성읍 서계길 73-30" target="_blank" rel="noopener">카카오맵으로 보기</a>
+          <a class="btn btn-out" href="https://map.naver.com/p/search/곡성 서계길 73-30" target="_blank" rel="noopener">네이버지도로 보기</a>
+        </div>
+        <p style="margin-top:16px;font-size:.85rem;color:var(--stone)">곡성 기차마을·섬진강 레일바이크·도깨비마을·섬진강천문대 인근</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap footgrid">
+    <div class="fcol brand-col">
+      <b>히든밸리 펜션</b>
+      <span class="eng">Hidden Valley · 구 원효계곡펜션</span>
+      <p class="fcopy">곡성 원효계곡을 품은 감성 스테이. 편백·황토·데크텐트에서의 하룻밤, 그리고 히든밸리 샤브&amp;카페.</p>
+    </div>
+    <div class="fcol">
+      <h5>연락처 · 오시는 길</h5>
+      <p>전라남도 곡성군 곡성읍<br>서계길 73-30</p>
+      <p>고객센터 <a href="tel:01079306100">010-7930-6100</a></p>
+      <p class="sm">상호 히든밸리 · 대표 한다연<br>사업자등록번호 344-18-02766</p>
+    </div>
+    <div class="fcol">
+      <h5>바로가기</h5>
+      <div class="fbtns">
+        <a class="fbtn call" href="tel:01079306100" aria-label="전화하기"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.8 19.8 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>전화하기</a>
+        <a class="fbtn" href="sms:01079306100" aria-label="문자 문의"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>문자 문의</a>
+        <a class="fbtn" href="https://www.instagram.com/seogyeri_stay/" target="_blank" rel="noopener" aria-label="인스타그램"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2.6" y="2.6" width="18.8" height="18.8" rx="5.4"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.6" cy="6.4" r="1.25" fill="currentColor" stroke="none"/></svg>인스타그램</a>
+        <a class="fbtn" href="https://blog.naver.com/seogyeri" target="_blank" rel="noopener" aria-label="네이버 블로그"><svg viewBox="0 0 24 24"><rect width="24" height="24" rx="5" fill="#03C75A"/><path d="M8.1 16.8V7.2h2.35l3.3 5.15V7.2h2.15v9.6h-2.35l-3.3-5.15v5.15z" fill="#fff"/></svg>네이버 블로그</a>
+      </div>
+    </div>
+  </div>
+  <div class="credit">© 히든밸리 펜션 (구 원효계곡펜션) · 도반글로벌 제작</div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const SB=supabase.createClient('https://epxjjvowhlxaksviyhus.supabase.co','sb_publishable_VMd564QhmwzjRtmeMgklgg_pQaamR1M');
+async function api(action,payload){const{data,error}=await SB.rpc('api',{action,payload:payload||{}});if(error)throw error;return data;}
+const SEASON_KO={off:'비수기',mid:'준성수기',high:'성수기'}, DAY_KO=['주중','금요일','주말','공휴일'];
+const won=n=>Number(n).toLocaleString('ko-KR');
+const fmtd=s=>{const d=new Date(s+'T00:00');return `${d.getMonth()+1}.${d.getDate()}(${'일월화수목금토'[d.getDay()]})`;};
+const el=id=>document.getElementById(id);
+const sel=el('room'),ci=el('ci'),co=el('co'),quote=el('quote'),rstatus=el('rstatus');
+let ROOMS=[],lastQuote=null;
+function iso(d){return new Date(d.getTime()-d.getTimezoneOffset()*60000).toISOString().slice(0,10);}
+(function(){const t=new Date();t.setHours(0,0,0,0);const add=(6-t.getDay()+7)%7||7;const s=new Date(t);s.setDate(t.getDate()+add);const e=new Date(s);e.setDate(s.getDate()+1);ci.value=iso(s);co.value=iso(e);ci.min=iso(t);co.min=iso(new Date(t.getTime()+864e5));})();
+async function loadRooms(){try{ROOMS=await api('rooms')||[];sel.innerHTML=ROOMS.map(r=>`<option value="${r.id}">${r.name} · ${r.type} (기준 ${r.cap_base}/최대 ${r.cap_max}인)</option>`).join('');calc();}catch(e){quote.innerHTML='<div class="line" style="color:var(--clay)">객실 정보를 불러오지 못했습니다.</div>';}}
+async function calc(){rstatus.textContent='';const s=new Date(ci.value+'T00:00'),e=new Date(co.value+'T00:00');if(!(s<e)){quote.innerHTML='<div class="line" style="color:var(--clay)">체크아웃은 체크인 이후여야 합니다.</div>';lastQuote=null;return;}const room=ROOMS.find(r=>r.id===sel.value);quote.innerHTML='<div class="line">요금 계산 중…</div>';try{const q=await api('quote',{room_id:sel.value,checkin:ci.value,checkout:co.value});lastQuote=q;const detail=(q.detail||[]).map(n=>`<div class="line"><span>${fmtd(n.date)} <span class="badge b-${n.season}">${SEASON_KO[n.season]}·${DAY_KO[n.daytype]}</span></span><span>${won(n.price)}원</span></div>`).join('');quote.innerHTML=`<div class="line" style="color:var(--ink);font-weight:600"><span>${room?room.name:''} · ${q.nights}박</span><span>${room?('기준 '+room.cap_base+'인'):''}</span></div><div class="nights-detail">${detail}</div><div class="total"><span>총 결제금액</span><b>${won(q.total)}<small>원</small></b></div><div class="pay">무통장입금 · <b>우리은행 1002-067-626314</b> (예금주 한다연)<br>예약 신청 후 입금이 확인되면 문자로 확정 안내드립니다.</div>`;}catch(e){quote.innerHTML='<div class="line" style="color:var(--clay)">요금을 불러오지 못했습니다.</div>';lastQuote=null;}}
+async function reserve(){const name=el('gname').value.trim(),phone=el('gphone').value.trim(),guests=parseInt(el('guests').value)||0;if(!lastQuote){rstatus.innerHTML='<span style="color:var(--clay)">날짜와 객실을 먼저 선택해 주세요.</span>';return;}if(!name||!phone){rstatus.innerHTML='<span style="color:var(--clay)">성함과 연락처를 입력해 주세요.</span>';return;}if(!el('agPriv').checked){rstatus.innerHTML='<span style="color:var(--clay)">개인정보 수집·이용(필수)에 동의해 주세요.</span>';return;}const b=el('reserveBtn');b.disabled=true;const o=b.textContent;b.textContent='신청 중…';try{const r=await api('reserve',{room_id:sel.value,checkin:ci.value,checkout:co.value,guest_name:name,guest_phone:phone,guests,agree_privacy:el('agPriv').checked,agree_marketing:el('agMkt').checked});if(r&&r.ok){rstatus.innerHTML=`<span style="color:var(--forest);font-weight:600">✓ 예약 신청이 접수되었습니다! 총 ${won(r.total)}원 · 무통장입금(우리은행 1002-067-626314) 확인 후 문자로 확정 안내드립니다. 문의 010-7930-6100</span>`;b.textContent='신청 완료 ✓';}else{rstatus.innerHTML=`<span style="color:var(--clay)">${(r&&r.error)||'예약 신청에 실패했습니다.'}</span>`;b.disabled=false;b.textContent=o;}}catch(e){rstatus.innerHTML='<span style="color:var(--clay)">오류가 발생했습니다. 전화(010-7930-6100)로 문의해 주세요.</span>';b.disabled=false;b.textContent=o;}}
+[sel,ci,co].forEach(x=>x.addEventListener('change',calc));
+el('reserveBtn').addEventListener('click',reserve);
+el('agAll').addEventListener('change',e=>{el('agPriv').checked=e.target.checked;el('agMkt').checked=e.target.checked;});
+[el('agPriv'),el('agMkt')].forEach(x=>x.addEventListener('change',()=>{el('agAll').checked=el('agPriv').checked&&el('agMkt').checked;}));
+el('agPrivView').addEventListener('click',e=>{e.preventDefault();el('agPrivText').hidden=!el('agPrivText').hidden;});
+loadRooms();
+
+// ===== 관리자 교체 사진 반영 (기본은 정적파일=빠름, 바꾼 것만 DB에서 덮어씀) =====
+function gsSlotFromSrc(s){return (s||'').replace(/^.*\/?img\//,'').replace(/\.(jpe?g|png|webp)$/i,'');}
+function gsApplyPhotos(map){
+  if(!map||typeof map!=='object')return;
+  document.querySelectorAll('img').forEach(img=>{
+    const raw=img.getAttribute('src')||'';
+    if(!raw.startsWith('img/'))return;
+    const slot=gsSlotFromSrc(raw);
+    if(map[slot])img.src=map[slot];
+  });
+  const hero=document.querySelector('.hero');
+  if(hero&&map['hero']){hero.style.backgroundImage='url("'+map['hero']+'")';hero.style.backgroundSize='cover';hero.style.backgroundPosition='center 35%';hero.style.backgroundRepeat='no-repeat';}
+}
+try{const c=localStorage.getItem('gs_photos');if(c)gsApplyPhotos(JSON.parse(c));}catch(_){}
+api('photos').then(m=>{gsApplyPhotos(m);try{localStorage.setItem('gs_photos',JSON.stringify(m));}catch(_){}}).catch(()=>{});
+</script>
+</body>
+</html>
