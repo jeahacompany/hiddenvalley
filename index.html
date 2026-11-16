@@ -418,6 +418,29 @@ header .btn{white-space:nowrap}
 .gt p{margin:0 0 18px;font-size:.92rem;color:#cbd6cc}
 .gt .gp{margin-top:auto;padding-top:14px;border-top:1px solid rgba(230,207,152,.25);font-size:.92rem;color:var(--gold-l);font-weight:600}
 @media(max-width:760px){.gtrio{grid-template-columns:1fr}.gt{border-left:0;border-top:1px solid rgba(230,207,152,.22);padding:26px 22px}.gt:first-child{border-top:0}}
+
+/* 1관·2관 소개: 줄 맞춘 구성 */
+.gd2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px}
+.gd{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:30px 32px;box-shadow:var(--shadow);scroll-margin-top:90px}
+.gd .gl2,.gdinfo h4 small{font-size:.8rem;font-weight:700;letter-spacing:.04em;color:var(--gold)}
+.gd h3{font-family:var(--serif);font-size:1.45rem;font-weight:700;margin:8px 0 16px;letter-spacing:-.01em}
+.gd ul{list-style:none;margin:0;padding:0}
+.gd li{position:relative;padding:10px 0 10px 20px;border-top:1px solid var(--line2);font-size:.95rem;color:var(--ink);word-break:keep-all}
+.gd li::before{content:"";position:absolute;left:0;top:21px;width:10px;height:1px;background:var(--gold)}
+.gdinfo{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px}
+.gdinfo>div{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:28px 32px;box-shadow:var(--shadow)}
+.gdinfo h4{font-family:var(--serif);font-size:1.15rem;font-weight:700;margin:0 0 12px;display:flex;align-items:baseline;gap:10px}
+.tbl{display:grid;grid-template-columns:1fr auto;margin:0;font-size:.93rem}
+.tbl dt,.tbl dd{margin:0;padding:9px 0;border-top:1px solid var(--line2);word-break:keep-all}
+.tbl dt{color:var(--sub)}
+.tbl dd{text-align:right;font-weight:700;color:var(--ink);font-variant-numeric:tabular-nums;padding-left:16px}
+.gnote{margin:12px 0 0;font-size:.82rem;color:var(--stone)}
+@media(max-width:760px){.gd2,.gdinfo{grid-template-columns:1fr}.gd,.gdinfo>div{padding:24px 20px}}
+
+/* 한글 문단: 단어 중간에서 끊지 않고, 마지막 줄에 한두 글자만 남지 않게 */
+p,li,dd,dt,h1,h2,h3,h4,.m{word-break:keep-all;overflow-wrap:break-word}
+p,li{text-wrap:pretty}
+@media(max-width:560px){.brand .sub{white-space:nowrap;font-size:.62rem}}
 </style>
 </head>
 <body>
@@ -658,36 +681,52 @@ header .btn{white-space:nowrap}
       <a class="gt" href="#g1"><span class="gl">1관</span><h4>히든벨리 샤브&amp;카페</h4><p>소고기 샤브샤브 무한리필 · 2층 카페</p><span class="gp">점심 19,900원부터</span></a>
       <a class="gt" href="#g2"><span class="gl">2관 · 11월 오픈</span><h4>히든벨리 갈비</h4><p>국내산 담양식 돼지갈비 무한리필</p><span class="gp">점심 19,900원부터</span></a>
     </div>
-    <div class="card" style="margin-top:16px">
-      <h3 id="g1" style="font-size:1.3rem;margin-bottom:4px;scroll-margin-top:90px">1관 · 히든벨리 샤브&amp;카페 <span style="font-size:.78rem;color:var(--moss);font-weight:600">· 펜션과 같은 자리</span></h3>
-      <p style="color:var(--sub);margin:.3em 0 16px;max-width:70ch">최상급 소고기 <b>우삼겹·우목심 무한리필</b> + <b>50여 가지</b> 신선 야채 셀프바 무제한. 샤브 주문 시 인원수만큼 <b>전복·오징어·새싹삼</b> 제공. 통창 너머 계곡뷰, 식후엔 <b>2층 카페</b>까지.</p>
-      <div class="rlist">
-        <span>평일 점심(성인) <b>19,900원</b></span>
-        <span>평일 저녁·주말·공휴일(성인) <b>24,000원</b></span>
-        <span>초등학생 <b>15,900원</b></span>
-        <span>7세 이하 <b>8,900원</b></span>
-        <span>3세 이하 <b>무료</b></span>
-      </div>
+    <div class="gd2">
+      <article class="gd" id="g1">
+        <span class="gl2">1관 · 펜션과 같은 자리</span>
+        <h3>히든벨리 샤브&amp;카페</h3>
+        <ul>
+          <li>최상급 소고기 우삼겹·우목심 무한리필</li>
+          <li>신선한 채소 셀프바 50여 가지</li>
+          <li>샤브 주문 시 인원수만큼 전복·오징어·새싹삼</li>
+          <li>통창 너머 계곡 풍경, 식사 후 2층 카페</li>
+        </ul>
+      </article>
+      <article class="gd" id="g2">
+        <span class="gl2">2관 · 11월 오픈</span>
+        <h3>히든벨리 갈비</h3>
+        <ul>
+          <li>국내산 담양식 돼지갈비 무한리필</li>
+          <li>초벌해서 내어드려 불판에 살짝만 구우면 끝</li>
+          <li>샐러드바 50여 가지 함께 이용</li>
+          <li>아이 요금이 따로 있어 가족 외식에 알맞음</li>
+        </ul>
+      </article>
     </div>
-    <div class="card" style="margin-top:16px">
-      <h3 id="g2" style="font-size:1.3rem;margin-bottom:4px;scroll-margin-top:90px">2관 · 히든벨리 갈비 <span style="font-size:.78rem;color:var(--moss);font-weight:600">· 새로 오픈</span></h3>
-      <p style="color:var(--sub);margin:.3em 0 16px;max-width:70ch">특제 양념에 재운 <b>국내산 최상급 담양식 돼지갈비 무한리필</b>. 아이 요금이 따로 있어 가족 외식에 부담이 없습니다.</p>
-      <div class="rlist">
-        <span>평일 점심(성인) <b>19,900원</b></span>
-        <span>평일 저녁·주말·공휴일(성인) <b>24,000원</b></span>
-        <span>초등학생 <b>15,900원</b></span>
-        <span>7세 이하 <b>8,900원</b></span>
-        <span>3세 이하 <b>무료</b></span>
+    <div class="gdinfo">
+      <div>
+        <h4>이용 요금 <small>1관·2관 같음</small></h4>
+        <dl class="tbl">
+          <dt>평일 점심 (성인)</dt><dd>19,900원</dd>
+          <dt>평일 저녁·주말·공휴일 (성인)</dt><dd>24,000원</dd>
+          <dt>초등학생</dt><dd>15,900원</dd>
+          <dt>7세 이하</dt><dd>8,900원</dd>
+          <dt>3세 이하</dt><dd>무료</dd>
+          <dt>소주·맥주 / 음료</dt><dd>5,000원 / 2,000원</dd>
+        </dl>
       </div>
-    </div>
-    <div class="card" style="margin-top:16px">
-      <h3 style="font-size:1.1rem;margin-bottom:4px">1관·2관 함께 안내</h3>
-      <dl style="display:grid;grid-template-columns:auto 1fr;gap:8px 18px;margin:12px 0 0;font-size:.92rem">
-        <dt style="color:var(--stone);font-weight:600">영업시간</dt><dd style="margin:0">화~금 11:00 ~ 21:00 <span style="color:var(--stone)">(브레이크타임 15:00~16:30)</span><br>토·일 10:30 ~ 21:00 <span style="color:var(--stone)">(브레이크타임 없음)</span><br><span style="color:var(--stone)">라스트오더 20:00 (평일 점심은 14:00)</span><br><b>매주 월요일은 1관·2관·카페 모두 휴무</b></dd>
-        <dt style="color:var(--stone);font-weight:600">주류·음료</dt><dd style="margin:0">소주·맥주 전 종류 <b>5,000원</b> · 음료 <b>2,000원</b></dd>
-        <dt style="color:var(--stone);font-weight:600">주소</dt><dd style="margin:0">전남 곡성군 곡성읍 서계길 73-30 1층 (펜션과 같은 자리)</dd>
-        <dt style="color:var(--stone);font-weight:600">예약·문의</dt><dd style="margin:0">0507-1419-9669 · 룸·단체석(4~100명) · 주차 · 지역화폐 가능</dd>
-      </dl>
+      <div>
+        <h4>영업 안내</h4>
+        <dl class="tbl">
+          <dt>화 ~ 금</dt><dd>11:00 ~ 21:00</dd>
+          <dt>브레이크타임 (평일)</dt><dd>15:00 ~ 16:30</dd>
+          <dt>토 · 일</dt><dd>10:30 ~ 21:00</dd>
+          <dt>라스트오더</dt><dd>20:00</dd>
+          <dt>휴무</dt><dd>매주 월요일 (1관·2관·카페)</dd>
+          <dt>예약 · 문의</dt><dd>0507-1419-9669</dd>
+        </dl>
+        <p class="gnote">룸·단체석 4~100명 · 주차 · 지역화폐 가능</p>
+      </div>
     </div>
     <p style="text-align:center;margin-top:16px;font-size:.85rem;color:var(--stone)">* 매장 실제 사진은 순차 업데이트됩니다.</p>
   </div>
