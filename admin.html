@@ -314,6 +314,9 @@ async function api(action,payload){const{data,error}=await SB.rpc('api',{action,
 const ST={requested:['입금대기','p-req','req'],confirmed:['확정','p-con','con'],cancelled:['취소','p-can','can']};
 const WD=['일','월','화','수','목','금','토'],DAY_KO=['주중','금','토','공휴일'],SEAS=[['off','비수기',''],['mid','준성수기','#0F87FF'],['high','성수기','#FF0000']];
 function fdate(s){if(!s)return'';const d=new Date(s+'T00:00');return `${String(d.getMonth()+1).padStart(2,'0')}.${String(d.getDate()).padStart(2,'0')}(${WD[d.getDay()]})`;}
+const SRC_OPTS=['전화','네이버 예약','야놀자','여기어때','에어비앤비','지인·단골','현장','기타'];
+function srcLabel(r){if(r.source==='block')return '';if(r.source==='migrated')return '예전 사이트';if(r.source==='manual')return r.acq_source||'수기';
+  const W={naver:'홈페이지(네이버)',instagram:'홈페이지(인스타)',google:'홈페이지(구글)',kakao:'홈페이지(카카오)',direct:'홈페이지'};return W[r.acq_source]||'홈페이지';}
 function fday(x){const d=new Date(x);return `${d.getFullYear()}.${String(d.getMonth()+1).padStart(2,'0')}.${String(d.getDate()).padStart(2,'0')}`;}
 function toast(m){const t=el('toast');t.textContent=m;t.classList.add('show');clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('show'),2200);}
 
@@ -481,6 +484,7 @@ async function renderAnalytics(){
     box.innerHTML='<div class="sec"><h3>고객 행동 분석</h3><div class="d" style="line-height:1.9">아직 방문 데이터가 없습니다. 홈페이지에 방문이 쌓이면 <b>유입 경로 · 행동 흐름 · 이탈 지점</b>이 자동으로 집계됩니다.<br>· 오늘부터 수집 시작 · 최근 30일 기준 · 개인정보(이름·전화) 없이 익명 집계</div></div>';
     return;
   }
+  const botNote=tot.human_only?`<div style="font-size:.82rem;color:var(--faint);margin:-4px 0 12px">로봇·자동 접속은 빼고 실제 사람 방문만 셉니다 (전체 접속 ${tot.raw_sessions||0}회 중 사람 ${tot.sessions||0}회)</div>`:'';
   const steps=[['방문',f.visit||0],['객실 조회',f.rooms||0],['요금 확인',f.quote||0],['예약 시도',f.try||0],['예약 완료',f.done||0]];
   const fmax=f.visit||1;
   const funnelHTML=steps.map((s,i)=>{const pct=Math.round(s[1]/fmax*100);const drop=i>0?steps[i-1][1]-s[1]:0;
@@ -498,6 +502,7 @@ async function renderAnalytics(){
   let hmHead='<tr><td></td>';for(let h=0;h<24;h+=3)hmHead+=`<td colspan="3" style="font-size:.66rem;color:var(--sub);text-align:left">${h}시</td>`;hmHead+='</tr>';
   const heatHTML=hm.length?`<div style="overflow-x:auto"><table style="border-collapse:separate;border-spacing:2px"><tbody>${hmHead}${hmRows}</tbody></table></div><div class="d" style="margin-top:6px">진할수록 방문이 많은 요일·시간대 (한국시간)</div>`:'<div class="d">데이터 없음</div>';
   box.innerHTML=`
+    ${botNote}
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px;margin-bottom:18px">
       <div class="tile"><div class="lab">방문(세션)</div><div class="v">${tot.sessions}</div></div>
       <div class="tile"><div class="lab">순 방문자</div><div class="v">${tot.visitors}</div></div>
@@ -572,13 +577,18 @@ function renderList(){
       <td class="guest"><b>${r.guest_name||''}</b><a href="tel:${(r.guest_phone||'').replace(/[^0-9]/g,'')}" onclick="event.stopPropagation()">${r.guest_phone||''}</a></td>
       <td class="num">${r.guests||'-'}명</td>
       <td class="amt">${won(r.total_price)}<span style="font-size:.72em;color:var(--faint)"> 원</span></td>
-      <td class="applied">${fday(r.created_at)}</td>
+      <td class="applied">${fday(r.created_at)}<br><span style="font-size:.75rem;color:var(--faint)">${srcLabel(r)}</span></td>
       <td><div class="acts">${a||'<span class=dash>—</span>'}</div></td></tr>`;}).join(''):`<tr><td colspan="8"><div class="state"><b>${ALL.length?'결과가 없습니다':'아직 예약이 없습니다'}</b>${ALL.length?'필터·검색·기간을 바꿔보세요.':'홈페이지 예약이 접수되면 여기 표시됩니다.'}</div></td></tr>`;
   const cards=rows.map(r=>{const st=r.source==='block'?['판매중지','']:(ST[r.status]||[r.status,'']);const a=actBtns(r);
     return `<div class="rcard" onclick="openDetail(${r.id})" style="cursor:pointer"><div class="h"><span class="pill ${st[1]}">${st[0]}</span><b class="amt">${won(r.total_price)} 원</b></div>
       <dl><dt>객실</dt><dd>${roomName(r.room_id)}</dd><dt>일정</dt><dd>${fdate(r.checkin)}→${fdate(r.checkout)} ${r.nights}박</dd><dt>예약자</dt><dd>${r.guest_name||''} (${r.guests||'-'}명)</dd><dt>연락처</dt><dd><a href="tel:${(r.guest_phone||'').replace(/[^0-9]/g,'')}" onclick="event.stopPropagation()" style="color:var(--moss)">${r.guest_phone||''}</a></dd></dl>
       <div class="acts" style="margin-top:10px">${a||'-'}</div></div>`;}).join('');
+  const stale=ALL.filter(r=>r.source!=='block'&&r.status==='requested'&&r.checkin<today);
+  const staleHTML=stale.length?`<div style="margin-bottom:14px;padding:12px 16px;border-radius:12px;background:#fdf1e7;border:1px solid #f0c9a6;font-size:.9rem;line-height:1.7">
+      <b style="color:#b4541a">입실일이 지났는데 아직 '입금대기'인 예약 ${stale.length}건</b> · 입금 받으셨으면 '입금확인', 안 오셨으면 '취소'로 정리해 주세요. 매출 통계가 정확해집니다.<br>
+      ${stale.slice(0,8).map(r=>`<a href="#" onclick="event.preventDefault();openDetail(${r.id})" style="color:var(--ink);text-decoration:underline;margin-right:12px">${fdate(r.checkin)} ${roomName(r.room_id)} ${r.guest_name||''}</a>`).join('')}</div>`:'';
   el('viewList').innerHTML=`
+    ${staleHTML}
     <div class="tiles">
       <div class="tile"><div class="lab">전체 예약</div><div class="v">${c.all}<small> 건</small></div></div>
       <div class="tile req"><div class="lab">입금 대기</div><div class="v">${c.requested}<small> 건</small></div></div>
@@ -745,6 +755,7 @@ function renderSettings(){
       ${siteInfoHTML()}
       <div style="margin-top:14px"><button class="btn" onclick="saveSettings()">기본 정보 저장</button></div>
     </div>
+    ${smsHTML()}
     <div class="sec">
       <h3>객실 관리</h3><div class="d">객실을 누르면 펼쳐집니다. <b>사진 · 정보 · 요금</b>을 한 곳에서 바로 수정하세요.</div>
       <div class="room-list">${roomAcc}</div>
@@ -823,7 +834,8 @@ const SITE_FIELDS=[
   ['instagram','인스타그램 주소(URL)'],['naver_place','네이버 플레이스 주소(URL)'],
   ['video_url','홍보 영상 주소(유튜브/구글드라이브 링크)'],
   ['bank_name','입금 은행'],['bank_account','계좌번호'],['bank_holder','예금주'],
-  ['checkin_time','체크인 시각'],['checkout_time','체크아웃 시각'],['biz_no','사업자등록번호']
+  ['checkin_time','체크인 시각'],['checkout_time','체크아웃 시각'],['biz_no','사업자등록번호'],
+  ['sms_owner','새 예약 알림 받을 번호'],['sms_enabled','자동 문자 (on=보냄 / off=멈춤)']
 ];
 function siteInfoHTML(){const s=(CFG&&CFG.settings)||{};
   return '<div class="siteform">'+SITE_FIELDS.map(([k,label])=>
@@ -831,6 +843,32 @@ function siteInfoHTML(){const s=(CFG&&CFG.settings)||{};
 window.saveSettings=async function(){
   const items={};document.querySelectorAll('.setf').forEach(i=>{items[i.dataset.k]=i.value.trim();});
   try{const r=await api('admin.set_settings',{items});if(r&&r.ok===false){toast(r.error||'실패');return;}CFG=await api('admin.config');toast('기본 정보 저장 완료');}catch(e){toast('저장 오류');}};
+
+/* ===== 자동 문자 ===== */
+const SMS_TPL=[['new_guest','예약 접수 (손님)'],['new_owner','새 예약 알림 (사장님)'],['confirm','예약 확정 (손님)'],['cancel','예약 취소 (손님)'],['remind','입실 전날 안내 (손님, 오전 10시)']];
+function smsHTML(){const s=(CFG&&CFG.settings)||{};
+  return `<div class="sec"><h3>자동 문자</h3>
+    <div class="d" style="margin-bottom:12px;line-height:1.8">홈페이지 예약이 들어오면 손님과 사장님께, '입금확인'을 누르면 손님께 확정 문자가 자동으로 갑니다. 입실 전날 오전 10시에는 오시는 길 안내가 갑니다.<br>
+    문구 속 <b>{이름} {객실} {입실} {퇴실} {박수} {인원} {금액} {계좌} {전화} {연락처}</b> 는 자동으로 바뀌어 들어갑니다.</div>
+    ${SMS_TPL.map(([k,l])=>`<label class="sf" style="display:block;margin-bottom:12px"><span>${l}</span><textarea class="smsf" data-k="sms_tpl_${k}" rows="6" style="width:100%;font:inherit;font-size:.9rem;padding:10px;border:1px solid var(--line);border-radius:10px">${(s['sms_tpl_'+k]||'').replace(/</g,'&lt;')}</textarea></label>`).join('')}
+    <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center"><button class="btn" onclick="saveSmsTpl()">문구 저장</button>
+      <input type="tel" id="smsTestTo" placeholder="시험 받을 번호" style="padding:.55em .8em;border:1px solid var(--line);border-radius:10px;font:inherit;width:170px">
+      <button class="btn line" onclick="smsTest()">시험 문자 보내기</button>
+      <button class="btn line" onclick="smsLog()">최근 발송 기록</button></div>
+    <div id="smsLogBox" style="margin-top:12px"></div></div>`;}
+window.saveSmsTpl=async function(){const items={};document.querySelectorAll('.smsf').forEach(i=>{items[i.dataset.k]=i.value;});
+  try{const r=await api('admin.set_settings',{items});if(r&&r.ok===false){toast(r.error||'실패');return;}CFG=await api('admin.config');toast('문자 문구 저장 완료');}catch(e){toast('저장 오류');}};
+window.smsTest=async function(){const to=el('smsTestTo').value.trim();if(!to){toast('받을 번호를 입력하세요');return;}
+  try{await api('admin.sms_test',{to});toast('시험 문자를 보냈습니다. 몇 초 뒤 기록을 확인하세요');setTimeout(smsLog,4000);}catch(e){toast('오류가 발생했습니다');}};
+const SMS_ST={sent:'보냄',skipped_off:'멈춤 상태',no_key:'솔라피 키 없음',bad_phone:'번호 형식 오류',pending:'처리 중'};
+window.smsLog=async function(){const box=el('smsLogBox');box.innerHTML='<div class="d">불러오는 중…</div>';
+  try{const L=await api('admin.sms_log',{});if(!Array.isArray(L)){box.innerHTML='<div class="d">'+((L&&L.error)||'불러오기 실패')+'</div>';return;}
+    if(!L.length){box.innerHTML='<div class="d">아직 발송 기록이 없습니다.</div>';return;}
+    const K=Object.fromEntries(SMS_TPL);K.test='시험';
+    box.innerHTML='<div style="max-height:360px;overflow:auto;border:1px solid var(--line);border-radius:10px">'+L.map(x=>{let res=SMS_ST[x.status]||x.status;
+      if(x.status==='sent'){if(x.http_status==null)res='전송 중';else if(x.http_status===200&&!/"failedMessageList":\[\{/.test(x.http_body||''))res='발송 성공';else res='실패('+x.http_status+')';}
+      return `<div style="padding:9px 12px;border-bottom:1px solid var(--line);font-size:.85rem"><b>${fday(x.ts)} ${new Date(x.ts).toTimeString().slice(0,5)}</b> · ${K[x.kind]||x.kind} · ${x.to_phone||''} · <b style="color:${/성공/.test(res)?'var(--moss)':'var(--clay)'}">${res}</b></div>`;}).join('')+'</div>';
+  }catch(e){box.innerHTML='<div class="d">오류가 발생했습니다.</div>';}};
 
 /* ===== 추가 옵션 편집 ===== */
 function optListHTML(){const opts=(CFG&&CFG.options)||[];if(!opts.length)return '<div style="color:var(--faint);font-size:.85rem;padding:6px 0">등록된 옵션이 없습니다.</div>';
@@ -871,7 +909,9 @@ function openAddModal(){
     <div class="row2"><div class="fld"><label>체크인</label><input type="date" id="mCi" value="${ci}"></div><div class="fld"><label>체크아웃</label><input type="date" id="mCo" value="${co}"></div></div>
     <div class="row2"><div class="fld"><label>예약자</label><input type="text" id="mName" placeholder="성함"></div><div class="fld"><label>연락처</label><input type="tel" id="mPhone" placeholder="010-"></div></div>
     <div class="row2"><div class="fld"><label>인원</label><input type="number" id="mGuests" value="2" min="1"></div><div class="fld"><label>상태</label><select id="mStatus"><option value="confirmed">확정(입금완료)</option><option value="requested">입금대기</option></select></div></div>
-    <div class="fld"><label>메모(선택)</label><input type="text" id="mMemo" placeholder="예: 전화예약, 요청사항"></div>
+    <div class="row2"><div class="fld"><label>예약 경로</label><select id="mSrc">${SRC_OPTS.map(s=>`<option>${s}</option>`).join('')}</select></div><div class="fld"><label>받은 금액(원)</label><input type="text" inputmode="numeric" class="pinp" id="mPrice" placeholder="비우면 요금표대로 자동"></div></div>
+    <div class="fld"><label>메모(선택)</label><input type="text" id="mMemo" placeholder="예: 숯불 포함, 요청사항"></div>
+    <div style="font-size:.8rem;color:var(--faint);margin:-4px 0 8px">할인해 드린 경우 '받은 금액'에 실제 금액을 적으세요. 매출 통계에 그대로 잡힙니다.</div>
     <div class="msg" id="mMsg" style="color:var(--sub)"></div>
     <div class="foot"><button class="btn line" id="mCancel">취소</button><button class="btn" id="mSave">등록</button></div>
   </div></div>`;
@@ -881,7 +921,9 @@ function openAddModal(){
     const name=el('mName').value.trim(),phone=el('mPhone').value.trim();
     if(!name||!phone){el('mMsg').innerHTML='<span style="color:var(--can)">성함·연락처를 입력하세요.</span>';return;}
     const b=el('mSave');b.disabled=true;b.textContent='등록 중…';
-    try{const r=await api('admin.add_reservation',{room_id:el('mRoom').value,checkin:el('mCi').value,checkout:el('mCo').value,guest_name:name,guest_phone:phone,guests:parseInt(el('mGuests').value)||2,status:el('mStatus').value,memo:el('mMemo').value.trim()});
+    try{const pay={room_id:el('mRoom').value,checkin:el('mCi').value,checkout:el('mCo').value,guest_name:name,guest_phone:phone,guests:parseInt(el('mGuests').value)||2,status:el('mStatus').value,memo:el('mMemo').value.trim(),acq_source:el('mSrc').value,total_price:String(el('mPrice').value).replace(/[^0-9]/g,'')};
+      let r=await api('admin.add_reservation',pay);
+      if(r&&r.overlap&&confirm('같은 객실·기간에 이미 예약 또는 판매중지가 있습니다.\n그래도 등록할까요? (판매중지를 이 예약으로 바꾸려면 등록 후 판매중지는 삭제하세요)')){pay.force=true;r=await api('admin.add_reservation',pay);}
       if(r&&r.ok){el('modalHost').innerHTML='';toast('수기 예약 등록 완료 ('+won(r.total)+'원)');await loadAll();}
       else{el('mMsg').innerHTML='<span style="color:var(--can)">'+((r&&r.error)||'등록 실패')+'</span>';b.disabled=false;b.textContent='등록';}
     }catch(e){el('mMsg').innerHTML='<span style="color:var(--can)">오류가 발생했습니다.</span>';b.disabled=false;b.textContent='등록';}
@@ -899,6 +941,7 @@ window.openEditModal=function(id){
     <div class="row2"><div class="fld"><label>예약자</label><input type="text" id="eName" value="${(r.guest_name||'').replace(/"/g,'&quot;')}"></div><div class="fld"><label>연락처</label><input type="tel" id="ePhone" value="${(r.guest_phone||'').replace(/"/g,'&quot;')}"></div></div>
     <div class="row2"><div class="fld"><label>인원</label><input type="number" id="eGuests" value="${r.guests||2}" min="1"></div><div class="fld"><label>결제금액(원)</label><input type="text" inputmode="numeric" class="pinp" id="ePrice" value="${won(r.total_price)}"></div></div>
     <div class="row2"><div class="fld"><label>상태</label><select id="eStatus"><option value="confirmed" ${r.status==='confirmed'?'selected':''}>확정</option><option value="requested" ${r.status==='requested'?'selected':''}>입금대기</option><option value="cancelled" ${r.status==='cancelled'?'selected':''}>취소</option></select></div><div class="fld"><label> </label><div style="font-size:.8rem;color:var(--faint);padding-top:10px">날짜·객실 변경 시 중복은 자동 검사되지 않으니 캘린더로 확인하세요</div></div></div>
+    <div class="fld"><label>예약 경로</label><select id="eSrc"><option value="">${r.source==='web'?'홈페이지':'(미지정)'}</option>${SRC_OPTS.map(s=>`<option ${r.acq_source===s?'selected':''}>${s}</option>`).join('')}</select></div>
     <div class="fld"><label>메모</label><input type="text" id="eMemo" value="${(r.memo||'').replace(/"/g,'&quot;')}" placeholder="요청사항·옵션·이메일 등"></div>
     <div class="msg" id="eMsg" style="color:var(--sub)"></div>
     <div class="foot"><button class="btn line" id="eCancel">닫기</button><button class="btn" id="eSave">저장</button></div>
@@ -907,7 +950,7 @@ window.openEditModal=function(id){
   el('eCancel').onclick=()=>el('modalHost').innerHTML='';
   el('eSave').onclick=async()=>{
     const b=el('eSave');b.disabled=true;b.textContent='저장 중…';
-    try{const res=await api('admin.update_reservation',{id:r.id,room_id:el('eRoom').value,checkin:el('eCi').value,checkout:el('eCo').value,guest_name:el('eName').value.trim(),guest_phone:el('ePhone').value.trim(),guests:parseInt(el('eGuests').value)||null,total_price:parseInt(String(el('ePrice').value).replace(/[^0-9]/g,''))||0,status:el('eStatus').value,memo:el('eMemo').value});
+    try{const res=await api('admin.update_reservation',{id:r.id,room_id:el('eRoom').value,checkin:el('eCi').value,checkout:el('eCo').value,guest_name:el('eName').value.trim(),guest_phone:el('ePhone').value.trim(),guests:parseInt(el('eGuests').value)||null,total_price:parseInt(String(el('ePrice').value).replace(/[^0-9]/g,''))||0,status:el('eStatus').value,memo:el('eMemo').value,...(el('eSrc').value||r.source!=='web'?{acq_source:el('eSrc').value||(r.source==='web'?r.acq_source:'')}:{})});
       if(res&&res.ok){el('modalHost').innerHTML='';toast('예약 수정 완료');await loadAll();}
       else{el('eMsg').innerHTML='<span style="color:var(--can)">'+((res&&res.error)||'저장 실패')+'</span>';b.disabled=false;b.textContent='저장';}
     }catch(e){el('eMsg').innerHTML='<span style="color:var(--can)">오류가 발생했습니다.</span>';b.disabled=false;b.textContent='저장';}
@@ -924,7 +967,7 @@ function openBlockModal(){
   const ci=iso(t),co=iso(new Date(t.getTime()+864e5));
   el('modalHost').innerHTML=`<div class="ov" id="ov"><div class="modal">
     <h3>날짜 막기 (판매중지)</h3>
-    <div style="font-size:.85rem;color:var(--sub);margin-bottom:10px">선택한 객실·기간을 온라인 예약에서 잠급니다. (정비·개인사용·전화선점 등)</div>
+    <div style="font-size:.85rem;color:var(--sub);margin-bottom:10px">선택한 객실·기간을 온라인 예약에서 잠급니다. (정비·개인사용 등)<br><b style="color:#b4541a">전화·네이버·야놀자 등에서 받은 예약은 여기 말고 '+ 수기 예약'으로 등록하세요.</b> 그래야 매출에 잡히고 손님 연락처와 문자 안내가 남습니다.</div>
     <div class="fld"><label>객실</label><select id="bRoom">${rooms.map(x=>`<option value="${x.id}">${x.name}</option>`).join('')}</select></div>
     <div class="row2"><div class="fld"><label>시작일</label><input type="date" id="bCi" value="${ci}"></div><div class="fld"><label>종료일(체크아웃)</label><input type="date" id="bCo" value="${co}"></div></div>
     <div class="fld"><label>사유(선택)</label><input type="text" id="bLabel" placeholder="예: 정비, 개인사용, 전화예약 선점"></div>
