@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
-  :root{--forest:#12805a;--forest-d:#0c6647;--moss:#17a06a;--ink:#20302a;--sub:#5c6b63;--paper:#faf7f0;--line:#e4ded0;--clay:#d9544d}
+  :root{--forest:#1f5a3d;--forest-d:#14402b;--moss:#3f6f52;--ink:#1c201b;--sub:#5b6058;--paper:#f7f4ee;--line:#e7e1d4;--clay:#b4513a;--gold:#a8803f;--gold-l:#e6cf98}
   *{margin:0;padding:0;box-sizing:border-box}
   html,body{overflow-x:clip;max-width:100%;width:100%}
   body{font-family:"Noto Sans KR",sans-serif;color:var(--ink);background:var(--paper);line-height:1.6}
@@ -24,8 +24,8 @@
   .navlinks a{text-decoration:none;color:var(--ink)}.navlinks a:hover{color:var(--forest)}
   .navlinks a.on{color:var(--forest)}
   @media(max-width:700px){.navlinks{gap:16px;font-size:.95rem}.navlinks a.hideM{display:none}}
-  .hero{background:linear-gradient(160deg,#0c6647,#17a06a);color:#fff;padding:54px 0 48px;text-align:center}
-  .hero .ey{font-size:.82rem;letter-spacing:.3em;text-transform:uppercase;color:#bfe6d4;font-weight:700}
+  .hero{background:linear-gradient(160deg,#14402b,#1f5a3d);color:#fff;padding:54px 0 48px;text-align:center}
+  .hero .ey{font-size:.9rem;letter-spacing:.08em;color:var(--gold-l);font-weight:700}
   .hero h1{font-size:clamp(2rem,6vw,2.9rem);margin-top:10px}
   .hero p{color:#dbefe4;margin-top:12px;font-size:1.02rem}
   main{padding:40px 0 70px}
@@ -62,7 +62,7 @@
 
 <section class="hero">
   <div class="wrap">
-    <div class="ey">NOTICE &amp; NEWS</div>
+    <div class="ey">히든벨리 소식</div>
     <h1 class="serif">공지사항 · 소식</h1>
     <p>히든벨리의 계절 이야기와 다녀가신 분들의 순간을 전합니다.</p>
   </div>
@@ -71,7 +71,7 @@
 <main>
   <div class="wrap">
     <div class="posts" id="posts"><div class="empty">불러오는 중…</div></div>
-    <div style="text-align:center"><a href="index.html" class="back">← 홈으로 돌아가기</a></div>
+    <div style="text-align:center"><a href="index.html" class="back">홈으로 돌아가기</a></div>
   </div>
 </main>
 
@@ -90,7 +90,7 @@ window.zoom=function(src){document.getElementById('lbimg').src=src;document.getE
   var box=document.getElementById('posts');
   var list=[];
   try{var s=await api('settings');var raw=s&&s.notices_json; if(raw){list=JSON.parse(raw)||[];}}catch(e){list=[];}
-  if(!Array.isArray(list)||!list.length){box.innerHTML='<div class="empty">아직 등록된 공지사항이 없습니다.<br>곧 히든벨리의 소식으로 찾아뵙겠습니다 🌿</div>';return;}
+  if(!Array.isArray(list)||!list.length){box.innerHTML='<div class="empty">아직 등록된 공지사항이 없습니다.<br>곧 히든벨리의 소식으로 찾아뵙겠습니다.</div>';return;}
   list.sort(function(a,b){return (b.pinned?1:0)-(a.pinned?1:0) || String(b.date||'').localeCompare(String(a.date||''));});
   box.innerHTML=list.map(function(p){
     var imgs=(p.images||[]).filter(Boolean);
