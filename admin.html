@@ -873,7 +873,7 @@ window.smsLog=async function(){const box=el('smsLogBox');box.innerHTML='<div cla
     if(!L.length){box.innerHTML='<div class="d">아직 발송 기록이 없습니다.</div>';return;}
     const K=Object.fromEntries(SMS_TPL);K.test='시험';
     box.innerHTML='<div style="max-height:360px;overflow:auto;border:1px solid var(--line);border-radius:10px">'+L.map(x=>{let res=SMS_ST[x.status]||x.status;
-      if(x.status==='sent'){if(x.http_status==null)res='전송 중';else if(x.http_status===200&&!/"failedMessageList":\[\{/.test(x.http_body||''))res='발송 성공';else res='실패('+x.http_status+')';}
+      if(x.status==='sent'){if(x.http_status==null)res='전송 중';else if(x.http_status===200&&/"registeredSuccess":[1-9]/.test(x.http_body||''))res='발송 성공';else if(/"registeredFailed":[1-9]/.test(x.http_body||''))res='거부됨(같은 번호 연속 발송 등)';else res='실패('+x.http_status+')';}
       return `<div style="padding:9px 12px;border-bottom:1px solid var(--line);font-size:.85rem"><b>${fday(x.ts)} ${new Date(x.ts).toTimeString().slice(0,5)}</b> · ${K[x.kind]||x.kind} · ${x.to_phone||''} · <b style="color:${/성공/.test(res)?'var(--moss)':'var(--clay)'}">${res}</b></div>`;}).join('')+'</div>';
   }catch(e){box.innerHTML='<div class="d">오류가 발생했습니다.</div>';}};
 
