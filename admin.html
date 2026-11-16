@@ -572,7 +572,7 @@ function renderList(){
   const body=rows.length?rows.map(r=>{const st=r.source==='block'?['판매중지','']:(ST[r.status]||[r.status,'']);const a=actBtns(r);
     return `<tr onclick="openDetail(${r.id})" style="cursor:pointer">
       <td><span class="pill ${st[1]}">${st[0]}</span></td>
-      <td><b>${roomName(r.room_id)}</b></td>
+      <td><b>${roomName(r.room_id)}</b>${r.grp?'<br><span style="font-size:.72rem;color:var(--moss);font-weight:700">단체 예약</span>':''}</td>
       <td class="sched"><b>${fdate(r.checkin)} → ${fdate(r.checkout)}</b><span>${r.nights}박</span></td>
       <td class="guest"><b>${r.guest_name||''}</b><a href="tel:${(r.guest_phone||'').replace(/[^0-9]/g,'')}" onclick="event.stopPropagation()">${r.guest_phone||''}</a></td>
       <td class="num">${r.guests||'-'}명</td>
@@ -649,10 +649,17 @@ window.openDetail=function(id){
   el('ov').addEventListener('click',e=>{if(e.target.id==='ov')el('modalHost').innerHTML='';});
   el('dClose').onclick=()=>el('modalHost').innerHTML='';
 };
-window.detailAct=async function(id,status){const label=status==='confirmed'?'입금확인(확정)':'취소';if(!confirm(`예약 #${id} 을(를) "${label}" 처리할까요?`))return;
-  try{const r=await api('admin.set_status',{id,status});if(r&&r.ok===false){toast(r.error||'실패');return;}el('modalHost').innerHTML='';toast(status==='confirmed'?'확정 처리했습니다':'취소했습니다');await loadAll();}catch(e){toast('오류가 발생했습니다');}};
-async function setStatus(id,status){const label=status==='confirmed'?'입금확인(확정)':'취소';if(!confirm(`예약 #${id} 을(를) "${label}" 처리할까요?`))return;
-  try{const r=await api('admin.set_status',{id,status});if(r&&r.ok===false){toast(r.error||'실패');return;}toast(status==='confirmed'?'확정 처리했습니다':'취소했습니다');await loadAll();}catch(e){toast('오류가 발생했습니다');}}
+// 단체 예약이면 묶인 객실을 한 번에 처리(문자는 한 통만 나감)
+async function applyStatus(id,status){const label=status==='confirmed'?'입금확인(확정)':'취소';const r0=ALL.find(x=>x.id===id);
+  const grp=(r0&&r0.grp)?ALL.filter(x=>x.grp===r0.grp&&x.status!=='cancelled'&&x.status!==status):[];let ids=[id];
+  if(grp.length>1){if(!confirm(`단체 예약입니다: ${grp.map(x=>roomName(x.room_id)).join(', ')}
+${grp.length}개 객실을 모두 "${label}" 처리할까요?
+(한 객실만 바꾸려면 예약 수정에서 상태를 바꾸세요)`))return false;ids=grp.map(x=>x.id);}
+  else if(!confirm(`예약 #${id} 을(를) "${label}" 처리할까요?`))return false;
+  try{for(const x of ids){const r=await api('admin.set_status',{id:x,status});if(r&&r.ok===false){toast(r.error||'실패');return false;}}toast((status==='confirmed'?'확정 처리했습니다':'취소했습니다')+(ids.length>1?' ('+ids.length+'실)':''));await loadAll();return true;}catch(e){toast('오류가 발생했습니다');return false;}}
+window.detailAct=async function(id,status){if(await applyStatus(id,status))el('modalHost').innerHTML='';};
+async function setStatus(id,status){await applyStatus(id,status);}
+window.setStatus=setStatus;
 window.setStatus=setStatus;
 
 /* ===== 캘린더 ===== */

@@ -279,6 +279,17 @@ footer{background:#1f3629;color:#c7d4c0;padding:64px 0 34px;margin-top:24px}
 }
 /* 옵션 선택 */
 .optbox{border:1px solid var(--line);border-radius:14px;background:var(--paper);padding:12px 14px}
+.multiroom{border:1px dashed var(--moss);border-radius:14px;background:var(--paper);padding:12px 14px}
+.multiroom .mr-h{display:flex;justify-content:space-between;align-items:center;gap:10px;font-size:.92rem}
+.multiroom .mr-h b{color:var(--ink)}
+.multiroom .mr-add{font:inherit;font-weight:700;font-size:.88rem;padding:.5em .9em;border-radius:99px;border:1.5px solid var(--forest);background:var(--panel);color:var(--forest);cursor:pointer;white-space:nowrap}
+.multiroom .mr-pick{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.multiroom .mr-pick button{font:inherit;font-size:.86rem;padding:.45em .8em;border-radius:10px;border:1px solid var(--line);background:var(--panel);cursor:pointer}
+.multiroom .mr-row{display:flex;align-items:center;gap:10px;padding:9px 0;border-top:1px solid var(--line);margin-top:8px;font-size:.92rem}
+.multiroom .mr-row b{flex:1}
+.multiroom .mr-row select{font:inherit;padding:.3em .4em;border:1px solid var(--line);border-radius:8px}
+.multiroom .mr-row .x{border:0;background:none;color:var(--clay);font-size:1.1rem;cursor:pointer;padding:0 4px}
+.opt-item.off{opacity:.45}
 .optbox .opt-h{font-weight:700;color:var(--ink);font-size:.95rem;margin-bottom:8px;display:flex;align-items:center;gap:6px}
 .opt-item{display:flex;align-items:center;gap:10px;padding:9px 0;border-top:1px solid var(--line)}
 .opt-item:first-of-type{border-top:0}
@@ -538,6 +549,7 @@ footer{background:#1f3629;color:#c7d4c0;padding:64px 0 34px;margin-top:24px}
           <select id="room" class="visually-hidden" aria-label="객실 선택"></select>
         </div>
         <div class="roomprev" id="roomPrev"></div>
+        <div class="multiroom" id="multiRoom" hidden></div>
         <div class="optbox" id="optWrap" hidden></div>
         <div class="quote" id="quote"></div>
         <div class="fld-row">
@@ -806,26 +818,28 @@ let AVAIL=[];
 function nightFull(rid,ds){return AVAIL.some(a=>a.room_id===rid&&a.checkin<=ds&&ds<a.checkout);}
 function rangeFree(rid,s,e){if(!rid||!s||!e)return true;return !AVAIL.some(a=>a.room_id===rid&&a.checkin<e&&s<a.checkout);}
 function calMsg(m){const s=el('calSel');if(!s)return;s.textContent=m;s.style.color='var(--clay)';clearTimeout(calMsg._t);calMsg._t=setTimeout(()=>{s.style.color='';calSel();},3500);}
-async function loadAvail(){try{const f=new Date();f.setHours(0,0,0,0);const tt=new Date(f);tt.setDate(f.getDate()+400);AVAIL=await api('availability',{from:iso(f),to:iso(tt)})||[];}catch(_){AVAIL=[];}renderCal();if(ROOMS.length){renderRoomSlider();calc();}}
-async function loadRooms(){try{ROOMS=await api('rooms')||[];sel.innerHTML=ROOMS.map(r=>`<option value="${r.id}">${r.name} · ${r.type} (기준 ${r.cap_base}/최대 ${r.cap_max}인)</option>`).join('');renderRoomSlider();renderRoomPreview();calc();}catch(e){quote.innerHTML='<div class="line" style="color:var(--clay)">객실 정보를 불러오지 못했습니다.</div>';}}
+async function loadAvail(){setTimeout(renderMulti,0);try{const f=new Date();f.setHours(0,0,0,0);const tt=new Date(f);tt.setDate(f.getDate()+400);AVAIL=await api('availability',{from:iso(f),to:iso(tt)})||[];}catch(_){AVAIL=[];}renderCal();if(ROOMS.length){renderRoomSlider();calc();}}
+async function loadRooms(){try{ROOMS=await api('rooms')||[];sel.innerHTML=ROOMS.map(r=>`<option value="${r.id}">${r.name} · ${r.type} (기준 ${r.cap_base}/최대 ${r.cap_max}인)</option>`).join('');renderRoomSlider();renderRoomPreview();renderMulti();calc();}catch(e){quote.innerHTML='<div class="line" style="color:var(--clay)">객실 정보를 불러오지 못했습니다.</div>';}}
 // ===== 추가 옵션(숯불바베큐 등) =====
 let OPTIONS=[]; const SELOPT={}; // id -> qty
 async function loadOptions(){try{OPTIONS=await api('options')||[];}catch(_){OPTIONS=[];}renderOptions();}
 function renderOptions(){const w=el('optWrap');if(!w)return;if(!OPTIONS.length){w.hidden=true;w.innerHTML='';return;}
   w.hidden=false;
-  w.innerHTML='<div class="opt-h">🔥 추가 옵션</div>'+OPTIONS.map(o=>{
-    const on=SELOPT[o.id]>0, qty=SELOPT[o.id]||1;
-    return `<label class="opt-item"><input type="checkbox" class="oc" data-oid="${o.id}" ${on?'checked':''}${o.required?' checked disabled':''}>
-      <span class="on"><b>${o.name}</b>${o.unit?`<small>단위 ${o.unit}</small>`:''}</span>
+  const mon=ci.value&&new Date(ci.value+'T00:00').getDay()===1;
+  OPTIONS.forEach(o=>{if(o.meal&&mon)delete SELOPT[o.id];});
+  w.innerHTML='<div class="opt-h">추가 옵션 · 식사 미리 예약</div>'+OPTIONS.map(o=>{
+    const off=o.meal&&mon, on=!off&&SELOPT[o.id]>0, qty=SELOPT[o.id]||1;
+    return `<label class="opt-item${off?' off':''}"><input type="checkbox" class="oc" data-oid="${o.id}" ${on?'checked':''}${o.required?' checked disabled':''}${off?' disabled':''}>
+      <span class="on"><b>${o.name.replace(' (현장 결제)','')}</b>${off?'<small>월요일은 1관·2관 휴무입니다</small>':(o.meal?'<small>인원만 알려주시면 자리를 잡아둡니다 · 결제는 식당에서</small>':(o.unit?`<small>단위 ${o.unit}</small>`:''))}</span>
       <input type="number" class="oq" data-oid="${o.id}" min="1" value="${qty}" ${on||o.required?'':'disabled'}>
-      <span class="op">${won(o.price)}원</span></label>`;}).join('');
+      <span class="op">${o.price?won(o.price)+'원':'현장 결제'}</span></label>`;}).join('');
   if(OPTIONS.some(o=>o.required))OPTIONS.forEach(o=>{if(o.required&&!SELOPT[o.id])SELOPT[o.id]=1;});
-  w.querySelectorAll('.oc').forEach(c=>c.addEventListener('change',e=>{const id=+e.target.dataset.oid;const q=w.querySelector('.oq[data-oid="'+id+'"]');if(e.target.checked){SELOPT[id]=parseInt(q.value)||1;q.disabled=false;}else{delete SELOPT[id];q.disabled=true;}calc();}));
+  w.querySelectorAll('.oc').forEach(c=>c.addEventListener('change',e=>{const id=+e.target.dataset.oid;const q=w.querySelector('.oq[data-oid="'+id+'"]');if(e.target.checked){const oo=OPTIONS.find(x=>x.id===id);if(oo&&oo.meal&&!SELOPT[id])q.value=totalGuests();SELOPT[id]=parseInt(q.value)||1;q.disabled=false;}else{delete SELOPT[id];q.disabled=true;}calc();}));
   w.querySelectorAll('.oq').forEach(q=>q.addEventListener('input',e=>{const id=+e.target.dataset.oid;let v=parseInt(e.target.value)||1;if(v<1)v=1;if(SELOPT[id]!==undefined)SELOPT[id]=v;calc();}));
 }
 function optTotal(){let t=0;OPTIONS.forEach(o=>{const q=SELOPT[o.id];if(q>0)t+=o.price*q;});return t;}
 function optPayload(){return Object.keys(SELOPT).filter(id=>SELOPT[id]>0).map(id=>({id:+id,qty:SELOPT[id]}));}
-function optLines(){return OPTIONS.filter(o=>SELOPT[o.id]>0).map(o=>`<div class="line"><span>${o.name} × ${SELOPT[o.id]}</span><span>${won(o.price*SELOPT[o.id])}원</span></div>`).join('');}
+function optLines(){return OPTIONS.filter(o=>SELOPT[o.id]>0).map(o=>`<div class="line"><span>${o.name.replace(' (현장 결제)','')} × ${SELOPT[o.id]}${o.meal?'명':''}</span><span>${o.price?won(o.price*SELOPT[o.id])+'원':'현장 결제'}</span></div>`).join('');}
 const ROOM_MAIN_F={py1:'pyeonbaek-1',py2:'pyeonbaek-2',py3:'pyeonbaek-3',py4:'pyeonbaek-4',hw5:'hwangto-1',hw6:'hwangto-2',dk1:'deck-1',dk2:'deck-2',dk3:'scene-2'};
 // 방별 환경사진 세트(관리자 업로드 없을 때 기본 슬라이드)
 const ROOM_IMGS={
@@ -875,15 +889,31 @@ el('rsNext').onclick=function(){rsScroll(1);};
 function capBaseHint(room){return '기준 '+room.cap_base+'인 · 최대 '+room.cap_max+'인 · 기준 초과 시 1인 1박 1만원 추가';}
 var _capHintTimer=null;
 function capWarn(h,msg){h.textContent=msg;h.style.color='var(--clay)';h.style.fontWeight='700';clearTimeout(_capHintTimer);_capHintTimer=setTimeout(function(){_capHintTimer=null;var r2=ROOMS.find(r=>r.id===sel.value);if(r2){h.textContent=capBaseHint(r2);h.style.color='';h.style.fontWeight='';}},3200);}
+// ===== 단체: 같은 날짜에 방 여러 개 =====
+const EXTRA=[];let MR_OPEN=false;
+function totalGuests(){return (parseInt(el('guests').value)||0)+EXTRA.reduce((s,x)=>s+(x.guests||0),0);}
+function pruneExtra(){for(let i=EXTRA.length-1;i>=0;i--){const x=EXTRA[i];if(x.id===sel.value||!rangeFree(x.id,ci.value,co.value))EXTRA.splice(i,1);}}
+function renderMulti(){const box=el('multiRoom');if(!box)return;if(!ci.value||!co.value||!ROOMS.length){box.hidden=true;return;}
+  pruneExtra();box.hidden=false;
+  const cand=ROOMS.filter(r=>r.id!==sel.value&&!EXTRA.some(x=>x.id===r.id)&&rangeFree(r.id,ci.value,co.value));
+  const rows=EXTRA.map((x,i)=>{const rm=ROOMS.find(r=>r.id===x.id)||{};let opts='';for(let g=1;g<=(rm.cap_max||10);g++)opts+=`<option ${g===x.guests?'selected':''}>${g}</option>`;
+    return `<div class="mr-row"><b>${rm.name||x.id}</b><span>인원</span><select data-i="${i}">${opts}</select><button type="button" class="x" data-del="${i}" aria-label="빼기">✕</button></div>`;}).join('');
+  box.innerHTML=`<div class="mr-h"><span><b>단체·가족 모임이신가요?</b><br><span style="color:var(--stone);font-size:.85rem">같은 날짜에 방을 더 추가해 한 번에 예약할 수 있어요</span></span>${cand.length?'<button type="button" class="mr-add" id="mrAdd">+ 방 추가</button>':''}</div>`
+    +(MR_OPEN&&cand.length?'<div class="mr-pick">'+cand.map(r=>`<button type="button" data-add="${r.id}">${r.name} · 최대 ${r.cap_max}인 · ${won(r.price_from)}원~</button>`).join('')+'</div>':'')+rows;}
+el('multiRoom').addEventListener('click',e=>{const a=e.target.closest('#mrAdd');if(a){MR_OPEN=!MR_OPEN;renderMulti();return;}
+  const ad=e.target.closest('[data-add]');if(ad){const rm=ROOMS.find(r=>r.id===ad.dataset.add);EXTRA.push({id:rm.id,guests:rm.cap_base||2});MR_OPEN=false;renderMulti();calc();try{window.gsTrack&&gsTrack('select_room',{room:rm.id,multi:1});}catch(_){}return;}
+  const dl=e.target.closest('[data-del]');if(dl){EXTRA.splice(+dl.dataset.del,1);renderMulti();calc();}});
+el('multiRoom').addEventListener('change',e=>{const s=e.target.closest('select[data-i]');if(!s)return;EXTRA[+s.dataset.i].guests=parseInt(s.value)||1;calc();});
+async function extraQuotes(){if(!EXTRA.length)return[];const out=[];for(const x of EXTRA){try{const q=await api('quote',{room_id:x.id,checkin:ci.value,checkout:co.value,guests:x.guests});if(q&&q.ok!==false){const rm=ROOMS.find(r=>r.id===x.id)||{};out.push({name:rm.name||x.id,guests:x.guests,grand:(q.total||0)+(q.extra_charge||0),extra:q.extra_charge||0});}}catch(_){}}return out;}
 function capSuggest(room,want){const m=el('capMore');if(!m)return;if(!room||!room.cap_max||want<=room.cap_max){m.hidden=true;return;}
   const tel=(GS_SET.phone||'010-3469-9780');const big=ROOMS.filter(r=>r.cap_max>=want&&r.id!==room.id);
-  m.innerHTML='<b>'+want+'명이 함께 오시나요?</b><br>'+(big.length?'최대 '+want+'명 이상 묵을 수 있는 객실: '+big.map(r=>r.name+'(최대 '+r.cap_max+'인)').join(', ')+'<br>':'')+'인원이 많으시면 <b>방 2개로 나눠 각각 예약</b>하시거나, 단체는 <a href="tel:'+tel.replace(/[^0-9]/g,'')+'">'+tel+'</a>로 전화 주시면 맞춰 드립니다.';m.hidden=false;}
+  m.innerHTML='<b>'+want+'명이 함께 오시나요?</b><br>'+(big.length?'최대 '+want+'명 이상 묵을 수 있는 객실: '+big.map(r=>r.name+'(최대 '+r.cap_max+'인)').join(', ')+'<br>':'')+'인원이 많으시면 <a href="#multiRoom" onclick="MR_OPEN=true;renderMulti();">아래에서 <b>방을 추가</b></a>해 한 번에 예약하시거나, 단체는 <a href="tel:'+tel.replace(/[^0-9]/g,'')+'">'+tel+'</a>로 전화 주시면 맞춰 드립니다.';m.hidden=false;}
 function syncGuestCap(){var room=ROOMS.find(r=>r.id===sel.value);var gi=el('guests');if(!room||!gi)return;var h=el('capHint');var raw=parseInt(gi.value)||0;var warn='';if(room.cap_max){gi.max=room.cap_max;if(raw>room.cap_max){gi.value=room.cap_max;warn='⚠ 최대 '+room.cap_max+'명까지 예약 가능합니다. '+room.cap_max+'명으로 조정했어요.';}}if((parseInt(gi.value)||0)<1){gi.value=1;if(raw<1&&!warn)warn='⚠ 최소 1명부터 예약 가능합니다.';}if(!h){capSuggest(room,raw);return;}if(warn){try{window.gsTrack&&gsTrack('cap_over',{room:room.id,tried:raw});}catch(_){}capWarn(h,warn);}else if(!_capHintTimer){h.textContent=capBaseHint(room);h.style.color='';h.style.fontWeight='';}capSuggest(room,raw);}
 async function calc(){rstatus.textContent='';const s=new Date(ci.value+'T00:00'),e=new Date(co.value+'T00:00');if(!(s<e)){quote.innerHTML='<div class="line" style="color:var(--clay)">체크아웃은 체크인 이후여야 합니다.</div>';lastQuote=null;return;}const room=ROOMS.find(r=>r.id===sel.value);
   if(room&&!rangeFree(room.id,ci.value,co.value)){const free=ROOMS.filter(r=>rangeFree(r.id,ci.value,co.value));lastQuote=null;bookBar();
     quote.innerHTML='<div class="line" style="color:var(--clay);font-weight:700">'+room.name+'은(는) 선택하신 날짜에 이미 예약이 있습니다.</div>'+(free.length?'<div class="line" style="color:var(--sub)">같은 날짜에 예약 가능한 객실</div><div class="altrooms">'+free.map(r=>'<button type="button" data-id="'+r.id+'">'+r.name+' · 최대 '+r.cap_max+'인</button>').join('')+'</div>':'<div class="line" style="color:var(--sub)">이 날짜는 전 객실이 마감되었습니다. 다른 날짜를 골라주세요.</div>');return;}
-  var gv=parseInt(el('guests').value)||0;if(room&&room.cap_max&&gv>room.cap_max)gv=room.cap_max;if(gv<1)gv=1;if(!lastQuote)quote.innerHTML='<div class="line">요금 계산 중…</div>';try{const q=await api('quote',{room_id:sel.value,checkin:ci.value,checkout:co.value,guests:gv});if(q&&q.ok===false){quote.innerHTML='<div class="line" style="color:var(--clay)">'+(q.error||'예약할 수 없습니다.')+'</div>';lastQuote=null;return;}lastQuote=q;try{window.gsTrack&&gsTrack('quote',{room:sel.value});}catch(_){}const detail=(q.detail||[]).map(n=>`<div class="line"><span>${fmtd(n.date)} <span class="badge b-${n.season}">${SEASON_KO[n.season]}·${DAY_KO[n.daytype]}</span></span><span>${won(n.price)}원</span></div>`).join('');const ot=optTotal();const ec=q.extra_charge||0;const grand=q.total+ec+ot;const ol=optLines();const exLine=ec>0?`<div class="line"><span>인원 추가 <span style="color:var(--stone);font-size:.85em">(기준 ${q.cap_base}인 초과 ${q.extra_persons}명 × 1만원 × ${q.nights}박)</span></span><span>${won(ec)}원</span></div>`:'';BB.info=(room?room.name:'')+' · '+q.nights+'박 · '+gv+'인';BB.total=grand;setTimeout(bookBar,0);quote.innerHTML=`<div class="line" style="color:var(--ink);font-weight:600"><span>${room?room.name:''} · ${q.nights}박</span><span>${gv}인 (기준 ${q.cap_base}/최대 ${q.cap_max})</span></div><div class="nights-detail">${detail}</div><div class="line" style="font-weight:600;margin-top:6px"><span>객실 요금</span><span>${won(q.total)}원</span></div>${exLine}${ol}<div class="total"><span>총 결제금액</span><b>${won(grand)}<small>원</small></b></div><div class="pay">무통장입금 · <b>${acctStr()}</b><br>예약 신청 후 입금이 확인되면 문자로 확정 안내드립니다.</div>`;}catch(e){quote.innerHTML='<div class="line" style="color:var(--clay)">요금을 불러오지 못했습니다.</div>';lastQuote=null;}}
-async function reserve(){const name=el('gname').value.trim(),phone=el('gphone').value.trim(),guests=parseInt(el('guests').value)||0;if(!lastQuote){rstatus.innerHTML='<span style="color:var(--clay)">날짜와 객실을 먼저 선택해 주세요.</span>';return;}if(!name||!phone){rstatus.innerHTML='<span style="color:var(--clay)">성함과 연락처를 입력해 주세요.</span>';return;}if(!el('agPriv').checked){rstatus.innerHTML='<span style="color:var(--clay)">개인정보 수집·이용(필수)에 동의해 주세요.</span>';return;}try{window.gsTrack&&gsTrack('reserve_click',{room:sel.value});}catch(_){}const b=el('reserveBtn');b.disabled=true;const o=b.textContent;b.textContent='신청 중…';try{const r=await api('reserve',{room_id:sel.value,checkin:ci.value,checkout:co.value,guest_name:name,guest_phone:phone,guests,options:optPayload(),agree_privacy:el('agPriv').checked,agree_marketing:el('agMkt').checked,acq_source:(window.gsSrc||'')});if(r&&r.ok){try{window.gsTrack&&gsTrack('reserve_done',{room:sel.value});}catch(_){}AVAIL.push({room_id:sel.value,checkin:ci.value,checkout:co.value});BB.done=true;bookBar();rstatus.innerHTML=`<span style="color:var(--forest);font-weight:600">✓ 예약 신청이 접수되었습니다! 총 ${won(r.total)}원 · 무통장입금(${acctStr()}) 확인 후 문자로 확정 안내드립니다. 문의 ${(GS_SET.phone||'010-3469-9780')}</span>`;b.textContent='신청 완료 ✓';}else{rstatus.innerHTML=`<span style="color:var(--clay)">${(r&&r.error)||'예약 신청에 실패했습니다.'}</span>`;b.disabled=false;b.textContent=o;}}catch(e){rstatus.innerHTML='<span style="color:var(--clay)">오류가 발생했습니다. 전화(010-3469-9780)로 문의해 주세요.</span>';b.disabled=false;b.textContent=o;}}
+  var gv=parseInt(el('guests').value)||0;if(room&&room.cap_max&&gv>room.cap_max)gv=room.cap_max;if(gv<1)gv=1;if(!lastQuote)quote.innerHTML='<div class="line">요금 계산 중…</div>';try{const q=await api('quote',{room_id:sel.value,checkin:ci.value,checkout:co.value,guests:gv});if(q&&q.ok===false){quote.innerHTML='<div class="line" style="color:var(--clay)">'+(q.error||'예약할 수 없습니다.')+'</div>';lastQuote=null;return;}lastQuote=q;try{window.gsTrack&&gsTrack('quote',{room:sel.value});}catch(_){}const detail=(q.detail||[]).map(n=>`<div class="line"><span>${fmtd(n.date)} <span class="badge b-${n.season}">${SEASON_KO[n.season]}·${DAY_KO[n.daytype]}</span></span><span>${won(n.price)}원</span></div>`).join('');const ot=optTotal();const ec=q.extra_charge||0;const xq=await extraQuotes();const xt=xq.reduce((s,x)=>s+x.grand,0);const grand=q.total+ec+ot+xt;const ol=optLines()+(xq.length?'<div class="line" style="font-weight:600;margin-top:6px"><span>추가 객실</span><span></span></div>'+xq.map(x=>`<div class="line"><span>${x.name} · ${x.guests}인${x.extra?` (인원 추가 ${won(x.extra)}원 포함)`:''}</span><span>${won(x.grand)}원</span></div>`).join(''):'');const exLine=ec>0?`<div class="line"><span>인원 추가 <span style="color:var(--stone);font-size:.85em">(기준 ${q.cap_base}인 초과 ${q.extra_persons}명 × 1만원 × ${q.nights}박)</span></span><span>${won(ec)}원</span></div>`:'';BB.info=(room?room.name:'')+(EXTRA.length?' 외 '+EXTRA.length+'실':'')+' · '+q.nights+'박 · '+totalGuests()+'인';BB.total=grand;setTimeout(bookBar,0);quote.innerHTML=`<div class="line" style="color:var(--ink);font-weight:600"><span>${room?room.name:''} · ${q.nights}박</span><span>${gv}인 (기준 ${q.cap_base}/최대 ${q.cap_max})</span></div><div class="nights-detail">${detail}</div><div class="line" style="font-weight:600;margin-top:6px"><span>객실 요금</span><span>${won(q.total)}원</span></div>${exLine}${ol}<div class="total"><span>총 결제금액</span><b>${won(grand)}<small>원</small></b></div><div class="pay">무통장입금 · <b>${acctStr()}</b><br>예약 신청 후 입금이 확인되면 문자로 확정 안내드립니다.</div>`;}catch(e){quote.innerHTML='<div class="line" style="color:var(--clay)">요금을 불러오지 못했습니다.</div>';lastQuote=null;}}
+async function reserve(){const name=el('gname').value.trim(),phone=el('gphone').value.trim(),guests=parseInt(el('guests').value)||0;if(!lastQuote){rstatus.innerHTML='<span style="color:var(--clay)">날짜와 객실을 먼저 선택해 주세요.</span>';return;}if(!name||!phone){rstatus.innerHTML='<span style="color:var(--clay)">성함과 연락처를 입력해 주세요.</span>';return;}if(!el('agPriv').checked){rstatus.innerHTML='<span style="color:var(--clay)">개인정보 수집·이용(필수)에 동의해 주세요.</span>';return;}try{window.gsTrack&&gsTrack('reserve_click',{room:sel.value});}catch(_){}const b=el('reserveBtn');b.disabled=true;const o=b.textContent;b.textContent='신청 중…';try{const common={checkin:ci.value,checkout:co.value,guest_name:name,guest_phone:phone,options:optPayload(),agree_privacy:el('agPriv').checked,agree_marketing:el('agMkt').checked,acq_source:(window.gsSrc||'')};const roomsAll=[{room_id:sel.value,guests}].concat(EXTRA.map(x=>({room_id:x.id,guests:x.guests})));const r=EXTRA.length?await api('reserve_multi',Object.assign({rooms:roomsAll},common)):await api('reserve',Object.assign({room_id:sel.value,guests},common));if(r&&r.ok){try{window.gsTrack&&gsTrack('reserve_done',{room:sel.value,rooms:roomsAll.length});}catch(_){}roomsAll.forEach(x=>AVAIL.push({room_id:x.room_id,checkin:ci.value,checkout:co.value}));EXTRA.length=0;renderMulti();BB.done=true;bookBar();rstatus.innerHTML=`<span style="color:var(--forest);font-weight:600">✓ 예약 신청이 접수되었습니다! 총 ${won(r.total)}원 · 무통장입금(${acctStr()}) 확인 후 문자로 확정 안내드립니다. 문의 ${(GS_SET.phone||'010-3469-9780')}</span>`;b.textContent='신청 완료 ✓';}else{rstatus.innerHTML=`<span style="color:var(--clay)">${(r&&r.error)||'예약 신청에 실패했습니다.'}</span>`;b.disabled=false;b.textContent=o;}}catch(e){rstatus.innerHTML='<span style="color:var(--clay)">오류가 발생했습니다. 전화(010-3469-9780)로 문의해 주세요.</span>';b.disabled=false;b.textContent=o;}}
 [sel,ci,co].forEach(x=>x.addEventListener('change',calc));
 var _gcalcT;el('guests').addEventListener('input',function(){clearTimeout(_gcalcT);_gcalcT=setTimeout(calc,450);});
 el('guests').addEventListener('change',function(){syncGuestCap();calc();});
@@ -894,6 +924,9 @@ sel.addEventListener('change',renderRoomPreview);
 sel.addEventListener('change',renderRoomSlider);
 sel.addEventListener('change',renderCal);
 ci.addEventListener('change',renderRoomSlider);
+ci.addEventListener('change',()=>{renderMulti();renderOptions();});
+sel.addEventListener('change',renderMulti);
+el('guests').addEventListener('change',()=>{if(EXTRA.length)calc();});
 quote.addEventListener('click',e=>{const b=e.target.closest('.altrooms button');if(!b)return;sel.value=b.dataset.id;try{window.gsTrack&&gsTrack('select_room',{room:b.dataset.id});}catch(_){}sel.dispatchEvent(new Event('change'));});
 // ===== 폰: 요금이 나오면 화면 아래에 '총 금액 · 예약하기' 띠 =====
 var BB={info:'',total:0,inBook:false,formIn:false,done:false};
