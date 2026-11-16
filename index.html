@@ -407,6 +407,17 @@ footer{background:#163828}
 @media(max-width:760px){#valley .roomcards{grid-template-columns:1fr!important}}
 header .btn{white-space:nowrap}
 @media(max-width:560px){.brand b{font-size:1.18rem;white-space:nowrap}}
+
+/* 히든벨리 가든 세 칸: 숲색 띠 + 금색 글씨 */
+.gtrio{display:grid;grid-template-columns:repeat(3,1fr);margin-top:22px;background:linear-gradient(135deg,#14402b,#1f5a3d);border-radius:14px;overflow:hidden;box-shadow:var(--shadow)}
+.gt{display:flex;flex-direction:column;padding:34px 30px 30px;color:#efe9db;text-decoration:none;border-left:1px solid rgba(230,207,152,.22);transition:background .2s}
+.gt:first-child{border-left:0}
+.gt:hover{background:rgba(255,255,255,.04)}
+.gt .gl{font-size:.82rem;font-weight:700;letter-spacing:.06em;color:var(--gold-l)}
+.gt h4{font-family:var(--serif);font-size:1.35rem;font-weight:700;color:#fff;margin:10px 0 6px;letter-spacing:-.01em}
+.gt p{margin:0 0 18px;font-size:.92rem;color:#cbd6cc}
+.gt .gp{margin-top:auto;padding-top:14px;border-top:1px solid rgba(230,207,152,.25);font-size:.92rem;color:var(--gold-l);font-weight:600}
+@media(max-width:760px){.gtrio{grid-template-columns:1fr}.gt{border-left:0;border-top:1px solid rgba(230,207,152,.22);padding:26px 22px}.gt:first-child{border-top:0}}
 </style>
 </head>
 <body>
@@ -642,13 +653,13 @@ header .btn{white-space:nowrap}
         <div class="soon">숙박 예약 때 1관·2관 저녁을 함께 잡아드립니다</div>
       </div>
     </div>
-    <div class="roomcards" style="margin-top:20px;grid-template-columns:repeat(3,1fr)">
-      <div class="rc"><div class="b"><span class="tagpill live">펜션</span><h4>곡성 히든벨리 펜션</h4><div class="m">편백·황토방 · 곡성 원효계곡을 품은 숙박</div></div></div>
-      <div class="rc"><div class="b"><span class="tagpill live">1관</span><h4>히든벨리 샤브&amp;카페</h4><div class="m">소고기 샤브샤브 무한리필 · 2층 카페<br>점심 <b>19,900원</b>부터</div></div></div>
-      <div class="rc"><div class="b"><span class="tagpill live">2관 · 11월 새로 열었습니다</span><h4>히든벨리 갈비</h4><div class="m">국내산 담양식 <b>돼지갈비 무한리필</b><br>점심 <b>19,900원</b>부터</div></div></div>
+    <div class="gtrio">
+      <a class="gt" href="#rooms"><span class="gl">숙박</span><h4>곡성 히든벨리 펜션</h4><p>편백·황토방 · 원효계곡 바로 앞</p><span class="gp">1박 130,000원부터</span></a>
+      <a class="gt" href="#g1"><span class="gl">1관</span><h4>히든벨리 샤브&amp;카페</h4><p>소고기 샤브샤브 무한리필 · 2층 카페</p><span class="gp">점심 19,900원부터</span></a>
+      <a class="gt" href="#g2"><span class="gl">2관 · 11월 오픈</span><h4>히든벨리 갈비</h4><p>국내산 담양식 돼지갈비 무한리필</p><span class="gp">점심 19,900원부터</span></a>
     </div>
     <div class="card" style="margin-top:16px">
-      <h3 style="font-size:1.3rem;margin-bottom:4px">1관 · 히든벨리 샤브&amp;카페 <span style="font-size:.78rem;color:var(--moss);font-weight:600">· 펜션과 같은 자리</span></h3>
+      <h3 id="g1" style="font-size:1.3rem;margin-bottom:4px;scroll-margin-top:90px">1관 · 히든벨리 샤브&amp;카페 <span style="font-size:.78rem;color:var(--moss);font-weight:600">· 펜션과 같은 자리</span></h3>
       <p style="color:var(--sub);margin:.3em 0 16px;max-width:70ch">최상급 소고기 <b>우삼겹·우목심 무한리필</b> + <b>50여 가지</b> 신선 야채 셀프바 무제한. 샤브 주문 시 인원수만큼 <b>전복·오징어·새싹삼</b> 제공. 통창 너머 계곡뷰, 식후엔 <b>2층 카페</b>까지.</p>
       <div class="rlist">
         <span>평일 점심(성인) <b>19,900원</b></span>
@@ -659,7 +670,7 @@ header .btn{white-space:nowrap}
       </div>
     </div>
     <div class="card" style="margin-top:16px">
-      <h3 style="font-size:1.3rem;margin-bottom:4px">2관 · 히든벨리 갈비 <span style="font-size:.78rem;color:var(--moss);font-weight:600">· 새로 오픈</span></h3>
+      <h3 id="g2" style="font-size:1.3rem;margin-bottom:4px;scroll-margin-top:90px">2관 · 히든벨리 갈비 <span style="font-size:.78rem;color:var(--moss);font-weight:600">· 새로 오픈</span></h3>
       <p style="color:var(--sub);margin:.3em 0 16px;max-width:70ch">특제 양념에 재운 <b>국내산 최상급 담양식 돼지갈비 무한리필</b>. 아이 요금이 따로 있어 가족 외식에 부담이 없습니다.</p>
       <div class="rlist">
         <span>평일 점심(성인) <b>19,900원</b></span>
