@@ -347,6 +347,66 @@ footer{background:#1f3629;color:#c7d4c0;padding:64px 0 34px;margin-top:24px}
 #gsLb .lb-prev{left:16px}#gsLb .lb-next{right:16px}
 #gsLb .lb-dots{position:absolute;bottom:22px;left:50%;transform:translateX(-50%);color:#fff;font-size:.9rem;font-variant-numeric:tabular-nums;background:rgba(0,0,0,.35);padding:.3em .9em;border-radius:999px}
 @media(max-width:600px){#gsLb .lb-nav{width:42px;height:42px;font-size:1.5rem}}
+
+/* ===== 2026-11 고급화: 아이보리 바탕 · 깊은 숲색 · 금색 포인트 · 제목 명조 ===== */
+:root{
+  --paper:#f7f4ee; --panel:#fffdf9; --ink:#1c201b; --sub:#5b6058;
+  --forest:#1f5a3d; --forest-d:#14402b; --moss:#3f6f52; --clay:#b4513a; --clay-d:#983f2c;
+  --stone:#9a978c; --line:#e7e1d4; --line2:#f0ebe1; --gold:#a8803f; --gold-l:#e6cf98;
+  --shadow:0 18px 44px -28px rgba(28,40,30,.38);
+}
+body{letter-spacing:-.005em}
+.shead h2,.hero h1,.hv h2,.card h3,.vtitle{font-family:var(--serif);font-weight:700;letter-spacing:-.015em}
+.shead{margin-bottom:46px}
+.shead h2{font-size:clamp(1.8rem,3.4vw,2.6rem)}
+.eyebrow,.klabel{color:var(--gold);letter-spacing:.3em;font-weight:700}
+.klabel::before{content:"";display:inline-block;width:30px;height:1px;background:var(--gold);vertical-align:middle;margin:-2px 12px 0 0}
+section{padding:96px 0}
+.btn{border-radius:8px;letter-spacing:.01em}
+.btn-fill{background:var(--forest);box-shadow:0 10px 24px -14px rgba(20,64,43,.7)}
+.btn-fill:hover{background:var(--forest-d)}
+.btn-clay{background:var(--gold);color:#fff}.btn-clay:hover{background:#8d6a31}
+.hero .eyebrow{color:var(--gold-l)}
+.hero h1{font-weight:700;letter-spacing:-.02em}
+.hero-meta b{color:var(--gold-l)}
+.card,.rc,.review{border-radius:12px}
+.card{box-shadow:var(--shadow)}
+.tagpill.live{background:#e7efe5;color:var(--forest)}
+.hv{border-radius:16px}
+.hv .eyebrow{color:var(--gold-l)}
+.hv .soon{border-color:rgba(230,207,152,.45);color:var(--gold-l)}
+footer{background:#163828}
+/* 리뷰: 네이버 실제 수치 */
+.rv-grid{display:grid;grid-template-columns:300px 1fr;gap:18px;margin-bottom:18px}
+.rv-score{background:var(--forest);color:#fff;border-radius:12px;padding:30px 28px;display:flex;flex-direction:column;gap:4px;box-shadow:var(--shadow)}
+.rv-score .n{font-family:var(--serif);font-size:3.2rem;line-height:1;color:var(--gold-l)}
+.rv-score .l{font-size:.9rem;color:#d6e2d8;margin-bottom:16px}
+.rv-score a{margin-top:auto;color:#fff;font-weight:700;font-size:.92rem;text-decoration:none;border-top:1px solid rgba(255,255,255,.2);padding-top:14px}
+.rv-kw{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:26px 28px;box-shadow:var(--shadow)}
+.rv-kw h3{font-family:var(--serif);font-size:1.2rem;margin:0 0 4px}
+.rv-kw .s{color:var(--sub);font-size:.86rem;margin:0 0 16px}
+.kw{display:grid;grid-template-columns:150px 1fr 44px;align-items:center;gap:12px;margin:9px 0;font-size:.93rem}
+.kw i{display:block;height:10px;border-radius:6px;background:var(--line2);overflow:hidden}
+.kw i b{display:block;height:100%;background:linear-gradient(90deg,var(--forest),var(--moss));border-radius:6px}
+.kw em{font-style:normal;font-weight:700;color:var(--forest);text-align:right;font-variant-numeric:tabular-nums}
+.rv-note{color:var(--stone);font-size:.8rem;margin-top:12px}
+@media(max-width:760px){.rv-grid{grid-template-columns:1fr}.kw{grid-template-columns:118px 1fr 34px;gap:8px;font-size:.86rem}}
+
+/* 템플릿 티 나는 장식 제거: 동그란 꼬리표 → 글자만, 영어 소제목 숨김 */
+.klabel{display:none}
+.tagpill,.tagpill.live,.tagpill.soon2{background:none!important;padding:0;border-radius:0;color:var(--gold)!important;font-size:.82rem;font-weight:700;letter-spacing:.02em;margin-bottom:6px}
+.eyebrow{letter-spacing:.08em}
+.blogs{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:18px}
+.blog{display:flex;flex-direction:column;gap:8px;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:18px 20px;text-decoration:none;color:var(--ink);transition:.15s}
+.blog:hover{border-color:var(--forest)}
+.blog b{font-weight:600;font-size:.95rem;line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.blog span{font-size:.78rem;color:var(--stone)}
+.rv-sub{font-family:var(--serif);font-size:1.15rem;margin:34px 0 0}
+@media(max-width:760px){.blogs{grid-template-columns:1fr}}
+
+@media(max-width:760px){#valley .roomcards{grid-template-columns:1fr!important}}
+header .btn{white-space:nowrap}
+@media(max-width:560px){.brand b{font-size:1.18rem;white-space:nowrap}}
 </style>
 </head>
 <body>
@@ -377,13 +437,13 @@ footer{background:#1f3629;color:#c7d4c0;padding:64px 0 34px;margin-top:24px}
   <a href="#reviews">후기</a>
   <a href="notice.html">공지사항</a>
   <a href="#info">오시는 길</a>
-  <a class="mnav-tel" href="tel:01034699780">📞 010-3469-9780</a>
+  <a class="mnav-tel" href="tel:01034699780">010-3469-9780</a>
   <a href="#book" class="btn btn-fill mnav-cta">지금 예약하기</a>
 </nav>
 
 <div class="hero">
   <div class="wrap">
-    <div class="eyebrow" style="font-size:1rem;letter-spacing:.2em">Healing Time · 섬진강 자락</div>
+    <div class="eyebrow" style="font-size:1rem;letter-spacing:.08em">곡성 섬진강 자락, 원효계곡</div>
     <h1 style="font-size:clamp(2.6rem,7.5vw,4.4rem);line-height:1.12;margin:.1em 0 .05em">곡성 계곡을 품은 하룻밤</h1>
     <p class="hero-brand" style="font-family:var(--serif);font-size:clamp(1.35rem,3.6vw,2rem);color:#fff;font-weight:700;margin:6px 0 2px">곡성 히든벨리 펜션 <span style="font-weight:400;color:#cfe0c6;font-size:.72em">(구 원효계곡펜션)</span></p>
     <p style="font-size:clamp(1rem,2.3vw,1.18rem)">맑은 원효계곡 물소리와 편백·황토의 온기. 도심을 벗어나 가장 깊은 쉼을 만나는 곡성 히든벨리 펜션.</p>
@@ -531,7 +591,7 @@ footer{background:#1f3629;color:#c7d4c0;padding:64px 0 34px;margin-top:24px}
   <div class="wrap">
     <div class="book">
       <div class="left">
-        <div class="eyebrow">Real-time Booking</div>
+        <div class="eyebrow">실시간 예약</div>
         <h2>날짜만 고르면<br>요금이 바로 나옵니다</h2>
         <p>시즌과 요일에 따라 요금이 자동 계산됩니다. 날짜·객실을 고르고 바로 예약을 신청하세요.</p>
         <div class="book-note">결제는 무통장입금 방식입니다. 예약 신청 후 입금이 확인되면 문자로 확정 안내를 드립니다. * 시즌 기간은 운영 기준으로 조정될 수 있습니다.</div>
@@ -576,16 +636,16 @@ footer{background:#1f3629;color:#c7d4c0;padding:64px 0 34px;margin-top:24px}
     <div class="hv">
       <img src="img/scene-3.jpg" alt="" aria-hidden="true">
       <div class="txt">
-        <div class="eyebrow">Hidden Valley Group · 자고 그리고 먹고</div>
+        <div class="eyebrow">히든벨리 가든 · 자고, 먹고, 쉬고</div>
         <h2>히든벨리에서 즐기는 곡성의 하루</h2>
         <p>계곡을 품은 펜션에서 자고, 히든벨리 1관 샤브·카페와 2관 갈비에서 먹고. 하나의 브랜드로 완성하는 곡성 여행.</p>
-        <div class="soon">숙박 + 식사 패키지 준비 중</div>
+        <div class="soon">숙박 예약 때 1관·2관 저녁을 함께 잡아드립니다</div>
       </div>
     </div>
     <div class="roomcards" style="margin-top:20px;grid-template-columns:repeat(3,1fr)">
-      <div class="rc"><div class="b"><span class="tagpill live">운영 중</span><h4>곡성 히든벨리 펜션</h4><div class="m">편백·황토방 · 곡성 원효계곡을 품은 숙박</div></div></div>
+      <div class="rc"><div class="b"><span class="tagpill live">펜션</span><h4>곡성 히든벨리 펜션</h4><div class="m">편백·황토방 · 곡성 원효계곡을 품은 숙박</div></div></div>
       <div class="rc"><div class="b"><span class="tagpill live">1관</span><h4>히든벨리 샤브&amp;카페</h4><div class="m">소고기 샤브샤브 무한리필 · 2층 카페<br>점심 <b>19,900원</b>부터</div></div></div>
-      <div class="rc"><div class="b"><span class="tagpill live">2관 · 새로 오픈</span><h4>히든벨리 갈비</h4><div class="m">국내산 담양식 <b>돼지갈비 무한리필</b><br>점심 <b>19,900원</b>부터</div></div></div>
+      <div class="rc"><div class="b"><span class="tagpill live">2관 · 11월 새로 열었습니다</span><h4>히든벨리 갈비</h4><div class="m">국내산 담양식 <b>돼지갈비 무한리필</b><br>점심 <b>19,900원</b>부터</div></div></div>
     </div>
     <div class="card" style="margin-top:16px">
       <h3 style="font-size:1.3rem;margin-bottom:4px">1관 · 히든벨리 샤브&amp;카페 <span style="font-size:.78rem;color:var(--moss);font-weight:600">· 펜션과 같은 자리</span></h3>
@@ -624,10 +684,39 @@ footer{background:#1f3629;color:#c7d4c0;padding:64px 0 34px;margin-top:24px}
 
 <section id="reviews">
   <div class="wrap">
-    <div class="shead"><span class="klabel">Reviews</span><h2>다녀간 분들의 후기</h2><p>인스타그램에서 히든벨리의 사계절과 방문 후기를 만나보세요.</p></div>
-    <div class="reviews">
-      <a class="review js-insta" href="https://www.instagram.com/hiddenvalley.kr/" target="_blank" rel="noopener"><div class="src js-insta-handle">인스타그램 @hiddenvalley.kr</div><p>펜션의 사계절 사진과 소식을 인스타에서 만나보세요 →</p></a>
+    <div class="shead"><span class="klabel">Reviews</span><h2>다녀간 분들이 남긴 이야기</h2><p>네이버에 실제로 남겨주신 방문 후기 기준입니다.</p></div>
+    <div class="rv-grid">
+      <div class="rv-score">
+        <span class="n">77</span><span class="l">네이버 방문자 리뷰</span>
+        <span class="n">30</span><span class="l">블로그 후기</span>
+        <a href="https://m.place.naver.com/restaurant/2095248241/review/visitor" target="_blank" rel="noopener">네이버에서 후기 전체 보기</a>
+      </div>
+      <div class="rv-kw">
+        <h3>방문자들이 가장 많이 고른 한마디</h3>
+        <p class="s">리뷰를 남긴 77명이 직접 고른 키워드입니다</p>
+        <div class="kw"><span>음식이 맛있어요</span><i><b style="width:88%"></b></i><em>68</em></div>
+        <div class="kw"><span>재료가 신선해요</span><i><b style="width:81%"></b></i><em>62</em></div>
+        <div class="kw"><span>매장이 넓어요</span><i><b style="width:53%"></b></i><em>41</em></div>
+        <div class="kw"><span>인테리어가 멋져요</span><i><b style="width:27%"></b></i><em>21</em></div>
+        <div class="kw"><span>친절해요</span><i><b style="width:27%"></b></i><em>21</em></div>
+        <div class="kw"><span>양이 많아요</span><i><b style="width:23%"></b></i><em>18</em></div>
+        <div class="kw"><span>매장이 청결해요</span><i><b style="width:19%"></b></i><em>15</em></div>
+        <div class="kw"><span>단체모임 하기 좋아요</span><i><b style="width:17%"></b></i><em>13</em></div>
+      </div>
     </div>
+    <div class="reviews">
+      <a class="review js-insta" href="https://www.instagram.com/hiddenvalley.kr/" target="_blank" rel="noopener"><div class="src js-insta-handle">인스타그램 @hiddenvalley.kr</div><p>펜션의 사계절 사진과 소식을 인스타그램에서 보실 수 있습니다</p></a>
+    </div>
+    <h3 class="rv-sub">블로그 후기</h3>
+    <div class="blogs">
+      <a class="blog" href="https://m.blog.naver.com/ab______cd/224471999196" target="_blank" rel="noopener"><b>곡성 맛집 히든벨리 샤브&amp;카페 샤브샤브 무한리필 샤브샤브 카페 모임추천</b><span>네이버 블로그 · 2026.11.10</span></a>
+      <a class="blog" href="https://m.blog.naver.com/qpeqp11/224471752448" target="_blank" rel="noopener"><b>곡성 샤브샤브 맛집 광주 근교 히든벨리샤브</b><span>네이버 블로그 · 2026.11.10</span></a>
+      <a class="blog" href="https://m.blog.naver.com/dsam91/224465560297" target="_blank" rel="noopener"><b>부모님 모시고 가기 좋은 외식장소 추천, 광주 근교 곡성 히든 벨리 샤브샤브 추천</b><span>네이버 블로그 · 2026.11.05</span></a>
+      <a class="blog" href="https://m.blog.naver.com/withxus/224465239011" target="_blank" rel="noopener"><b>[곡성 샤브샤브 맛집] 광주 근교 드라이브 코스로 좋은 히든벨리샤브 방문 후기</b><span>네이버 블로그 · 2026.11.04</span></a>
+      <a class="blog" href="https://m.blog.naver.com/libra_531/224463070695" target="_blank" rel="noopener"><b>[곡성 맛집] 곡성 신상 무한리필 샤브샤브 전문점 히든밸리샤브 솔직 방문 후기: 주차, 고기, 육수 꿀팁</b><span>네이버 블로그 · 2026.11.03</span></a>
+      <a class="blog" href="https://m.blog.naver.com/happy0463/224458416606" target="_blank" rel="noopener"><b>곡성 샤브샤브 맛집 히든벨리 광주 근교 소고기 무한리필 맛집</b><span>네이버 블로그 · 2026.10.30</span></a>
+    </div>
+    <p class="rv-note">* 히든벨리 샤브·갈비·카페·펜션이 함께 등록된 네이버 플레이스 기준 (2026년 11월). 블로그 글은 누르면 작성자 블로그로 이동합니다.</p>
   </div>
 </section>
 
@@ -679,8 +768,8 @@ footer{background:#1f3629;color:#c7d4c0;padding:64px 0 34px;margin-top:24px}
         <p>전라남도 곡성군 곡성읍 서계길 73-30</p>
         <p>고객센터 010-3469-9780</p>
         <div class="mapbtns">
-          <a class="btn btn-out" href="https://map.kakao.com/?q=전라남도 곡성군 곡성읍 서계길 73-30" target="_blank" rel="noopener">카카오맵으로 보기</a>
-          <a class="btn btn-out" href="https://map.naver.com/p/search/곡성 서계길 73-30" target="_blank" rel="noopener">네이버지도로 보기</a>
+          <a class="btn btn-out" href="https://place.map.kakao.com/1385578641" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><rect width="24" height="24" rx="5" fill="#FEE500"/><path d="M12 6.2c-3.9 0-7 2.4-7 5.4 0 1.9 1.3 3.6 3.2 4.6l-.7 2.6c-.1.3.3.5.5.3l3.1-2.1c.3 0 .6.1.9.1 3.9 0 7-2.4 7-5.4S15.9 6.2 12 6.2z" fill="#3C1E1E"/></svg>카카오맵으로 보기</a>
+          <a class="btn btn-out" href="https://map.naver.com/p/entry/place/2095248241" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><rect width="24" height="24" rx="5" fill="#03C75A"/><path d="M8.1 16.8V7.2h2.35l3.3 5.15V7.2h2.15v9.6h-2.35l-3.3-5.15v5.15z" fill="#fff"/></svg>네이버지도로 보기</a>
         </div>
         <p style="margin-top:16px;font-size:.85rem;color:var(--stone)">곡성 기차마을·섬진강 레일바이크·도깨비마을·섬진강천문대 인근</p>
       </div>
@@ -908,12 +997,12 @@ async function extraQuotes(){if(!EXTRA.length)return[];const out=[];for(const x 
 function capSuggest(room,want){const m=el('capMore');if(!m)return;if(!room||!room.cap_max||want<=room.cap_max){m.hidden=true;return;}
   const tel=(GS_SET.phone||'010-3469-9780');const big=ROOMS.filter(r=>r.cap_max>=want&&r.id!==room.id);
   m.innerHTML='<b>'+want+'명이 함께 오시나요?</b><br>'+(big.length?'최대 '+want+'명 이상 묵을 수 있는 객실: '+big.map(r=>r.name+'(최대 '+r.cap_max+'인)').join(', ')+'<br>':'')+'인원이 많으시면 <a href="#multiRoom" onclick="MR_OPEN=true;renderMulti();">아래에서 <b>방을 추가</b></a>해 한 번에 예약하시거나, 단체는 <a href="tel:'+tel.replace(/[^0-9]/g,'')+'">'+tel+'</a>로 전화 주시면 맞춰 드립니다.';m.hidden=false;}
-function syncGuestCap(){var room=ROOMS.find(r=>r.id===sel.value);var gi=el('guests');if(!room||!gi)return;var h=el('capHint');var raw=parseInt(gi.value)||0;var warn='';if(room.cap_max){gi.max=room.cap_max;if(raw>room.cap_max){gi.value=room.cap_max;warn='⚠ 최대 '+room.cap_max+'명까지 예약 가능합니다. '+room.cap_max+'명으로 조정했어요.';}}if((parseInt(gi.value)||0)<1){gi.value=1;if(raw<1&&!warn)warn='⚠ 최소 1명부터 예약 가능합니다.';}if(!h){capSuggest(room,raw);return;}if(warn){try{window.gsTrack&&gsTrack('cap_over',{room:room.id,tried:raw});}catch(_){}capWarn(h,warn);}else if(!_capHintTimer){h.textContent=capBaseHint(room);h.style.color='';h.style.fontWeight='';}capSuggest(room,raw);}
+function syncGuestCap(){var room=ROOMS.find(r=>r.id===sel.value);var gi=el('guests');if(!room||!gi)return;var h=el('capHint');var raw=parseInt(gi.value)||0;var warn='';if(room.cap_max){gi.max=room.cap_max;if(raw>room.cap_max){gi.value=room.cap_max;warn='최대 '+room.cap_max+'명까지 예약 가능합니다. '+room.cap_max+'명으로 조정했어요.';}}if((parseInt(gi.value)||0)<1){gi.value=1;if(raw<1&&!warn)warn='최소 1명부터 예약 가능합니다.';}if(!h){capSuggest(room,raw);return;}if(warn){try{window.gsTrack&&gsTrack('cap_over',{room:room.id,tried:raw});}catch(_){}capWarn(h,warn);}else if(!_capHintTimer){h.textContent=capBaseHint(room);h.style.color='';h.style.fontWeight='';}capSuggest(room,raw);}
 async function calc(){rstatus.textContent='';const s=new Date(ci.value+'T00:00'),e=new Date(co.value+'T00:00');if(!(s<e)){quote.innerHTML='<div class="line" style="color:var(--clay)">체크아웃은 체크인 이후여야 합니다.</div>';lastQuote=null;return;}const room=ROOMS.find(r=>r.id===sel.value);
   if(room&&!rangeFree(room.id,ci.value,co.value)){const free=ROOMS.filter(r=>rangeFree(r.id,ci.value,co.value));lastQuote=null;bookBar();
     quote.innerHTML='<div class="line" style="color:var(--clay);font-weight:700">'+room.name+'은(는) 선택하신 날짜에 이미 예약이 있습니다.</div>'+(free.length?'<div class="line" style="color:var(--sub)">같은 날짜에 예약 가능한 객실</div><div class="altrooms">'+free.map(r=>'<button type="button" data-id="'+r.id+'">'+r.name+' · 최대 '+r.cap_max+'인</button>').join('')+'</div>':'<div class="line" style="color:var(--sub)">이 날짜는 전 객실이 마감되었습니다. 다른 날짜를 골라주세요.</div>');return;}
   var gv=parseInt(el('guests').value)||0;if(room&&room.cap_max&&gv>room.cap_max)gv=room.cap_max;if(gv<1)gv=1;if(!lastQuote)quote.innerHTML='<div class="line">요금 계산 중…</div>';try{const q=await api('quote',{room_id:sel.value,checkin:ci.value,checkout:co.value,guests:gv});if(q&&q.ok===false){quote.innerHTML='<div class="line" style="color:var(--clay)">'+(q.error||'예약할 수 없습니다.')+'</div>';lastQuote=null;return;}lastQuote=q;try{window.gsTrack&&gsTrack('quote',{room:sel.value});}catch(_){}const detail=(q.detail||[]).map(n=>`<div class="line"><span>${fmtd(n.date)} <span class="badge b-${n.season}">${SEASON_KO[n.season]}·${DAY_KO[n.daytype]}</span></span><span>${won(n.price)}원</span></div>`).join('');const ot=optTotal();const ec=q.extra_charge||0;const xq=await extraQuotes();const xt=xq.reduce((s,x)=>s+x.grand,0);const grand=q.total+ec+ot+xt;const ol=optLines()+(xq.length?'<div class="line" style="font-weight:600;margin-top:6px"><span>추가 객실</span><span></span></div>'+xq.map(x=>`<div class="line"><span>${x.name} · ${x.guests}인${x.extra?` (인원 추가 ${won(x.extra)}원 포함)`:''}</span><span>${won(x.grand)}원</span></div>`).join(''):'');const exLine=ec>0?`<div class="line"><span>인원 추가 <span style="color:var(--stone);font-size:.85em">(기준 ${q.cap_base}인 초과 ${q.extra_persons}명 × 1만원 × ${q.nights}박)</span></span><span>${won(ec)}원</span></div>`:'';BB.info=(room?room.name:'')+(EXTRA.length?' 외 '+EXTRA.length+'실':'')+' · '+q.nights+'박 · '+totalGuests()+'인';BB.total=grand;setTimeout(bookBar,0);quote.innerHTML=`<div class="line" style="color:var(--ink);font-weight:600"><span>${room?room.name:''} · ${q.nights}박</span><span>${gv}인 (기준 ${q.cap_base}/최대 ${q.cap_max})</span></div><div class="nights-detail">${detail}</div><div class="line" style="font-weight:600;margin-top:6px"><span>객실 요금</span><span>${won(q.total)}원</span></div>${exLine}${ol}<div class="total"><span>총 결제금액</span><b>${won(grand)}<small>원</small></b></div><div class="pay">무통장입금 · <b>${acctStr()}</b><br>예약 신청 후 입금이 확인되면 문자로 확정 안내드립니다.</div>`;}catch(e){quote.innerHTML='<div class="line" style="color:var(--clay)">요금을 불러오지 못했습니다.</div>';lastQuote=null;}}
-async function reserve(){const name=el('gname').value.trim(),phone=el('gphone').value.trim(),guests=parseInt(el('guests').value)||0;if(!lastQuote){rstatus.innerHTML='<span style="color:var(--clay)">날짜와 객실을 먼저 선택해 주세요.</span>';return;}if(!name||!phone){rstatus.innerHTML='<span style="color:var(--clay)">성함과 연락처를 입력해 주세요.</span>';return;}if(!el('agPriv').checked){rstatus.innerHTML='<span style="color:var(--clay)">개인정보 수집·이용(필수)에 동의해 주세요.</span>';return;}try{window.gsTrack&&gsTrack('reserve_click',{room:sel.value});}catch(_){}const b=el('reserveBtn');b.disabled=true;const o=b.textContent;b.textContent='신청 중…';try{const common={checkin:ci.value,checkout:co.value,guest_name:name,guest_phone:phone,options:optPayload(),agree_privacy:el('agPriv').checked,agree_marketing:el('agMkt').checked,acq_source:(window.gsSrc||'')};const roomsAll=[{room_id:sel.value,guests}].concat(EXTRA.map(x=>({room_id:x.id,guests:x.guests})));const r=EXTRA.length?await api('reserve_multi',Object.assign({rooms:roomsAll},common)):await api('reserve',Object.assign({room_id:sel.value,guests},common));if(r&&r.ok){try{window.gsTrack&&gsTrack('reserve_done',{room:sel.value,rooms:roomsAll.length});}catch(_){}roomsAll.forEach(x=>AVAIL.push({room_id:x.room_id,checkin:ci.value,checkout:co.value}));EXTRA.length=0;renderMulti();BB.done=true;bookBar();rstatus.innerHTML=`<span style="color:var(--forest);font-weight:600">✓ 예약 신청이 접수되었습니다! 총 ${won(r.total)}원 · 무통장입금(${acctStr()}) 확인 후 문자로 확정 안내드립니다. 문의 ${(GS_SET.phone||'010-3469-9780')}</span>`;b.textContent='신청 완료 ✓';}else{rstatus.innerHTML=`<span style="color:var(--clay)">${(r&&r.error)||'예약 신청에 실패했습니다.'}</span>`;b.disabled=false;b.textContent=o;}}catch(e){rstatus.innerHTML='<span style="color:var(--clay)">오류가 발생했습니다. 전화(010-3469-9780)로 문의해 주세요.</span>';b.disabled=false;b.textContent=o;}}
+async function reserve(){const name=el('gname').value.trim(),phone=el('gphone').value.trim(),guests=parseInt(el('guests').value)||0;if(!lastQuote){rstatus.innerHTML='<span style="color:var(--clay)">날짜와 객실을 먼저 선택해 주세요.</span>';return;}if(!name||!phone){rstatus.innerHTML='<span style="color:var(--clay)">성함과 연락처를 입력해 주세요.</span>';return;}if(!el('agPriv').checked){rstatus.innerHTML='<span style="color:var(--clay)">개인정보 수집·이용(필수)에 동의해 주세요.</span>';return;}try{window.gsTrack&&gsTrack('reserve_click',{room:sel.value});}catch(_){}const b=el('reserveBtn');b.disabled=true;const o=b.textContent;b.textContent='신청 중…';try{const common={checkin:ci.value,checkout:co.value,guest_name:name,guest_phone:phone,options:optPayload(),agree_privacy:el('agPriv').checked,agree_marketing:el('agMkt').checked,acq_source:(window.gsSrc||'')};const roomsAll=[{room_id:sel.value,guests}].concat(EXTRA.map(x=>({room_id:x.id,guests:x.guests})));const r=EXTRA.length?await api('reserve_multi',Object.assign({rooms:roomsAll},common)):await api('reserve',Object.assign({room_id:sel.value,guests},common));if(r&&r.ok){try{window.gsTrack&&gsTrack('reserve_done',{room:sel.value,rooms:roomsAll.length});}catch(_){}roomsAll.forEach(x=>AVAIL.push({room_id:x.room_id,checkin:ci.value,checkout:co.value}));EXTRA.length=0;renderMulti();BB.done=true;bookBar();rstatus.innerHTML=`<span style="color:var(--forest);font-weight:600">예약 신청이 접수되었습니다! 총 ${won(r.total)}원 · 무통장입금(${acctStr()}) 확인 후 문자로 확정 안내드립니다. 문의 ${(GS_SET.phone||'010-3469-9780')}</span>`;b.textContent='신청 완료';}else{rstatus.innerHTML=`<span style="color:var(--clay)">${(r&&r.error)||'예약 신청에 실패했습니다.'}</span>`;b.disabled=false;b.textContent=o;}}catch(e){rstatus.innerHTML='<span style="color:var(--clay)">오류가 발생했습니다. 전화(010-3469-9780)로 문의해 주세요.</span>';b.disabled=false;b.textContent=o;}}
 [sel,ci,co].forEach(x=>x.addEventListener('change',calc));
 var _gcalcT;el('guests').addEventListener('input',function(){clearTimeout(_gcalcT);_gcalcT=setTimeout(calc,450);});
 el('guests').addEventListener('change',function(){syncGuestCap();calc();});
@@ -985,7 +1074,7 @@ function gsApplyPhotos(map){
     const im=card.querySelector('img');
     if(slots.length&&im)im.src=GS_PHOTOS[slots[0]];
     let badge=card.querySelector('.rc-cnt');
-    if(slots.length>1){if(!badge){badge=document.createElement('span');badge.className='rc-cnt';card.appendChild(badge);}badge.textContent='📷 '+slots.length;}
+    if(slots.length>1){if(!badge){badge=document.createElement('span');badge.className='rc-cnt';card.appendChild(badge);}badge.textContent='사진 '+slots.length;}
     else if(badge)badge.remove();
   });
 }
