@@ -242,6 +242,32 @@ tbody tr:last-child td{border-bottom:none}tbody tr:hover{background:var(--panel2
 .dtl-v{flex:1;color:var(--ink)}
 .btn.line.dang2{color:var(--can);border-color:color-mix(in srgb,var(--can) 40%,var(--line))}
 .btn.line.dang2:hover{background:var(--can-bg);border-color:var(--can)}
+
+/* ===== 오늘 화면 ===== */
+.tiles.t4{grid-template-columns:repeat(4,1fr)}
+.tsec h3{display:flex;align-items:center;gap:8px;margin-bottom:12px}
+.tcount{font-size:.8rem;font-weight:700;background:var(--line2);color:var(--sub);border-radius:999px;padding:.1em .6em}
+.tdate{font-size:.85rem;font-weight:500;color:var(--sub)}
+.tcols{display:grid;grid-template-columns:1fr 1fr;gap:18px}.tcols .sec{margin-bottom:18px}
+.trow{display:flex;flex-wrap:wrap;align-items:center;gap:6px 12px;padding:11px 4px;border-top:1px solid var(--line2);cursor:pointer;font-size:.92rem}
+.trow:first-of-type{border-top:0}.trow:hover{background:var(--panel2)}
+.tr-room{min-width:64px}.tr-who{color:var(--ink)}.tr-ph{color:var(--moss);text-decoration:none;font-variant-numeric:tabular-nums}
+.tr-ago{font-size:.8rem;color:var(--sub)}.tr-meal{font-size:.8rem;font-weight:700;color:var(--clay-d);background:#f8eee3;border-radius:6px;padding:.15em .5em}
+.tr-act{margin-left:auto;display:flex;gap:6px}
+.tempty{color:var(--faint);font-size:.88rem;padding:6px 2px}
+.tnote{margin-top:12px;font-size:.82rem;color:var(--sub);line-height:1.6}.tnote a{color:var(--moss)}
+.tmeal-sum{margin-bottom:6px;font-size:.95rem;color:var(--clay-d)}
+.tprev{white-space:pre-wrap;background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:12px;font:inherit;font-size:.85rem;margin-top:10px}
+.tover{margin-bottom:18px;padding:14px 16px;border-radius:12px;background:#fdf1e7;border:1px solid #f0c9a6}
+.tover-h b{display:block;color:#b4541a;margin-bottom:2px}.tover-h span{font-size:.85rem;color:var(--sub);line-height:1.6}
+.tover .trow{background:#fff;border-radius:10px;border:1px solid #f3dcc6;margin-top:8px;padding:10px 12px}
+.rboard{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px}
+.rb{border:1px solid var(--line);border-radius:11px;padding:12px;display:flex;flex-direction:column;gap:3px;background:#fff}
+.rb b{font-size:.95rem}.rb span{font-size:.82rem;font-weight:700}.rb small{font-size:.78rem;color:var(--sub);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rb.free span{color:var(--faint)}.rb.in{border-color:color-mix(in srgb,var(--con) 45%,var(--line));background:var(--con-bg)}.rb.in span{color:var(--con)}
+.rb.req{background:var(--req-bg)}.rb.req span{color:var(--req)}.rb.stay{background:#eef4e8}.rb.stay span{color:var(--moss)}
+.rb.out{background:#fbf3ea}.rb.out span{color:var(--clay-d)}.rb.blk{background:var(--line2)}.rb.blk span{color:var(--sub)}
+@media(max-width:820px){.tiles.t4{grid-template-columns:repeat(2,1fr)}.tcols{grid-template-columns:1fr;gap:0}.tr-act{margin-left:0;width:100%}.tr-act .mini{flex:1}}
 </style>
 </head>
 <body>
@@ -261,7 +287,8 @@ tbody tr:last-child td{border-bottom:none}tbody tr:hover{background:var(--panel2
   <aside class="side">
     <div class="side-brand"><span class="mark">H</span><div><b>히든벨리</b><span>Hidden Valley</span></div></div>
     <nav class="side-nav" id="vtabs">
-      <button data-v="list" class="active"><svg viewBox="0 0 24 24"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg><span>예약</span></button>
+      <button data-v="today" class="active"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg><span>오늘</span></button>
+      <button data-v="list"><svg viewBox="0 0 24 24"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg><span>예약</span></button>
       <button data-v="customers"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg><span>고객</span></button>
       <button data-v="cal"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg><span>캘린더</span></button>
       <button data-v="settings"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg><span>요금·객실</span></button>
@@ -278,10 +305,11 @@ tbody tr:last-child td{border-bottom:none}tbody tr:hover{background:var(--panel2
   </aside>
   <main class="main">
     <div class="phead">
-      <h1 id="ptitle">예약 현황</h1>
+      <h1 id="ptitle">오늘</h1>
       <span class="date" id="today"></span>
     </div>
-    <div id="viewList"></div>
+    <div id="viewToday"></div>
+    <div id="viewList" class="hidden"></div>
     <div id="viewCal" class="hidden"></div>
     <div id="viewSettings" class="hidden"></div>
     <div id="viewStats" class="hidden"></div>
@@ -301,7 +329,7 @@ const SB=supabase.createClient('https://epxjjvowhlxaksviyhus.supabase.co','sb_pu
 const el=id=>document.getElementById(id);
 const won=n=>Number(n||0).toLocaleString('ko-KR');
 let TOKEN=localStorage.getItem('gs_admin_token')||null;
-let ALL=[],CFG=null,PHOTOS={},VIEW='list',FILTER='all',PERIOD='all',Q='',calRef=new Date();
+let ALL=[],CFG=null,PHOTOS={},VIEW='today',FILTER='all',PERIOD='all',Q='',calRef=new Date();
 function roomName(id){const r=(CFG&&CFG.rooms||[]).find(x=>x.id===id);return r?r.name:id;}
 function todayStr(){return fday(new Date());}
 function periodMatch(created){if(PERIOD==='all')return true;const d=fday(created),t=new Date();t.setHours(0,0,0,0);const cd=new Date(created);cd.setHours(0,0,0,0);
@@ -340,9 +368,74 @@ async function loadAll(){
   renderView();
 }
 function setView(v){VIEW=v;document.querySelectorAll('#vtabs button').forEach(b=>b.classList.toggle('active',b.dataset.v===v));
-  el('viewList').classList.toggle('hidden',v!=='list');el('viewCal').classList.toggle('hidden',v!=='cal');el('viewSettings').classList.toggle('hidden',v!=='settings');el('viewStats').classList.toggle('hidden',v!=='stats');el('viewAnalytics').classList.toggle('hidden',v!=='analytics');el('viewCustomers').classList.toggle('hidden',v!=='customers');el('viewNotices').classList.toggle('hidden',v!=='notices');
-  el('ptitle').textContent=v==='list'?'예약 현황':v==='cal'?'예약 캘린더':v==='stats'?'매출 통계':v==='analytics'?'고객 행동 분석':v==='customers'?'고객 관리':v==='notices'?'공지사항 관리':'요금·객실 설정';renderView();}
-function renderView(){if(VIEW==='list')renderList();else if(VIEW==='cal')renderCal();else if(VIEW==='stats')renderStats();else if(VIEW==='analytics')renderAnalytics();else if(VIEW==='customers')renderCustomers();else if(VIEW==='notices')renderNotices();else renderSettings();}
+  el('viewToday').classList.toggle('hidden',v!=='today');el('viewList').classList.toggle('hidden',v!=='list');el('viewCal').classList.toggle('hidden',v!=='cal');el('viewSettings').classList.toggle('hidden',v!=='settings');el('viewStats').classList.toggle('hidden',v!=='stats');el('viewAnalytics').classList.toggle('hidden',v!=='analytics');el('viewCustomers').classList.toggle('hidden',v!=='customers');el('viewNotices').classList.toggle('hidden',v!=='notices');
+  el('ptitle').textContent=v==='today'?'오늘':v==='list'?'예약 현황':v==='cal'?'예약 캘린더':v==='stats'?'매출 통계':v==='analytics'?'고객 행동 분석':v==='customers'?'고객 관리':v==='notices'?'공지사항 관리':'요금·객실 설정';renderView();}
+function renderView(){if(VIEW==='today')renderToday();else if(VIEW==='list')renderList();else if(VIEW==='cal')renderCal();else if(VIEW==='stats')renderStats();else if(VIEW==='analytics')renderAnalytics();else if(VIEW==='customers')renderCustomers();else if(VIEW==='notices')renderNotices();else renderSettings();}
+
+/* ===== 오늘 ===== */
+function isoD(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
+function mealOf(r){const o=(Array.isArray(r.options)?r.options:[]);const ids=new Set(((CFG&&CFG.options)||[]).filter(x=>x.meal).map(x=>x.id));
+  return o.filter(x=>ids.has(+x.id)||/미리 예약/.test(x.name||'')).map(x=>({name:(x.name||'').replace(' (현장 결제)','').replace(' 미리 예약',''),qty:+x.qty||1}));}
+function grpRooms(r){if(!r.grp)return roomName(r.room_id);return ALL.filter(x=>x.grp===r.grp&&x.status!=='cancelled').map(x=>roomName(x.room_id)).join(', ');}
+function hoursAgo(ts){return Math.floor((Date.now()-new Date(ts).getTime())/36e5);}
+function tRow(r,extra){const st=ST[r.status]||[r.status,''];const ph=(r.guest_phone||'').replace(/[^0-9]/g,'');
+  return `<div class="trow" onclick="openDetail(${r.id})"><span class="pill ${st[1]}">${st[0]}</span>
+    <b class="tr-room">${roomName(r.room_id)}</b><span class="tr-who">${r.guest_name||''} · ${r.guests||'-'}명</span>
+    <a class="tr-ph" href="tel:${ph}" onclick="event.stopPropagation()">${r.guest_phone||''}</a>${extra||''}</div>`;}
+function renderToday(){
+  const now=new Date(),T=isoD(now),TM=isoD(new Date(now.getFullYear(),now.getMonth(),now.getDate()+1));
+  const live=ALL.filter(r=>r.source!=='block'&&r.status!=='cancelled');
+  const blocks=ALL.filter(r=>r.source==='block'&&r.status!=='cancelled'&&r.checkin<=T&&r.checkout>T);
+  const inT=live.filter(r=>r.checkin===T),outT=live.filter(r=>r.checkout===T),stay=live.filter(r=>r.checkin<T&&r.checkout>T),inTm=live.filter(r=>r.checkin===TM);
+  const unpaid=live.filter(r=>r.status==='requested'&&r.checkout>=T).sort((a,b)=>new Date(a.created_at)-new Date(b.created_at));
+  const over=unpaid.filter(r=>hoursAgo(r.created_at)>=24);
+  const mon=now.getDay()===1;
+  // 식사(오늘 입실)
+  const meals=[];inT.forEach(r=>mealOf(r).forEach(m=>meals.push({r,m})));
+  const mealSum={};meals.forEach(({m})=>mealSum[m.name]=(mealSum[m.name]||0)+m.qty);
+  // 객실 판
+  const rooms=((CFG&&CFG.rooms)||[]).filter(x=>x.active!==false);
+  const board=rooms.map(rm=>{const id=rm.id;let s='빈방',c='free',who='';
+    const b=blocks.find(x=>x.room_id===id);const i=inT.find(x=>x.room_id===id);const st=stay.find(x=>x.room_id===id);const o=outT.find(x=>x.room_id===id);
+    if(b){s='판매중지';c='blk';}else if(st){s='투숙 중';c='stay';who=st.guest_name;}else if(i){s=o?'퇴실 후 입실':'입실 예정';c=i.status==='requested'?'req':'in';who=i.guest_name+(i.status==='requested'?' (입금대기)':'');}else if(o){s='퇴실 · 청소';c='out';who=o.guest_name;}
+    return `<div class="rb ${c}"><b>${rm.name}</b><span>${s}</span><small>${who||'&nbsp;'}</small></div>`;}).join('');
+  const overHTML=over.length?`<div class="tover"><div class="tover-h"><b>신청하고 24시간이 지나도 입금이 없는 예약 ${over.length}건</b>
+      <span>손님께는 신청 3시간 뒤 입금 안내 문자가 자동으로 나갔습니다. 전화로 확인해 보시고, 안 오시면 취소해서 방을 풀어 주세요. 취소하면 손님께 취소 문자가 갑니다.</span></div>
+      ${over.map(r=>tRow(r,`<span class="tr-ago">${fdate(r.checkin)} 입실 · 신청 ${Math.floor(hoursAgo(r.created_at)/24)}일 전</span><span class="tr-act"><button class="mini pri" onclick="event.stopPropagation();setStatus(${r.id},'confirmed')">입금확인</button><button class="mini dang" onclick="event.stopPropagation();setStatus(${r.id},'cancelled')">취소</button></span>`)).join('')}
+      ${over.length>1?`<div style="text-align:right;margin-top:8px"><button class="mini dang" onclick="cancelOverdue()">${over.length}건 모두 취소</button></div>`:''}</div>`:'';
+  const sec=(title,list,empty,extra)=>`<div class="sec tsec"><h3>${title} <span class="tcount">${list.length}</span></h3>${list.length?list.map(r=>tRow(r,extra?extra(r):'')).join(''):`<div class="tempty">${empty}</div>`}</div>`;
+  const mealExtra=r=>{const m=mealOf(r);return m.length?`<span class="tr-meal">${m.map(x=>x.name+' '+x.qty+'명').join(', ')}</span>`:'';};
+  el('viewToday').innerHTML=`
+    ${overHTML}
+    <div class="tiles t4">
+      <div class="tile con"><div class="lab">오늘 입실</div><div class="v">${inT.length}<small> 객실</small></div></div>
+      <div class="tile"><div class="lab">오늘 퇴실 · 청소</div><div class="v">${outT.length}<small> 객실</small></div></div>
+      <div class="tile"><div class="lab">내일 입실</div><div class="v">${inTm.length}<small> 객실</small></div></div>
+      <div class="tile req"><div class="lab">입금 대기</div><div class="v">${unpaid.length}<small> 건${over.length?' (24시간 넘음 '+over.length+')':''}</small></div></div>
+    </div>
+    <div class="sec tsec"><h3>오늘 객실 현황 <span class="tdate">${fdate(T)}</span></h3><div class="rboard">${board||'<div class="tempty">객실 정보가 없습니다.</div>'}</div></div>
+    <div class="tcols">
+      ${sec('오늘 입실',inT,'오늘 입실 손님이 없습니다.',mealExtra)}
+      ${sec('오늘 퇴실 · 청소할 방',outT,'오늘 퇴실하는 방이 없습니다.')}
+    </div>
+    <div class="sec tsec"><h3>오늘 손님 식사 예약 <span class="tcount">${meals.length}</span></h3>
+      ${mon?'<div class="tempty">월요일은 1관·2관 휴무라 식사 예약을 받지 않습니다.</div>':(meals.length?`<div class="tmeal-sum">${Object.entries(mealSum).map(([k,v])=>'<b>'+k+' '+v+'명</b>').join(' · ')}</div>`+meals.map(({r,m})=>tRow(r,`<span class="tr-meal">${m.name} ${m.qty}명</span>`)).join(''):'<div class="tempty">오늘 입실 손님 중 식사를 미리 예약한 분이 없습니다.</div>')}
+      <div class="tnote">매일 오후 3시에 식당 번호로 오늘 식사 예약이 문자로 갑니다(예약이 없거나 월요일이면 안 보냄). <a href="#" onclick="event.preventDefault();mealPreview()">지금 보낼 내용 보기</a></div>
+      <div id="mealPrevBox"></div></div>
+    <div class="tcols">
+      ${sec('내일 입실',inTm,'내일 입실 손님이 없습니다.',mealExtra)}
+      ${sec('입금 대기',unpaid,'입금 대기 예약이 없습니다.',r=>`<span class="tr-ago">${fdate(r.checkin)} 입실 · 신청 ${hoursAgo(r.created_at)<24?hoursAgo(r.created_at)+'시간':Math.floor(hoursAgo(r.created_at)/24)+'일'} 전</span>`)}
+    </div>`;
+}
+window.mealPreview=async function(){const box=el('mealPrevBox');box.innerHTML='<div class="tempty">불러오는 중…</div>';
+  try{const r=await api('admin.meal_preview',{});const txt=(r&&r.text)||'';
+    box.innerHTML=(txt==='없음'||txt==='월요일 휴무')?'<div class="tempty">오늘은 보낼 식사 예약이 없습니다'+(txt==='월요일 휴무'?'(월요일 휴무)':'')+'.</div>':'<pre class="tprev">'+txt.replace(/</g,'&lt;')+'</pre>';}
+  catch(e){box.innerHTML='<div class="tempty">오류가 발생했습니다.</div>';}};
+window.cancelOverdue=async function(){const T=isoD(new Date());
+  const over=ALL.filter(r=>r.source!=='block'&&r.status==='requested'&&r.checkout>=T&&hoursAgo(r.created_at)>=24);
+  if(!over.length)return;if(!confirm(over.length+'건을 모두 취소할까요?\n'+over.map(r=>fdate(r.checkin)+' '+roomName(r.room_id)+' '+(r.guest_name||'')).join('\n')+'\n\n손님께 취소 문자가 갑니다.'))return;
+  let n=0;for(const r of over){try{const x=await api('admin.set_status',{id:r.id,status:'cancelled'});if(!(x&&x.ok===false))n++;}catch(e){}}
+  toast(n+'건 취소했습니다');await loadAll();};
 /* ===== 공지사항 관리 ===== */
 let NSTAGE=[];
 function nGet(){try{return JSON.parse((CFG&&CFG.settings&&CFG.settings.notices_json)||'[]')||[];}catch(_){return [];}}
@@ -842,7 +935,7 @@ const SITE_FIELDS=[
   ['video_url','홍보 영상 주소(유튜브/구글드라이브 링크)'],
   ['bank_name','입금 은행'],['bank_account','계좌번호'],['bank_holder','예금주'],
   ['checkin_time','체크인 시각'],['checkout_time','체크아웃 시각'],['biz_no','사업자등록번호'],
-  ['sms_owner','새 예약 알림 받을 번호'],['sms_enabled','자동 문자 (on=보냄 / off=멈춤)']
+  ['sms_owner','새 예약 알림 받을 번호'],['sms_restaurant','식사 예약 받을 식당 번호 (비우면 위 번호로 감)'],['sms_enabled','자동 문자 (on=보냄 / off=멈춤)']
 ];
 function siteInfoHTML(){const s=(CFG&&CFG.settings)||{};
   return '<div class="siteform">'+SITE_FIELDS.map(([k,label])=>
@@ -852,10 +945,10 @@ window.saveSettings=async function(){
   try{const r=await api('admin.set_settings',{items});if(r&&r.ok===false){toast(r.error||'실패');return;}CFG=await api('admin.config');toast('기본 정보 저장 완료');}catch(e){toast('저장 오류');}};
 
 /* ===== 자동 문자 ===== */
-const SMS_TPL=[['new_guest','예약 접수 (손님)'],['new_owner','새 예약 알림 (사장님)'],['confirm','예약 확정 (손님)'],['cancel','예약 취소 (손님)'],['remind','입실 전날 안내 (손님, 오전 10시)']];
+const SMS_TPL=[['new_guest','예약 접수 (손님)'],['new_owner','새 예약 알림 (사장님)'],['confirm','예약 확정 (손님)'],['cancel','예약 취소 (손님)'],['remind','입실 전날 안내 (손님, 오전 10시)'],['unpaid','입금 안내 (손님, 신청 3시간 뒤에도 입금대기일 때 1번)']];
 function smsHTML(){const s=(CFG&&CFG.settings)||{};
   return `<div class="sec"><h3>자동 문자</h3>
-    <div class="d" style="margin-bottom:12px;line-height:1.8">홈페이지 예약이 들어오면 손님과 사장님께, '입금확인'을 누르면 손님께 확정 문자가 자동으로 갑니다. 입실 전날 오전 10시에는 오시는 길 안내가 갑니다.<br>
+    <div class="d" style="margin-bottom:12px;line-height:1.8">홈페이지 예약이 들어오면 손님과 사장님께, '입금확인'을 누르면 손님께 확정 문자가 자동으로 갑니다. 입실 전날 오전 10시에는 오시는 길 안내가, 신청 3시간이 지나도 입금이 없으면 입금 안내가 한 번 갑니다(밤 9시~오전 9시엔 안 보냄). 매일 오후 3시에는 오늘 손님 식사 예약이 식당 번호로 갑니다.<br>
     문구 속 <b>{이름} {객실} {입실} {퇴실} {박수} {인원} {금액} {계좌} {전화} {연락처}</b> 는 자동으로 바뀌어 들어갑니다.</div>
     ${SMS_TPL.map(([k,l])=>`<label class="sf" style="display:block;margin-bottom:12px"><span>${l}</span><textarea class="smsf" data-k="sms_tpl_${k}" rows="6" style="width:100%;font:inherit;font-size:.9rem;padding:10px;border:1px solid var(--line);border-radius:10px">${(s['sms_tpl_'+k]||'').replace(/</g,'&lt;')}</textarea></label>`).join('')}
     <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center"><button class="btn" onclick="saveSmsTpl()">문구 저장</button>
@@ -871,7 +964,7 @@ const SMS_ST={sent:'보냄',skipped_off:'멈춤 상태',no_key:'솔라피 키 �
 window.smsLog=async function(){const box=el('smsLogBox');box.innerHTML='<div class="d">불러오는 중…</div>';
   try{const L=await api('admin.sms_log',{});if(!Array.isArray(L)){box.innerHTML='<div class="d">'+((L&&L.error)||'불러오기 실패')+'</div>';return;}
     if(!L.length){box.innerHTML='<div class="d">아직 발송 기록이 없습니다.</div>';return;}
-    const K=Object.fromEntries(SMS_TPL);K.test='시험';
+    const K=Object.fromEntries(SMS_TPL);K.test='시험';K.meal_daily='식사 예약 전달 (식당)';K.monthly='월간 보고';K.unpaid='입금 안내 (손님)';
     box.innerHTML='<div style="max-height:360px;overflow:auto;border:1px solid var(--line);border-radius:10px">'+L.map(x=>{let res=SMS_ST[x.status]||x.status;
       if(x.status==='sent'){if(x.http_status==null)res='전송 중';else if(x.http_status===200&&/"registeredSuccess":[1-9]/.test(x.http_body||''))res='발송 성공';else if(/"registeredFailed":[1-9]/.test(x.http_body||''))res='거부됨(같은 번호 연속 발송 등)';else res='실패('+x.http_status+')';}
       return `<div style="padding:9px 12px;border-bottom:1px solid var(--line);font-size:.85rem"><b>${fday(x.ts)} ${new Date(x.ts).toTimeString().slice(0,5)}</b> · ${K[x.kind]||x.kind} · ${x.to_phone||''} · <b style="color:${/성공/.test(res)?'var(--moss)':'var(--clay)'}">${res}</b></div>`;}).join('')+'</div>';
