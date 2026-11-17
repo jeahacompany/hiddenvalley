@@ -3,6 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="manifest" href="admin.webmanifest">
+<link rel="apple-touch-icon" href="img/admin-icon-192.png">
+<meta name="theme-color" content="#22402d">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="히든벨리 관리">
 <title>히든벨리 펜션 · 예약 관리자</title>
 <meta name="robots" content="noindex">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -284,6 +290,42 @@ tbody tr:last-child td{border-bottom:none}tbody tr:hover{background:var(--panel2
 .pr-act .mini[disabled]{opacity:.4;cursor:not-allowed}
 .pr-act .mini{white-space:nowrap}
 @media(max-width:820px){.prow{grid-template-columns:1fr}.pr-act{grid-column:1;grid-row:auto;justify-content:stretch}.pr-act .mini{flex:1;padding:.55em .4em}}
+
+/* ===== 객실판 ===== */
+.bd-tools{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:12px}
+.bd-date{padding:.4em .6em;border:1px solid var(--line);border-radius:8px;font:inherit;font-size:.85rem}
+.bd-seg{display:inline-flex;gap:4px}.bd-occ{margin-left:auto;font-size:.88rem;color:var(--sub)}.bd-occ b{color:var(--ink);font-size:1.05rem}
+.bd-legend{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;font-size:.8rem;color:var(--sub);margin-bottom:10px}
+.bd-legend .bd-bar{display:inline-block;padding:.15em .6em;cursor:default}
+.bd-wrap{overflow-x:auto}
+table.bd{border-collapse:separate;border-spacing:0;width:100%;min-width:720px;table-layout:fixed;font-size:.8rem}
+.bd th,.bd td{border-bottom:1px solid var(--line2);border-right:1px solid var(--line2);padding:0;height:46px}
+.bd .bd-room{position:sticky;left:0;z-index:2;background:var(--panel);width:74px;text-align:left;padding:0 10px;font-weight:700;font-size:.85rem}
+.bd thead th.bd-day{height:auto;padding:6px 2px;font-weight:700;text-align:center;line-height:1.25;background:var(--panel2)}
+.bd-day span{display:block;font-weight:400;font-size:.72rem;color:var(--sub)}
+.bd-day.sat{color:#2c5fae}.bd-day.sun{color:#c0392b}.bd-day.today{box-shadow:inset 0 -3px 0 var(--clay)}
+.bd-ovr{display:block;margin-top:2px;font-size:.65rem;background:#fbe1cc;color:#b4541a;border-radius:4px;padding:0 3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bd-free{cursor:pointer;text-align:center;color:transparent;position:relative}
+.bd-free:hover{background:#eef4e8;color:var(--moss);font-weight:700}.bd-free.past{background:repeating-linear-gradient(45deg,transparent 0 6px,var(--line2) 6px 7px)}
+.bd-sp{position:absolute;top:4px;right:4px;width:6px;height:6px;border-radius:50%;background:#e08a4a}
+.bd-legend .bd-sp{position:static;display:inline-block;vertical-align:middle}
+.bd-bk{padding:4px 2px!important}
+.bd-bar{height:100%;border-radius:7px;padding:4px 7px;cursor:pointer;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;font-weight:700;display:flex;flex-direction:column;justify-content:center;line-height:1.25}
+.bd-bar small{font-weight:400;font-size:.68rem;opacity:.8;overflow:hidden;text-overflow:ellipsis}
+.bd-bar em{font-style:normal;opacity:.5;font-size:.7rem}
+.bd-bar.con{background:var(--con-bg);color:var(--con);border:1px solid color-mix(in srgb,var(--con) 35%,transparent)}
+.bd-bar.req{background:var(--req-bg);color:var(--req);border:1px dashed color-mix(in srgb,var(--req) 50%,transparent)}
+.bd-bar.blk{background:var(--line2);color:var(--sub);border:1px solid var(--line)}
+.bd tfoot th,.bd tfoot td{height:34px;background:var(--panel2)}
+.bd-left{text-align:center;font-weight:700;color:var(--moss)}.bd-left.full{color:#c0392b}
+/* ===== 상세 기록·문자 ===== */
+.dhist{margin-top:14px}.dh-t{font-weight:700;font-size:.85rem;margin-bottom:6px;color:var(--sub)}
+.dh-r{display:flex;gap:10px;font-size:.82rem;padding:5px 0;border-top:1px solid var(--line2)}.dh-r span:first-child{color:var(--faint);white-space:nowrap;min-width:84px}
+.qs{display:flex;flex-wrap:wrap;gap:6px}
+/* ===== 정산표 ===== */
+table.stl{width:100%;border-collapse:collapse;font-size:.88rem}.stl th,.stl td{padding:9px 8px;border-bottom:1px solid var(--line2);text-align:left}
+.stl .r{text-align:right;font-variant-numeric:tabular-nums}.stl tfoot th{border-top:2px solid var(--line)}
+.feein{width:52px;padding:.3em .4em;border:1px solid var(--line);border-radius:6px;text-align:right;font:inherit;font-size:.85rem}
 </style>
 </head>
 <body>
@@ -306,6 +348,7 @@ tbody tr:last-child td{border-bottom:none}tbody tr:hover{background:var(--panel2
       <button data-v="today" class="active"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg><span>오늘</span></button>
       <button data-v="list"><svg viewBox="0 0 24 24"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg><span>예약</span></button>
       <button data-v="customers"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg><span>고객</span></button>
+      <button data-v="board"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M3 15h18M9 3v18"/></svg><span>객실판</span></button>
       <button data-v="cal"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg><span>캘린더</span></button>
       <button data-v="settings"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg><span>요금·객실</span></button>
       <button data-v="stats"><svg viewBox="0 0 24 24"><path d="M3 3v18h18M8 17V9M13 17V5M18 17v-6"/></svg><span>매출</span></button>
@@ -327,6 +370,7 @@ tbody tr:last-child td{border-bottom:none}tbody tr:hover{background:var(--panel2
     <div id="viewToday"></div>
     <div id="viewList" class="hidden"></div>
     <div id="viewCal" class="hidden"></div>
+    <div id="viewBoard" class="hidden"></div>
     <div id="viewSettings" class="hidden"></div>
     <div id="viewStats" class="hidden"></div>
     <div id="viewAnalytics" class="hidden"></div>
@@ -385,9 +429,9 @@ async function loadAll(){
   renderView();
 }
 function setView(v){VIEW=v;document.querySelectorAll('#vtabs button').forEach(b=>b.classList.toggle('active',b.dataset.v===v));
-  el('viewToday').classList.toggle('hidden',v!=='today');el('viewList').classList.toggle('hidden',v!=='list');el('viewCal').classList.toggle('hidden',v!=='cal');el('viewSettings').classList.toggle('hidden',v!=='settings');el('viewStats').classList.toggle('hidden',v!=='stats');el('viewAnalytics').classList.toggle('hidden',v!=='analytics');el('viewCustomers').classList.toggle('hidden',v!=='customers');el('viewNotices').classList.toggle('hidden',v!=='notices');
-  el('ptitle').textContent=v==='today'?'오늘':v==='list'?'예약 현황':v==='cal'?'예약 캘린더':v==='stats'?'매출 통계':v==='analytics'?'고객 행동 분석':v==='customers'?'고객 관리':v==='notices'?'공지사항 관리':'요금·객실 설정';renderView();}
-function renderView(){if(VIEW==='today')renderToday();else if(VIEW==='list')renderList();else if(VIEW==='cal')renderCal();else if(VIEW==='stats')renderStats();else if(VIEW==='analytics')renderAnalytics();else if(VIEW==='customers')renderCustomers();else if(VIEW==='notices')renderNotices();else renderSettings();}
+  el('viewToday').classList.toggle('hidden',v!=='today');el('viewList').classList.toggle('hidden',v!=='list');el('viewCal').classList.toggle('hidden',v!=='cal');el('viewBoard').classList.toggle('hidden',v!=='board');el('viewSettings').classList.toggle('hidden',v!=='settings');el('viewStats').classList.toggle('hidden',v!=='stats');el('viewAnalytics').classList.toggle('hidden',v!=='analytics');el('viewCustomers').classList.toggle('hidden',v!=='customers');el('viewNotices').classList.toggle('hidden',v!=='notices');
+  el('ptitle').textContent=v==='today'?'오늘':v==='list'?'예약 현황':v==='cal'?'예약 캘린더':v==='board'?'객실판':v==='stats'?'매출 통계':v==='analytics'?'고객 행동 분석':v==='customers'?'고객 관리':v==='notices'?'공지사항 관리':'요금·객실 설정';renderView();}
+function renderView(){if(VIEW==='today')renderToday();else if(VIEW==='list')renderList();else if(VIEW==='cal')renderCal();else if(VIEW==='board')renderBoard();else if(VIEW==='stats')renderStats();else if(VIEW==='analytics')renderAnalytics();else if(VIEW==='customers')renderCustomers();else if(VIEW==='notices')renderNotices();else renderSettings();}
 
 /* ===== 오늘 ===== */
 function isoD(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
@@ -431,6 +475,20 @@ function payRow(g){const r=g.r,ph=(r.guest_phone||'').replace(/[^0-9]/g,''),dd=d
       <button class="mini" ${okPhone(r.guest_phone)?'':'disabled'} onclick='payAsk(${ids})'>입금 요청 문자</button>
       <button class="mini pri" onclick='statusMany(${ids},"confirmed")'>입금확인</button>
       <button class="mini dang" onclick='statusMany(${ids},"cancelled")'>취소</button></div></div>`;}
+function monthTiles(){const now=new Date(),y=now.getFullYear(),m=now.getMonth(),dim=new Date(y,m+1,0).getDate();
+  const m1=isoD(new Date(y,m,1)),m2=isoD(new Date(y,m+1,1)),T=isoD(now);
+  const rooms=((CFG&&CFG.rooms)||[]).filter(x=>x.active!==false);const live=ALL.filter(r=>r.status!=='cancelled'&&r.source!=='block');
+  let nights=0;live.forEach(r=>{for(let d=r.checkin;d<r.checkout;d=addD(d,1)){if(d>=m1&&d<m2)nights++;}});
+  const occ=rooms.length?Math.round(nights/(rooms.length*dim)*100):0;
+  const sales=live.filter(r=>r.status==='confirmed'&&r.checkin>=m1&&r.checkin<m2).reduce((s,r)=>s+(+r.total_price||0),0);
+  const dow=now.getDay(),sat=addD(T,(6-dow+7)%7);
+  const satFree=rooms.filter(rm=>!ALL.some(r=>r.status!=='cancelled'&&r.room_id===rm.id&&r.checkin<=sat&&r.checkout>sat)).length;
+  const newCnt=ALL.filter(r=>r.source!=='block'&&r.created_at&&(Date.now()-new Date(r.created_at))<7*864e5).length;
+  return `<div class="tiles t4">
+    <div class="tile"><div class="lab">이번 달 객실 가동률</div><div class="v">${occ}<small> %</small></div></div>
+    <div class="tile sales"><div class="lab">이번 달 확정 매출</div><div class="v">${won(sales)}<small> 원</small></div></div>
+    <div class="tile"><div class="lab">이번 토요일(${fdate(sat)}) 남은 방</div><div class="v">${satFree}<small> / ${rooms.length}</small></div></div>
+    <div class="tile con"><div class="lab">최근 7일 새 예약</div><div class="v">${newCnt}<small> 건</small></div></div></div>`;}
 function renderToday(){
   const now=new Date(),T=isoD(now),TM=isoD(new Date(now.getFullYear(),now.getMonth(),now.getDate()+1));
   const live=ALL.filter(r=>r.source!=='block'&&r.status!=='cancelled');
@@ -462,6 +520,7 @@ function renderToday(){
       <div class="tile"><div class="lab">내일 입실</div><div class="v">${inTm.length}<small> 객실</small></div></div>
       <div class="tile req"><div class="lab">입금 대기</div><div class="v">${groups.length}<small> 건${overG.length?' (24시간 넘음 '+overG.length+')':''}</small></div></div>
     </div>
+    ${monthTiles()}
     <div class="sec tsec"><h3>오늘 객실 현황 <span class="tdate">${fdate(T)}</span></h3><div class="rboard">${board||'<div class="tempty">객실 정보가 없습니다.</div>'}</div></div>
     <div class="tcols">
       ${sec('오늘 입실',inT,'오늘 입실 손님이 없습니다.',mealExtra)}
@@ -509,6 +568,156 @@ window.mealPreview=async function(){const box=el('mealPrevBox');box.innerHTML='<
     box.innerHTML=(txt==='없음'||txt==='월요일 휴무')?'<div class="tempty">오늘은 보낼 식사 예약이 없습니다'+(txt==='월요일 휴무'?'(월요일 휴무)':'')+'.</div>':'<pre class="tprev">'+txt.replace(/</g,'&lt;')+'</pre>';}
   catch(e){box.innerHTML='<div class="tempty">오류가 발생했습니다.</div>';}};
 
+
+/* ===== 객실판: 객실 × 날짜 ===== */
+let BSTART=null,BDAYS=14;
+function addD(iso,n){const d=new Date(iso+'T00:00');d.setDate(d.getDate()+n);return isoD(d);}
+function holSet(){return new Set(((CFG&&CFG.holidays)||[]).map(h=>String(h.d).slice(0,10)));}
+function ovrOn(rid,iso){const L=((CFG&&CFG.overrides)||[]).filter(o=>iso>=o.d_from&&iso<=o.d_to&&(!o.room_id||o.room_id===rid));L.sort((a,b)=>(a.room_id?0:1)-(b.room_id?0:1)||b.id-a.id);return L[0]||null;}
+function renderBoard(){
+  if(!BSTART)BSTART=isoD(new Date());
+  const rooms=((CFG&&CFG.rooms)||[]).filter(x=>x.active!==false),hol=holSet(),T=isoD(new Date());
+  const days=[];for(let i=0;i<BDAYS;i++)days.push(addD(BSTART,i));
+  const live=ALL.filter(r=>r.status!=='cancelled');
+  let booked=0;const freeByDay=days.map(()=>0);
+  const rowsHTML=rooms.map(rm=>{let html='',i=0;
+    while(i<days.length){const d=days[i];const r=live.find(x=>x.room_id===rm.id&&x.checkin<=d&&x.checkout>d);
+      if(!r){freeByDay[i]++;const o=ovrOn(rm.id,d);html+=`<td class="bd-free${d<T?' past':''}" onclick="boardEmpty('${rm.id}','${d}')" title="${o?(o.label||'특별 요금'):''}">${o?'<i class="bd-sp"></i>':''}<span>+</span></td>`;i++;continue;}
+      let span=1;while(i+span<days.length&&r.checkout>days[i+span])span++;
+      if(r.source!=='block')booked+=span;
+      const cls=r.source==='block'?'blk':r.status==='requested'?'req':'con';
+      const lab=r.source==='block'?(r.memo||r.guest_name||'판매중지'):(r.guest_name||'')+(r.guests?' '+r.guests+'명':'');
+      const cont=r.checkin<d?'<em>◀</em>':'';
+      html+=`<td colspan="${span}" class="bd-bk"><div class="bd-bar ${cls}" onclick="openDetail(${r.id})" title="${fdate(r.checkin)}~${fdate(r.checkout)} ${lab}">${cont}${lab}${r.source==='block'?'':'<small>'+srcLabel(r)+'</small>'}</div></td>`;
+      i+=span;}
+    return `<tr><th class="bd-room">${rm.name}</th>${html}</tr>`;}).join('');
+  const head=days.map(d=>{const x=new Date(d+'T00:00'),w=x.getDay(),o=((CFG&&CFG.overrides)||[]).find(v=>d>=v.d_from&&d<=v.d_to);
+    return `<th class="bd-day${w===6?' sat':''}${w===0||hol.has(d)?' sun':''}${d===T?' today':''}">${x.getMonth()+1}/${x.getDate()}<span>${WD[w]}${hol.has(d)?' 공휴일':''}</span>${o?'<b class="bd-ovr" title="'+(o.label||'')+'">'+(o.label||'특가')+'</b>':''}</th>`;}).join('');
+  const occ=rooms.length?Math.round(booked/(rooms.length*days.length)*100):0;
+  el('viewBoard').innerHTML=`
+    <div class="bd-tools">
+      <button class="mini" onclick="BSTART=addD(BSTART,-7);renderBoard()">◀ 1주</button>
+      <button class="mini" onclick="BSTART=isoD(new Date());renderBoard()">오늘</button>
+      <button class="mini" onclick="BSTART=addD(BSTART,7);renderBoard()">1주 ▶</button>
+      <input type="date" value="${BSTART}" onchange="BSTART=this.value||BSTART;renderBoard()" class="bd-date">
+      <span class="bd-seg"><button class="mini ${BDAYS===14?'pri':''}" onclick="BDAYS=14;renderBoard()">2주</button><button class="mini ${BDAYS===31?'pri':''}" onclick="BDAYS=31;renderBoard()">한 달</button></span>
+      <span class="bd-occ">이 기간 객실 가동률 <b>${occ}%</b></span>
+    </div>
+    <div class="bd-legend"><span class="bd-bar con">확정</span><span class="bd-bar req">입금대기</span><span class="bd-bar blk">판매중지</span><span><i class="bd-sp"></i> 특별 요금 날</span><span>빈칸을 누르면 수기 예약·판매중지</span></div>
+    <div class="card bd-wrap"><table class="bd">
+      <thead><tr><th class="bd-room">객실</th>${head}</tr></thead>
+      <tbody>${rowsHTML}</tbody>
+      <tfoot><tr><th class="bd-room">남은 방</th>${freeByDay.map((n,i)=>`<td class="bd-left${n===0?' full':''}">${n===0?'만실':n}</td>`).join('')}</tr></tfoot>
+    </table></div>`;
+}
+window.boardEmpty=function(rid,d){
+  el('modalHost').innerHTML=`<div class="ov" id="ov"><div class="modal" style="max-width:380px">
+    <h3>${roomName(rid)} · ${fdate(d)}</h3>
+    <div class="d" style="color:var(--sub);font-size:.88rem;margin-bottom:14px">이 날짜로 무엇을 넣을까요?</div>
+    <div style="display:flex;flex-direction:column;gap:8px">
+      <button class="btn" id="beAdd">수기 예약 등록 (전화·네이버·야놀자 등)</button>
+      <button class="btn line" id="beBlock">판매중지 (정비·개인 사용)</button>
+      <button class="btn line" id="beClose">닫기</button></div></div></div>`;
+  el('ov').addEventListener('click',e=>{if(e.target.id==='ov')el('modalHost').innerHTML='';});
+  el('beClose').onclick=()=>el('modalHost').innerHTML='';
+  el('beAdd').onclick=()=>{openAddModal();el('mRoom').value=rid;el('mCi').value=d;el('mCo').value=addD(d,1);};
+  el('beBlock').onclick=()=>{openBlockModal();el('bRoom').value=rid;el('bCi').value=d;el('bCo').value=addD(d,1);};
+};
+
+/* ===== 손님 개별 문자 ===== */
+const QUICK_SMS=[
+  ['오시는 길','[히든벨리 펜션] {이름}님, 오시는 길 안내드립니다.\n주소: 전남 곡성군 곡성읍 서계길 73-30\n내비게이션에 「히든벨리 샤브」를 검색하시면 됩니다.\n입실은 오후 3시부터입니다.\n문의 {전화}'],
+  ['도착 시간 확인','[히든벨리 펜션] {이름}님, {입실} {객실} 예약 확인드립니다.\n도착 예정 시간을 답장으로 알려주시면 맞춰 준비해 두겠습니다.\n문의 {전화}'],
+  ['늦은 입실','[히든벨리 펜션] {이름}님, 늦게 도착하셔도 괜찮습니다.\n도착 30분 전에 {전화}로 연락 주시면 입실을 안내해 드리겠습니다.'],
+  ['비 소식','[히든벨리 펜션] {이름}님, {입실} 곡성에 비 소식이 있습니다.\n비가 오면 계곡 물이 불어날 수 있으니 물놀이는 피해 주시고, 오시는 길 운전 조심하세요.\n문의 {전화}'],
+  ['식사 안내','[히든벨리 펜션] {이름}님, 펜션 바로 옆 1관 히든벨리 샤브, 2관 히든벨리 갈비에서 식사하실 수 있습니다(월요일 휴무).\n미리 인원을 알려주시면 자리를 잡아 두겠습니다.\n문의 {전화}'],
+  ['리뷰 부탁','[히든벨리 펜션] {이름}님, 히든벨리에 머물러 주셔서 감사합니다.\n지내시면서 좋았던 점을 네이버 리뷰로 남겨 주시면 큰 힘이 됩니다.\n{리뷰}'],
+  ['직접 쓰기','[히든벨리 펜션] {이름}님, ']
+];
+function fillQuick(tpl,r){const s=(CFG&&CFG.settings)||{};const d=new Date(r.checkin+'T00:00');
+  return tpl.replace(/\{이름\}/g,r.guest_name||'고객').replace(/\{객실\}/g,grpRooms(r)).replace(/\{입실\}/g,(d.getMonth()+1)+'/'+d.getDate()+'('+WD[d.getDay()]+')')
+    .replace(/\{전화\}/g,s.phone||'010-3469-9780').replace(/\{리뷰\}/g,s.naver_place||'https://hiddenvalley.kr');}
+window.openSmsModal=function(id){const r=ALL.find(x=>x.id===id);if(!r)return;
+  if(!okPhone(r.guest_phone)){toast('휴대폰 번호가 아니라 문자를 보낼 수 없습니다');return;}
+  el('modalHost').innerHTML=`<div class="ov" id="ov"><div class="modal">
+    <h3 style="margin-bottom:4px">손님께 문자 보내기</h3>
+    <div class="d" style="font-size:.85rem;color:var(--sub);margin-bottom:10px">${r.guest_name||''} · <b>${r.guest_phone}</b> · ${fdate(r.checkin)} ${grpRooms(r)}</div>
+    <div class="qs">${QUICK_SMS.map((q,i)=>`<button class="mini" data-i="${i}">${q[0]}</button>`).join('')}</div>
+    <textarea id="csTxt" rows="9" style="width:100%;font:inherit;font-size:.92rem;padding:12px;border:1px solid var(--line);border-radius:10px;line-height:1.6;margin-top:10px">${fillQuick(QUICK_SMS[0][1],r).replace(/</g,'&lt;')}</textarea>
+    <div style="font-size:.78rem;color:var(--faint);margin-top:4px" id="csLen"></div>
+    <div class="foot" style="margin-top:14px"><button class="btn" id="csSend">문자 보내기</button><button class="btn line" id="csClose">닫기</button></div></div></div>`;
+  const len=()=>{const b=new TextEncoder().encode(el('csTxt').value).length;el('csLen').textContent=b>90?'장문(약 45원)':'단문(약 18원)';};len();
+  document.querySelectorAll('.qs .mini').forEach(b=>b.onclick=()=>{el('csTxt').value=fillQuick(QUICK_SMS[+b.dataset.i][1],r);len();el('csTxt').focus();});
+  el('csTxt').addEventListener('input',len);
+  el('ov').addEventListener('click',e=>{if(e.target.id==='ov')el('modalHost').innerHTML='';});
+  el('csClose').onclick=()=>el('modalHost').innerHTML='';
+  el('csSend').onclick=async()=>{const b=el('csSend');b.disabled=true;b.textContent='보내는 중…';
+    try{const x=await api('admin.sms_custom',{id:r.id,text:el('csTxt').value});
+      if(x&&x.ok===false){toast(x.error||'실패');b.disabled=false;b.textContent='문자 보내기';return;}
+      toast('문자를 보냈습니다');openDetail(r.id);}
+    catch(e){toast('오류가 발생했습니다');b.disabled=false;b.textContent='문자 보내기';}};
+};
+const SMSK2={new_guest:'예약 접수 안내',new_owner:'사장님 알림',confirm:'확정 안내',cancel:'취소 안내',remind:'전날 안내',unpaid:'자동 입금 안내',pay_request:'입금 요청',custom:'개별 문자'};
+async function loadResHistory(id){const box=el('dHist');if(!box)return;
+  try{const h=await api('admin.res_history',{id});if(!h||h.ok===false){box.innerHTML='';return;}
+    const items=[...(h.history||[]).map(x=>({ts:x.ts,t:'<b>'+x.actor+'</b> '+x.change})),
+      ...(h.sms||[]).map(x=>({ts:x.ts,t:'문자 · '+(SMSK2[x.kind]||x.kind)+' '+(x.ok===true?'<b class="pf-ok">전달됨</b>':x.ok===false?'<b class="pf-bad">실패</b>':'<b>전송 중</b>')}))]
+      .sort((a,b)=>new Date(b.ts)-new Date(a.ts));
+    if(!el('dHist'))return;
+    box.innerHTML=items.length?'<div class="dh-t">변경 · 문자 기록</div>'+items.map(x=>{const d=new Date(x.ts);return `<div class="dh-r"><span>${fday(x.ts).slice(5)} ${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}</span><span>${x.t}</span></div>`;}).join(''):'<div class="dh-t">변경 · 문자 기록</div><div class="tempty">기록 없음 (11/17 이전 변경은 남아 있지 않습니다)</div>';
+  }catch(e){box.innerHTML='';}}
+
+/* ===== 특정 날짜 요금 ===== */
+function ovrHTML(){const L=(CFG&&CFG.overrides)||[];const rooms=(CFG&&CFG.rooms)||[];
+  const list=L.length?L.map(o=>`<div class="optrow" style="align-items:center"><span style="min-width:190px"><b>${o.label||'특별 요금'}</b><br><small style="color:var(--sub)">${fdate(o.d_from)}${o.d_to!==o.d_from?' ~ '+fdate(o.d_to):''} 숙박</small></span>
+      <span style="flex:1">${o.room_id?roomName(o.room_id):'모든 객실'} · ${o.price!=null?'1박 '+won(o.price)+'원':(o.pct>0?'평소보다 +'+o.pct+'%':'평소보다 '+o.pct+'%')}</span>
+      <button class="mini dang" onclick="delOverride(${o.id})">삭제</button></div>`).join(''):'<div style="color:var(--faint);font-size:.85rem;padding:6px 0">등록된 특별 요금이 없습니다.</div>';
+  return `<div class="sec"><h3>특정 날짜 요금</h3><div class="d">크리스마스·연말처럼 특정 날짜만 요금을 따로 정합니다. 홈페이지 견적과 예약 금액에 바로 반영됩니다. (객실 지정이 전체보다 먼저 적용)</div>
+    <div class="opt-list">${list}</div>
+    <div class="optnew" style="flex-wrap:wrap">
+      <input type="date" id="ovFrom" title="시작 숙박일"><input type="date" id="ovTo" title="마지막 숙박일">
+      <select id="ovRoom" style="padding:.5em;border:1px solid var(--line);border-radius:8px"><option value="">모든 객실</option>${rooms.map(x=>`<option value="${x.id}">${x.name}</option>`).join('')}</select>
+      <select id="ovMode" style="padding:.5em;border:1px solid var(--line);border-radius:8px"><option value="price">1박 금액</option><option value="pct">평소 대비 %</option></select>
+      <input type="text" id="ovVal" placeholder="예: 300,000 또는 20, -10" style="max-width:150px">
+      <input type="text" id="ovLabel" placeholder="이름(예: 크리스마스)" style="max-width:160px">
+      <button class="mini pri" onclick="addOverride()">+ 추가</button></div>
+    <div class="d" style="margin-top:6px">날짜는 <b>숙박하는 밤</b> 기준입니다. 12/24~12/25 두 밤이면 시작 12/24, 끝 12/25. 퍼센트는 평소 요금에서 올리거나(20) 내리고(-10) 천 원 단위로 맞춥니다.</div></div>`;}
+window.addOverride=async function(){const f=el('ovFrom').value,to=el('ovTo').value||f,mode=el('ovMode').value,v=el('ovVal').value.trim();
+  if(!f||!v){toast('날짜와 값을 넣으세요');return;}
+  const p={d_from:f,d_to:to,room_id:el('ovRoom').value,label:el('ovLabel').value.trim()};
+  if(mode==='price')p.price=v.replace(/[^0-9]/g,'');else{const n=parseInt(v.replace(/[^0-9-]/g,''),10);if(isNaN(n)){toast('퍼센트를 숫자로 넣으세요');return;}p.pct=n;}
+  try{const r=await api('admin.set_override',p);if(r&&r.ok===false){toast(r.error||'실패');return;}CFG=await api('admin.config');renderSettings();toast('특별 요금을 넣었습니다');}catch(e){toast('오류가 발생했습니다');}};
+window.delOverride=async function(id){if(!confirm('이 특별 요금을 지울까요? 평소 요금으로 돌아갑니다.'))return;
+  try{await api('admin.del_override',{id});CFG=await api('admin.config');renderSettings();toast('지웠습니다');}catch(e){toast('오류가 발생했습니다');}};
+
+/* ===== 월 정산표 ===== */
+let SETTLE_M=null;
+function feeRates(){try{return JSON.parse((CFG&&CFG.settings&&CFG.settings.fee_rates)||'{}')||{};}catch(_){return {};}}
+function settleRows(m){return ALL.filter(r=>r.status==='confirmed'&&r.source!=='block'&&(r.checkin||'').slice(0,7)===m).sort((a,b)=>a.checkin<b.checkin?-1:1);}
+function settleHTML(){if(!SETTLE_M)SETTLE_M=isoD(new Date()).slice(0,7);
+  const rows=settleRows(SETTLE_M),fr=feeRates(),by={};
+  rows.forEach(r=>{const k=srcLabel(r);by[k]=by[k]||{n:0,nights:0,sales:0};by[k].n++;by[k].nights+=r.nights||0;by[k].sales+=+r.total_price||0;});
+  const keys=Object.keys(by).sort((a,b)=>by[b].sales-by[a].sales);let tS=0,tF=0,tN=0,tNt=0;
+  const body=keys.map(k=>{const rate=+fr[k]||0,fee=Math.round(by[k].sales*rate/100);tS+=by[k].sales;tF+=fee;tN+=by[k].n;tNt+=by[k].nights;
+    return `<tr><td>${k}</td><td class="r">${by[k].n}건</td><td class="r">${by[k].nights}박</td><td class="r">${won(by[k].sales)}</td>
+      <td class="r"><input class="feein" data-k="${k}" value="${rate||''}" placeholder="0" inputmode="decimal">%</td><td class="r">${won(fee)}</td><td class="r"><b>${won(by[k].sales-fee)}</b></td></tr>`;}).join('');
+  const [yy,mm]=SETTLE_M.split('-');
+  return `<div class="sec" id="settleSec"><h3>월 정산표</h3><div class="d">확정 예약 · 입실일 기준. 경로별 수수료율을 넣으면 순매출이 계산되고, 엑셀로 내려받을 수 있습니다.</div>
+    <div class="bd-tools" style="margin:12px 0"><input type="month" value="${SETTLE_M}" onchange="SETTLE_M=this.value||SETTLE_M;renderStats()" class="bd-date">
+      <button class="mini" onclick="saveFees()">수수료율 저장</button><button class="mini pri" onclick="downloadSettle()">${+mm}월 정산표 엑셀로 받기</button></div>
+    <div class="tblscroll"><table class="stl"><thead><tr><th>예약 경로</th><th class="r">건수</th><th class="r">숙박</th><th class="r">매출</th><th class="r">수수료율</th><th class="r">수수료</th><th class="r">순매출</th></tr></thead>
+    <tbody>${body||'<tr><td colspan="7" style="color:var(--faint)">이 달 확정 예약이 없습니다.</td></tr>'}</tbody>
+    ${keys.length?`<tfoot><tr><th>합계</th><th class="r">${tN}건</th><th class="r">${tNt}박</th><th class="r">${won(tS)}</th><th></th><th class="r">${won(tF)}</th><th class="r">${won(tS-tF)}</th></tr></tfoot>`:''}</table></div></div>`;}
+window.saveFees=async function(){const fr=feeRates();document.querySelectorAll('.feein').forEach(i=>{const v=parseFloat(i.value);if(isNaN(v)||v<=0)delete fr[i.dataset.k];else fr[i.dataset.k]=v;});
+  try{await api('admin.set_settings',{items:{fee_rates:JSON.stringify(fr)}});CFG=await api('admin.config');renderStats();toast('수수료율을 저장했습니다');}catch(e){toast('저장 오류');}};
+window.downloadSettle=function(){const rows=settleRows(SETTLE_M),fr=feeRates();
+  const q=v=>{v=String(v==null?'':v);return /[",\n]/.test(v)?'"'+v.replace(/"/g,'""')+'"':v;};
+  const L=[['입실','퇴실','박','객실','예약자','연락처','인원','예약 경로','매출','수수료율(%)','수수료','순매출','메모'].join(',')];
+  let tS=0,tF=0;rows.forEach(r=>{const k=srcLabel(r),rate=+fr[k]||0,fee=Math.round((+r.total_price||0)*rate/100);tS+=+r.total_price||0;tF+=fee;
+    L.push([r.checkin,r.checkout,r.nights,roomName(r.room_id),r.guest_name,r.guest_phone,r.guests,k,r.total_price,rate,fee,(+r.total_price||0)-fee,r.memo||''].map(q).join(','));});
+  L.push(['합계','','','','','','','',tS,'',tF,tS-tF,''].map(q).join(','));
+  const blob=new Blob(['\ufeff'+L.join('\r\n')],{type:'text/csv;charset=utf-8'});const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);a.download='히든벨리_정산_'+SETTLE_M+'.csv';document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove();},500);};
 /* ===== 공지사항 관리 ===== */
 let NSTAGE=[];
 function nGet(){try{return JSON.parse((CFG&&CFG.settings&&CFG.settings.notices_json)||'[]')||[];}catch(_){return [];}}
@@ -721,6 +930,7 @@ function renderStats(){
     <div class="sec"><h3>객실별 매출 (확정)</h3>
       <div class="bars">${roomIds.length?roomIds.map(k=>`<div class="bar-row"><span class="bar-m">${roomName(k)}</span><div class="bar-track"><div class="bar-fill r" style="width:${Math.round(byRoom[k].sales/maxR*100)}%"></div></div><span class="bar-v">${won(byRoom[k].sales)} <em>(${byRoom[k].cnt}건)</em></span></div>`).join(''):'<div class="d">확정 예약이 없습니다.</div>'}</div>
     </div>`;
+  el('viewStats').insertAdjacentHTML('beforeend',settleHTML());
 }
 
 /* ===== 예약 목록 ===== */
@@ -792,7 +1002,7 @@ window.openDetail=function(id){
   const created=new Date(r.created_at);const cstr=`${fday(r.created_at)} ${String(created.getHours()).padStart(2,'0')}:${String(created.getMinutes()).padStart(2,'0')}`;
   const row=(k,v)=>`<div class="dtl-row"><span class="dtl-k">${k}</span><span class="dtl-v">${v}</span></div>`;
   const statusActs=r.status==='cancelled'?'':((r.status==='requested'?`<button class="btn" onclick="detailAct(${r.id},'confirmed')">입금 확인 → 확정</button>`:'')+`<button class="btn line dang2" onclick="detailAct(${r.id},'cancelled')">예약 취소</button>`);
-  const acts=statusActs+`<button class="btn line" onclick="openEditModal(${r.id})">수정</button><button class="btn line dang2" onclick="deleteReservation(${r.id})">삭제</button>`;
+  const acts=statusActs+(r.source!=='block'&&okPhone(r.guest_phone)?`<button class="btn line" onclick="openSmsModal(${r.id})">문자 보내기</button>`:'')+`<button class="btn line" onclick="openEditModal(${r.id})">수정</button><button class="btn line dang2" onclick="deleteReservation(${r.id})">삭제</button>`;
   el('modalHost').innerHTML=`<div class="ov" id="ov"><div class="modal">
     <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px"><span class="pill ${st[1]}">${st[0]}</span><h3 style="margin:0">예약 상세 #${r.id}</h3></div>
     <div class="dtl">
@@ -810,10 +1020,12 @@ window.openDetail=function(id){
       ${row('개인정보 동의',r.agree_privacy?'동의':'—')}
       ${row('마케팅 수신',r.agree_marketing?'동의':'미동의')}
     </div>
+    <div id="dHist" class="dhist"></div>
     <div class="foot" style="margin-top:18px">${acts}<button class="btn line" id="dClose">닫기</button></div>
   </div></div>`;
   el('ov').addEventListener('click',e=>{if(e.target.id==='ov')el('modalHost').innerHTML='';});
   el('dClose').onclick=()=>el('modalHost').innerHTML='';
+  loadResHistory(r.id);
 };
 // 단체 예약이면 묶인 객실을 한 번에 처리(문자는 한 통만 나감)
 async function applyStatus(id,status){const label=status==='confirmed'?'입금확인(확정)':'취소';const r0=ALL.find(x=>x.id===id);
@@ -956,6 +1168,7 @@ function renderSettings(){
         <button class="mini pri" onclick="addHoliday()">+ 공휴일 추가</button>
       </div>
     </div>
+    ${ovrHTML()}
     <details class="sec" data-id="__gallery__" ${openRooms.has('__gallery__')?'open':''} ontoggle="onRoomToggle('__gallery__',this)" style="cursor:pointer">
       <summary style="list-style:none"><h3 style="display:inline">대문·전경·갤러리 사진</h3> ${chevSvg()}<div class="d" style="margin-top:6px">객실에 속하지 않는 홈페이지 사진들입니다 (맨 위 대문, 계곡 전경, 갤러리 추가컷).</div></summary>
       <div class="pgrid-in" style="margin-top:14px">${GALLERY_SLOTS.map(([s,l])=>photoCard(s,l)).join('')}</div>
