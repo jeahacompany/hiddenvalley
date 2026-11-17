@@ -268,6 +268,22 @@ tbody tr:last-child td{border-bottom:none}tbody tr:hover{background:var(--panel2
 .rb.req{background:var(--req-bg)}.rb.req span{color:var(--req)}.rb.stay{background:#eef4e8}.rb.stay span{color:var(--moss)}
 .rb.out{background:#fbf3ea}.rb.out span{color:var(--clay-d)}.rb.blk{background:var(--line2)}.rb.blk span{color:var(--sub)}
 @media(max-width:820px){.tiles.t4{grid-template-columns:repeat(2,1fr)}.tcols{grid-template-columns:1fr;gap:0}.tr-act{margin-left:0;width:100%}.tr-act .mini{flex:1}}
+
+/* ===== 입금대기 줄 ===== */
+.prow{background:#fff;border:1px solid #f0dcc6;border-radius:12px;margin-top:10px;padding:12px 14px;display:grid;grid-template-columns:1fr auto;gap:8px 14px;align-items:center}
+.tsec .prow{border-color:var(--line)}
+.prow.urg{border-color:#e7a46e;box-shadow:inset 3px 0 0 #d9772f}
+.pr-main{display:flex;flex-wrap:wrap;align-items:center;gap:6px 12px;cursor:pointer;font-size:.93rem;grid-column:1}
+.pr-room{font-size:.98rem}.pr-amt{font-weight:700;color:var(--clay-d);font-variant-numeric:tabular-nums}
+.pr-facts{grid-column:1;display:flex;flex-wrap:wrap;gap:4px 18px;font-size:.83rem;color:var(--ink)}
+.pr-facts em{font-style:normal;color:var(--faint);margin-right:6px}
+.pr-dd{display:inline-block;margin-left:4px;padding:0 .45em;border-radius:6px;background:var(--line2);font-size:.78rem}
+.prow.urg .pr-dd{background:#fbe1cc;color:#b4541a}
+.pf-ok{color:var(--moss)}.pf-bad{color:#b4541a;font-weight:700}.pf-none{color:var(--faint)}
+.pr-act{grid-column:2;grid-row:1/span 2;display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}
+.pr-act .mini[disabled]{opacity:.4;cursor:not-allowed}
+.pr-act .mini{white-space:nowrap}
+@media(max-width:820px){.prow{grid-template-columns:1fr}.pr-act{grid-column:1;grid-row:auto;justify-content:stretch}.pr-act .mini{flex:1;padding:.55em .4em}}
 </style>
 </head>
 <body>
@@ -329,7 +345,7 @@ const SB=supabase.createClient('https://epxjjvowhlxaksviyhus.supabase.co','sb_pu
 const el=id=>document.getElementById(id);
 const won=n=>Number(n||0).toLocaleString('ko-KR');
 let TOKEN=localStorage.getItem('gs_admin_token')||null;
-let ALL=[],CFG=null,PHOTOS={},VIEW='today',FILTER='all',PERIOD='all',Q='',calRef=new Date();
+let RES_SMS={};let ALL=[],CFG=null,PHOTOS={},VIEW='today',FILTER='all',PERIOD='all',Q='',calRef=new Date();
 function roomName(id){const r=(CFG&&CFG.rooms||[]).find(x=>x.id===id);return r?r.name:id;}
 function todayStr(){return fday(new Date());}
 function periodMatch(created){if(PERIOD==='all')return true;const d=fday(created),t=new Date();t.setHours(0,0,0,0);const cd=new Date(created);cd.setHours(0,0,0,0);
@@ -364,6 +380,7 @@ async function loadAll(){
   try{ALL=await api('admin.reservations')||[];}catch(e){logout();return;}
   if(ALL&&ALL.ok===false){logout();return;}
   try{CFG=await api('admin.config');}catch(e){CFG=null;}
+  try{RES_SMS=await api('admin.res_sms')||{};if(RES_SMS.ok===false)RES_SMS={};}catch(e){RES_SMS={};}
   try{PHOTOS=await api('photos')||{};}catch(e){PHOTOS={};}
   renderView();
 }
@@ -382,27 +399,59 @@ function tRow(r,extra){const st=ST[r.status]||[r.status,''];const ph=(r.guest_ph
   return `<div class="trow" onclick="openDetail(${r.id})"><span class="pill ${st[1]}">${st[0]}</span>
     <b class="tr-room">${roomName(r.room_id)}</b><span class="tr-who">${r.guest_name||''} · ${r.guests||'-'}명</span>
     <a class="tr-ph" href="tel:${ph}" onclick="event.stopPropagation()">${r.guest_phone||''}</a>${extra||''}</div>`;}
+function dDays(iso){const n=new Date();n.setHours(0,0,0,0);return Math.round((new Date(iso+'T00:00')-n)/864e5);}
+function agoTxt(ts){const h=hoursAgo(ts);if(h<1)return '방금';if(h<24)return h+'시간 전';return Math.floor(h/24)+'일 전';}
+function okPhone(p){const d=(p||'').replace(/[^0-9]/g,'');return /^01[016789][0-9]{7,8}$/.test(d)&&!/^01[016789]0{3,4}/.test(d)&&!/^01[016789](\d)\1{6,7}$/.test(d);}
+// 같은 손님이 같은 날짜로 여러 방을 잡은 것(단체 예약 포함)은 한 줄로
+function payGroups(list){const m=new Map();list.forEach(r=>{const k=r.grp?'g:'+r.grp:'p:'+(r.guest_phone||'').replace(/[^0-9]/g,'')+'|'+r.checkin+'|'+r.checkout+'|'+(r.guest_name||'');
+    if(!m.has(k))m.set(k,[]);m.get(k).push(r);});
+  return [...m.values()].map(rs=>{rs.sort((a,b)=>a.id-b.id);return {rs,ids:rs.map(x=>x.id),r:rs[0],rooms:rs.map(x=>roomName(x.room_id)).join(', '),
+    total:rs.reduce((s,x)=>s+(+x.total_price||0),0),guests:rs.reduce((s,x)=>s+(+x.guests||0),0),
+    created:rs.reduce((a,x)=>new Date(x.created_at)<new Date(a)?x.created_at:a,rs[0].created_at)};})
+   .sort((a,b)=>a.r.checkin<b.r.checkin?-1:a.r.checkin>b.r.checkin?1:0);}
+const SMSK={new_guest:'접수 안내',unpaid:'자동 입금 안내',pay_request:'입금 요청'};
+function smsFact(g){if(!okPhone(g.r.guest_phone))return '<span class="pf-bad">휴대폰 번호가 아니라 문자 불가 · 번호 확인 필요</span>';
+  const L=[];g.ids.forEach(id=>(RES_SMS[id]||[]).forEach(x=>L.push(x)));L.sort((a,b)=>new Date(b.ts)-new Date(a.ts));
+  const asks=L.filter(x=>x.kind!=='new_guest'&&x.ok!==false).length;
+  if(!L.length)return '<span class="pf-none">아직 보낸 입금 문자 없음</span>';
+  const x=L[0],d=new Date(x.ts),when=fday(x.ts).slice(5)+' '+String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0');
+  const st=x.ok===true?'<b class="pf-ok">전달됨</b>':x.ok===false?'<b class="pf-bad">실패</b>':'<b>전송 중</b>';
+  return `${SMSK[x.kind]||x.kind} ${when} ${st}${asks?' · 입금 문자 '+asks+'번':''}`;}
+function payRow(g){const r=g.r,ph=(r.guest_phone||'').replace(/[^0-9]/g,''),dd=dDays(r.checkin);
+  const ddTxt=dd<0?'입실일 지남':dd===0?'오늘 입실':'D-'+dd;const urg=dd<=3;const ids=JSON.stringify(g.ids);
+  return `<div class="prow${urg?' urg':''}">
+    <div class="pr-main" onclick="openDetail(${r.id})"><span class="pill p-req">입금대기</span><b class="pr-room">${g.rooms}</b>
+      <span>${r.guest_name||''} · ${g.guests||'-'}명</span><a class="tr-ph" href="tel:${ph}" onclick="event.stopPropagation()">${r.guest_phone||''}</a>
+      <span class="pr-amt">${won(g.total)}원</span></div>
+    <div class="pr-facts">
+      <span><em>입실</em>${fdate(r.checkin)} <b class="pr-dd">${ddTxt}</b></span>
+      <span><em>신청</em>${fday(g.created).slice(5)} · ${agoTxt(g.created)}</span>
+      <span><em>문자</em>${smsFact(g)}</span></div>
+    <div class="pr-act">
+      <button class="mini" ${okPhone(r.guest_phone)?'':'disabled'} onclick='payAsk(${ids})'>입금 요청 문자</button>
+      <button class="mini pri" onclick='statusMany(${ids},"confirmed")'>입금확인</button>
+      <button class="mini dang" onclick='statusMany(${ids},"cancelled")'>취소</button></div></div>`;}
 function renderToday(){
   const now=new Date(),T=isoD(now),TM=isoD(new Date(now.getFullYear(),now.getMonth(),now.getDate()+1));
   const live=ALL.filter(r=>r.source!=='block'&&r.status!=='cancelled');
   const blocks=ALL.filter(r=>r.source==='block'&&r.status!=='cancelled'&&r.checkin<=T&&r.checkout>T);
   const inT=live.filter(r=>r.checkin===T),outT=live.filter(r=>r.checkout===T),stay=live.filter(r=>r.checkin<T&&r.checkout>T),inTm=live.filter(r=>r.checkin===TM);
-  const unpaid=live.filter(r=>r.status==='requested'&&r.checkout>=T).sort((a,b)=>new Date(a.created_at)-new Date(b.created_at));
-  const over=unpaid.filter(r=>hoursAgo(r.created_at)>=24);
+  const unpaid=live.filter(r=>r.status==='requested'&&r.checkout>=T);
+  const groups=payGroups(unpaid);
+  const overG=groups.filter(g=>hoursAgo(g.created)>=24),freshG=groups.filter(g=>hoursAgo(g.created)<24);
   const mon=now.getDay()===1;
-  // 식사(오늘 입실)
   const meals=[];inT.forEach(r=>mealOf(r).forEach(m=>meals.push({r,m})));
   const mealSum={};meals.forEach(({m})=>mealSum[m.name]=(mealSum[m.name]||0)+m.qty);
-  // 객실 판
   const rooms=((CFG&&CFG.rooms)||[]).filter(x=>x.active!==false);
   const board=rooms.map(rm=>{const id=rm.id;let s='빈방',c='free',who='';
     const b=blocks.find(x=>x.room_id===id);const i=inT.find(x=>x.room_id===id);const st=stay.find(x=>x.room_id===id);const o=outT.find(x=>x.room_id===id);
     if(b){s='판매중지';c='blk';}else if(st){s='투숙 중';c='stay';who=st.guest_name;}else if(i){s=o?'퇴실 후 입실':'입실 예정';c=i.status==='requested'?'req':'in';who=i.guest_name+(i.status==='requested'?' (입금대기)':'');}else if(o){s='퇴실 · 청소';c='out';who=o.guest_name;}
     return `<div class="rb ${c}"><b>${rm.name}</b><span>${s}</span><small>${who||'&nbsp;'}</small></div>`;}).join('');
-  const overHTML=over.length?`<div class="tover"><div class="tover-h"><b>신청하고 24시간이 지나도 입금이 없는 예약 ${over.length}건</b>
-      <span>손님께는 신청 3시간 뒤 입금 안내 문자가 자동으로 나갔습니다. 전화로 확인해 보시고, 안 오시면 취소해서 방을 풀어 주세요. 취소하면 손님께 취소 문자가 갑니다.</span></div>
-      ${over.map(r=>tRow(r,`<span class="tr-ago">${fdate(r.checkin)} 입실 · 신청 ${Math.floor(hoursAgo(r.created_at)/24)}일 전</span><span class="tr-act"><button class="mini pri" onclick="event.stopPropagation();setStatus(${r.id},'confirmed')">입금확인</button><button class="mini dang" onclick="event.stopPropagation();setStatus(${r.id},'cancelled')">취소</button></span>`)).join('')}
-      ${over.length>1?`<div style="text-align:right;margin-top:8px"><button class="mini dang" onclick="cancelOverdue()">${over.length}건 모두 취소</button></div>`:''}</div>`:'';
+  const allOverIds=JSON.stringify(overG.flatMap(g=>g.ids));
+  const overHTML=overG.length?`<div class="tover"><div class="tover-h"><b>신청하고 24시간이 지나도 입금이 없는 예약 ${overG.length}건</b>
+      <span>입실이 가까운 순서입니다. 「입금 요청 문자」로 손님께 계좌를 다시 보내고, 연락이 없으면 취소해서 방을 풀어 주세요. 취소하면 손님께 취소 문자가 갑니다.</span></div>
+      ${overG.map(payRow).join('')}
+      ${overG.length>1?`<div style="text-align:right;margin-top:10px"><button class="mini dang" onclick='statusMany(${allOverIds},"cancelled")'>${overG.length}건 모두 취소</button></div>`:''}</div>`:'';
   const sec=(title,list,empty,extra)=>`<div class="sec tsec"><h3>${title} <span class="tcount">${list.length}</span></h3>${list.length?list.map(r=>tRow(r,extra?extra(r):'')).join(''):`<div class="tempty">${empty}</div>`}</div>`;
   const mealExtra=r=>{const m=mealOf(r);return m.length?`<span class="tr-meal">${m.map(x=>x.name+' '+x.qty+'명').join(', ')}</span>`:'';};
   el('viewToday').innerHTML=`
@@ -411,7 +460,7 @@ function renderToday(){
       <div class="tile con"><div class="lab">오늘 입실</div><div class="v">${inT.length}<small> 객실</small></div></div>
       <div class="tile"><div class="lab">오늘 퇴실 · 청소</div><div class="v">${outT.length}<small> 객실</small></div></div>
       <div class="tile"><div class="lab">내일 입실</div><div class="v">${inTm.length}<small> 객실</small></div></div>
-      <div class="tile req"><div class="lab">입금 대기</div><div class="v">${unpaid.length}<small> 건${over.length?' (24시간 넘음 '+over.length+')':''}</small></div></div>
+      <div class="tile req"><div class="lab">입금 대기</div><div class="v">${groups.length}<small> 건${overG.length?' (24시간 넘음 '+overG.length+')':''}</small></div></div>
     </div>
     <div class="sec tsec"><h3>오늘 객실 현황 <span class="tdate">${fdate(T)}</span></h3><div class="rboard">${board||'<div class="tempty">객실 정보가 없습니다.</div>'}</div></div>
     <div class="tcols">
@@ -422,20 +471,44 @@ function renderToday(){
       ${mon?'<div class="tempty">월요일은 1관·2관 휴무라 식사 예약을 받지 않습니다.</div>':(meals.length?`<div class="tmeal-sum">${Object.entries(mealSum).map(([k,v])=>'<b>'+k+' '+v+'명</b>').join(' · ')}</div>`+meals.map(({r,m})=>tRow(r,`<span class="tr-meal">${m.name} ${m.qty}명</span>`)).join(''):'<div class="tempty">오늘 입실 손님 중 식사를 미리 예약한 분이 없습니다.</div>')}
       <div class="tnote">매일 오후 3시에 식당 번호로 오늘 식사 예약이 문자로 갑니다(예약이 없거나 월요일이면 안 보냄). <a href="#" onclick="event.preventDefault();mealPreview()">지금 보낼 내용 보기</a></div>
       <div id="mealPrevBox"></div></div>
-    <div class="tcols">
-      ${sec('내일 입실',inTm,'내일 입실 손님이 없습니다.',mealExtra)}
-      ${sec('입금 대기',unpaid,'입금 대기 예약이 없습니다.',r=>`<span class="tr-ago">${fdate(r.checkin)} 입실 · 신청 ${hoursAgo(r.created_at)<24?hoursAgo(r.created_at)+'시간':Math.floor(hoursAgo(r.created_at)/24)+'일'} 전</span>`)}
-    </div>`;
+    <div class="sec tsec"><h3>입금 대기 (신청 24시간 안) <span class="tcount">${freshG.length}</span></h3>
+      ${freshG.length?freshG.map(payRow).join(''):'<div class="tempty">새로 들어온 입금 대기 예약이 없습니다.</div>'}
+      <div class="tnote">홈페이지로 신청하고 3시간이 지나도 입금이 없으면 손님께 입금 안내 문자가 자동으로 한 번 갑니다(밤 9시~오전 9시 제외).</div></div>
+    ${sec('내일 입실',inTm,'내일 입실 손님이 없습니다.',mealExtra)}`;
 }
+// 입금 요청 문자: 내용 미리 보고 고쳐서 보내기
+window.payAsk=async function(ids){
+  el('modalHost').innerHTML='<div class="ov" id="ov"><div class="modal"><h3>입금 요청 문자</h3><div class="tempty">문구를 불러오는 중…</div></div></div>';
+  let p;try{p=await api('admin.pay_sms_preview',{ids});}catch(e){p={ok:false,error:'오류가 발생했습니다'};}
+  if(!p||p.ok===false){el('modalHost').innerHTML='';toast((p&&p.error)||'불러오기 실패');return;}
+  el('modalHost').innerHTML=`<div class="ov" id="ov"><div class="modal">
+    <h3 style="margin-bottom:4px">입금 요청 문자</h3>
+    <div class="d" style="font-size:.85rem;color:var(--sub);margin-bottom:10px">받는 번호 <b>${p.to}</b> · 보내기 전에 문구를 고칠 수 있습니다. 기본 문구는 설정 → 자동 문자에서 바꿉니다.</div>
+    <textarea id="payTxt" rows="10" style="width:100%;font:inherit;font-size:.92rem;padding:12px;border:1px solid var(--line);border-radius:10px;line-height:1.6">${p.text.replace(/</g,'&lt;')}</textarea>
+    <div style="font-size:.78rem;color:var(--faint);margin-top:4px" id="payLen"></div>
+    <div class="foot" style="margin-top:14px"><button class="btn" id="paySend">문자 보내기</button><button class="btn line" id="payClose">닫기</button></div></div></div>`;
+  const len=()=>{const b=new TextEncoder().encode(el('payTxt').value).length;el('payLen').textContent=(b>90?'장문(약 45원)':'단문(약 18원)');};len();
+  el('payTxt').addEventListener('input',len);
+  el('ov').addEventListener('click',e=>{if(e.target.id==='ov')el('modalHost').innerHTML='';});
+  el('payClose').onclick=()=>el('modalHost').innerHTML='';
+  el('paySend').onclick=async()=>{const b=el('paySend');b.disabled=true;b.textContent='보내는 중…';
+    try{const r=await api('admin.pay_sms_send',{ids,text:el('payTxt').value});
+      if(r&&r.ok===false){toast(r.error||'실패');b.disabled=false;b.textContent='문자 보내기';return;}
+      el('modalHost').innerHTML='';toast('입금 요청 문자를 보냈습니다');
+      setTimeout(async()=>{try{RES_SMS=await api('admin.res_sms')||{};}catch(_){}if(VIEW==='today')renderToday();},5000);
+    }catch(e){toast('오류가 발생했습니다');b.disabled=false;b.textContent='문자 보내기';}};
+};
+// 여러 방(같은 손님) 한 번에 입금확인/취소
+window.statusMany=async function(ids,status){const label=status==='confirmed'?'입금확인(확정)':'취소';
+  const rs=ALL.filter(x=>ids.includes(x.id)&&x.status!==status&&x.status!=='cancelled');if(!rs.length)return;
+  if(!confirm(rs.map(r=>fdate(r.checkin)+' '+roomName(r.room_id)+' '+(r.guest_name||'')).join('\n')+'\n\n'+rs.length+'건을 "'+label+'" 처리할까요?'+(status==='cancelled'?'\n손님께 취소 문자가 갑니다.':'\n손님께 확정 문자가 갑니다.')))return;
+  let n=0;for(const r of rs){try{const x=await api('admin.set_status',{id:r.id,status});if(!(x&&x.ok===false))n++;}catch(e){}}
+  toast(n+'건 '+(status==='confirmed'?'확정':'취소')+' 처리했습니다');await loadAll();};
 window.mealPreview=async function(){const box=el('mealPrevBox');box.innerHTML='<div class="tempty">불러오는 중…</div>';
   try{const r=await api('admin.meal_preview',{});const txt=(r&&r.text)||'';
     box.innerHTML=(txt==='없음'||txt==='월요일 휴무')?'<div class="tempty">오늘은 보낼 식사 예약이 없습니다'+(txt==='월요일 휴무'?'(월요일 휴무)':'')+'.</div>':'<pre class="tprev">'+txt.replace(/</g,'&lt;')+'</pre>';}
   catch(e){box.innerHTML='<div class="tempty">오류가 발생했습니다.</div>';}};
-window.cancelOverdue=async function(){const T=isoD(new Date());
-  const over=ALL.filter(r=>r.source!=='block'&&r.status==='requested'&&r.checkout>=T&&hoursAgo(r.created_at)>=24);
-  if(!over.length)return;if(!confirm(over.length+'건을 모두 취소할까요?\n'+over.map(r=>fdate(r.checkin)+' '+roomName(r.room_id)+' '+(r.guest_name||'')).join('\n')+'\n\n손님께 취소 문자가 갑니다.'))return;
-  let n=0;for(const r of over){try{const x=await api('admin.set_status',{id:r.id,status:'cancelled'});if(!(x&&x.ok===false))n++;}catch(e){}}
-  toast(n+'건 취소했습니다');await loadAll();};
+
 /* ===== 공지사항 관리 ===== */
 let NSTAGE=[];
 function nGet(){try{return JSON.parse((CFG&&CFG.settings&&CFG.settings.notices_json)||'[]')||[];}catch(_){return [];}}
@@ -945,7 +1018,7 @@ window.saveSettings=async function(){
   try{const r=await api('admin.set_settings',{items});if(r&&r.ok===false){toast(r.error||'실패');return;}CFG=await api('admin.config');toast('기본 정보 저장 완료');}catch(e){toast('저장 오류');}};
 
 /* ===== 자동 문자 ===== */
-const SMS_TPL=[['new_guest','예약 접수 (손님)'],['new_owner','새 예약 알림 (사장님)'],['confirm','예약 확정 (손님)'],['cancel','예약 취소 (손님)'],['remind','입실 전날 안내 (손님, 오전 10시)'],['unpaid','입금 안내 (손님, 신청 3시간 뒤에도 입금대기일 때 1번)']];
+const SMS_TPL=[['new_guest','예약 접수 (손님)'],['new_owner','새 예약 알림 (사장님)'],['confirm','예약 확정 (손님)'],['cancel','예약 취소 (손님)'],['remind','입실 전날 안내 (손님, 오전 10시)'],['unpaid','입금 안내 (손님, 신청 3시간 뒤에도 입금대기일 때 1번)'],['pay_request','입금 요청 (관리자가 「입금 요청 문자」 누를 때 기본 문구)']];
 function smsHTML(){const s=(CFG&&CFG.settings)||{};
   return `<div class="sec"><h3>자동 문자</h3>
     <div class="d" style="margin-bottom:12px;line-height:1.8">홈페이지 예약이 들어오면 손님과 사장님께, '입금확인'을 누르면 손님께 확정 문자가 자동으로 갑니다. 입실 전날 오전 10시에는 오시는 길 안내가, 신청 3시간이 지나도 입금이 없으면 입금 안내가 한 번 갑니다(밤 9시~오전 9시엔 안 보냄). 매일 오후 3시에는 오늘 손님 식사 예약이 식당 번호로 갑니다.<br>
