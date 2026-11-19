@@ -80,7 +80,8 @@ header{position:sticky;top:0;z-index:50;background:color-mix(in srgb,var(--paper
 @media(max-width:900px){.navtog{display:flex}}
 @media(min-width:901px){.mnav,.mnav-back{display:none !important}}
 
-.hero{position:relative;min-height:640px;display:flex;align-items:flex-end;background:#26372a url("img/hero-autumn.jpg") center 35%/cover no-repeat;color:#fff}
+.hero{position:relative;min-height:640px;display:flex;align-items:flex-end;background:#26372a url("img/hero-fall.jpg") center 42%/cover no-repeat;color:#fff}
+@media(max-width:720px){.hero{background-image:url("img/hero-fall-m.jpg");background-position:center 40%}}
 .hero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(12,20,14,.42) 0%,rgba(12,20,14,.24) 42%,rgba(11,18,13,.8) 78%,rgba(9,15,10,.94) 100%),linear-gradient(90deg,rgba(9,15,10,.58) 0%,rgba(9,15,10,.2) 52%,transparent 74%)}
 .hero .wrap{position:relative;z-index:2;padding-bottom:54px;padding-top:120px}
 .hero .eyebrow{color:#c7dbb6}
@@ -490,7 +491,7 @@ body.fall .no-fall{display:none}
 .ggal{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
 .ggal img{width:100%;height:100%;aspect-ratio:4/3;object-fit:cover;border-radius:10px;background:var(--line);cursor:zoom-in;display:block}
 .ggal img:first-child{grid-column:span 2;grid-row:span 2}
-@media(max-width:760px){.ggal-wrap{padding:20px 16px}.ggal{grid-template-columns:1fr 1fr;gap:8px}.ggal-h small{display:block;margin:4px 0 0}}
+@media(max-width:760px){.ggal-wrap{padding:20px 16px}.ggal{grid-template-columns:1fr 1fr;gap:8px}.ggal-h small{display:block;margin:4px 0 0}.ggal img:nth-child(n+6){display:none}}
 </style>
 </head>
 <body>
@@ -630,9 +631,13 @@ body.fall .no-fall{display:none}
     <div class="shead">
       <span class="klabel">Gallery</span>
       <h2>원효계곡의 사계</h2>
-      <p>펜션을 감싸는 맑은 계곡과 자연 풍경.</p>
+      <p>펜션을 감싸는 맑은 계곡과 단풍 숲, 하늘에서 본 히든벨리.</p>
     </div>
     <div class="grid4">
+      <img src="img/fall-1.jpg" alt="단풍 든 히든벨리 숲속 데크" loading="lazy">
+      <img src="img/fall-2.jpg" alt="단풍 숲길" loading="lazy">
+      <img src="img/fall-3.jpg" alt="가을 히든벨리" loading="lazy">
+      <img src="img/air-1.jpg" alt="하늘에서 본 히든벨리 펜션과 1관" loading="lazy">
       <img src="img/scene-1.jpg" alt="원효계곡" loading="lazy">
       <img src="img/scene-2.jpg" alt="원효계곡" loading="lazy">
       <img src="img/scene-3.jpg" alt="원효계곡" loading="lazy">
@@ -737,7 +742,7 @@ body.fall .no-fall{display:none}
 <section id="valley" style="padding-top:24px">
   <div class="wrap">
     <div class="hv">
-      <img src="img/scene-3.jpg" alt="" aria-hidden="true">
+      <img src="img/valley-air.jpg" alt="" aria-hidden="true" loading="lazy">
       <div class="txt">
         <div class="eyebrow">히든벨리 가든 · 자고, 먹고, 쉬고</div>
         <h2>히든벨리에서 즐기는 곡성의 하루</h2>
@@ -773,7 +778,21 @@ body.fall .no-fall{display:none}
       </article>
     </div>
     <div class="ggal-wrap">
-      <h4 class="ggal-h">2관 히든벨리 갈비 <small>사진을 누르면 크게 보입니다</small></h4>
+      <h4 class="ggal-h">1관 히든벨리 샤브&amp;카페 <small>사진 9장 · 누르면 크게 보입니다</small></h4>
+      <div class="ggal" id="shabuGal">
+        <img src="img/shabu-1s.jpg" data-full="img/shabu-1.jpg" alt="히든벨리 샤브 한 상" loading="lazy" width="1000" height="750">
+        <img src="img/shabu-2s.jpg" data-full="img/shabu-2.jpg" alt="1관 히든벨리 샤브 홀" loading="lazy" width="560" height="420">
+        <img src="img/shabu-3s.jpg" data-full="img/shabu-3.jpg" alt="채소 셀프바" loading="lazy" width="560" height="420">
+        <img src="img/shabu-4s.jpg" data-full="img/shabu-4.jpg" alt="육수에 담그는 소고기 샤브" loading="lazy" width="560" height="420">
+        <img src="img/shabu-5s.jpg" data-full="img/shabu-5.jpg" alt="샐러드바와 무한리필 안내" loading="lazy" width="560" height="420">
+        <img src="img/shabu-6s.jpg" data-full="img/shabu-6.jpg" alt="샤브용 소고기" loading="lazy" width="560" height="420">
+        <img src="img/shabu-7s.jpg" data-full="img/shabu-7.jpg" alt="따뜻한 요리 코너" loading="lazy" width="560" height="420">
+        <img src="img/shabu-8s.jpg" data-full="img/shabu-8.jpg" alt="2층 히든벨리 카페" loading="lazy" width="560" height="420">
+        <img src="img/shabu-9s.jpg" data-full="img/shabu-9.jpg" alt="카페 창가 디저트" loading="lazy" width="560" height="420">
+      </div>
+    </div>
+    <div class="ggal-wrap">
+      <h4 class="ggal-h">2관 히든벨리 갈비 <small>사진 9장 · 누르면 크게 보입니다</small></h4>
       <div class="ggal" id="galbiGal">
         <img src="img/galbi-1s.jpg" data-full="img/galbi-1.jpg" alt="불판에 굽는 담양식 돼지갈비 한 상" loading="lazy" width="1000" height="750">
         <img src="img/galbi-2s.jpg" data-full="img/galbi-2.jpg" alt="단풍 든 히든벨리 돼지갈비 2관 외관" loading="lazy" width="560" height="420">
@@ -1225,7 +1244,7 @@ function gsLightbox(imgs,start){
 }
 function gsLbGo(d){LB.i=(LB.i+d+LB.imgs.length)%LB.imgs.length;gsLbRender();}
 function gsLbRender(){const ov=document.getElementById('gsLb');ov.querySelector('.lb-img').src=LB.imgs[LB.i];const nav=LB.imgs.length>1;ov.querySelector('.lb-prev').style.display=nav?'':'none';ov.querySelector('.lb-next').style.display=nav?'':'none';ov.querySelector('.lb-dots').textContent=nav?(LB.i+1)+' / '+LB.imgs.length:'';}
-(function(){const g=document.getElementById('galbiGal');if(!g)return;const L=[...g.querySelectorAll('img')];L.forEach((im,i)=>im.addEventListener('click',()=>gsLightbox(L.map(x=>x.dataset.full||x.src),i)));})();
+['shabuGal','galbiGal'].forEach(id=>{const g=document.getElementById(id);if(!g)return;const L=[...g.querySelectorAll('img')];L.forEach((im,i)=>im.addEventListener('click',()=>gsLightbox(L.map(x=>x.dataset.full||x.src),i)));});
 document.querySelectorAll('.rc[data-room]').forEach(card=>{card.style.cursor='zoom-in';card.addEventListener('click',()=>gsLightbox(gsRoomImages(card),0));});
 try{const c=localStorage.getItem('gs_photos');if(c)gsApplyPhotos(JSON.parse(c));}catch(_){}
 api('photos').then(m=>{gsApplyPhotos(m);try{localStorage.setItem('gs_photos',JSON.stringify(m));}catch(_){}}).catch(()=>{});
