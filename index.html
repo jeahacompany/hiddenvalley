@@ -492,6 +492,39 @@ body.fall .no-fall{display:none}
 .ggal img{width:100%;height:100%;aspect-ratio:4/3;object-fit:cover;border-radius:10px;background:var(--line);cursor:zoom-in;display:block}
 .ggal img:first-child{grid-column:span 2;grid-row:span 2}
 @media(max-width:760px){.ggal-wrap{padding:20px 16px}.ggal{grid-template-columns:1fr 1fr;gap:8px}.ggal-h small{display:block;margin:4px 0 0}.ggal img:nth-child(n+6){display:none}}
+
+/* ===== 대문 슬라이드 ===== */
+.hero .hs{position:absolute;inset:0;background-size:cover;background-position:center 42%;background-repeat:no-repeat;opacity:0;transition:opacity 1.6s ease;z-index:0}
+.hero .hs.on{opacity:1}
+.hero-dots{position:absolute;z-index:3;right:28px;bottom:22px;display:flex;gap:8px}
+.hero-dots button{width:26px;height:4px;border-radius:2px;border:0;padding:0;background:rgba(255,255,255,.35);cursor:pointer}
+.hero-dots button.on{background:#fff}
+@media(max-width:720px){.hero-dots{right:16px;bottom:14px}.hero-dots button{width:18px}}
+/* ===== 소개 사진 ===== */
+.iph{display:grid;grid-template-columns:2fr 1fr;grid-template-rows:1fr 1fr;gap:12px;margin-bottom:20px;height:440px}
+.iph img{width:100%;height:100%;object-fit:cover;border-radius:14px;background:var(--line);display:block;min-height:0}
+.iph img:first-child{grid-row:span 2}
+@media(max-width:760px){.iph{height:auto;grid-template-columns:1fr 1fr;grid-template-rows:auto}.iph img:first-child{grid-column:span 2;grid-row:auto;aspect-ratio:16/10}.iph img{aspect-ratio:4/3}}
+/* ===== 공간 사진 띠(화면 끝까지) ===== */
+.band{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;margin-top:40px}
+.band figure{position:relative;margin:0;overflow:hidden;aspect-ratio:16/10;background:var(--line)}
+.band img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .8s ease}
+.band figure:hover img{transform:scale(1.04)}
+.band figcaption{position:absolute;left:0;right:0;bottom:0;padding:38px 22px 16px;color:#fff;font-size:.95rem;font-weight:600;background:linear-gradient(180deg,transparent,rgba(10,18,12,.72))}
+@media(max-width:760px){.band{grid-template-columns:1fr;gap:3px;margin-top:24px}.band figure{aspect-ratio:16/9}}
+/* ===== 리뷰: 점수 카드 사진 배경, 인스타 띠 ===== */
+.rv-score{position:relative;overflow:hidden;background:#143524 url("img/rv-bg.jpg") center/cover no-repeat}
+.rv-score::before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(13,40,26,.86) 0%,rgba(13,40,26,.74) 45%,rgba(10,30,20,.9) 100%)}
+.rv-score>*{position:relative}
+.insta{display:grid;grid-template-columns:300px 1fr;gap:18px;align-items:stretch;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px;text-decoration:none;box-shadow:var(--shadow);transition:.15s}
+.insta:hover{border-color:var(--moss)}
+.insta-t{display:flex;flex-direction:column;padding:12px 12px 12px 14px}
+.insta-t .src{font-size:.8rem;color:var(--clay);font-weight:700}
+.insta-t p{margin:8px 0 0;color:var(--ink);font-size:.95rem;line-height:1.6}
+.insta-t span{margin-top:auto;padding-top:14px;font-size:.88rem;font-weight:700;color:var(--forest)}
+.insta-p{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+.insta-p img{width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:8px;display:block;background:var(--line)}
+@media(max-width:760px){.insta{grid-template-columns:1fr;gap:10px}.insta-p{grid-template-columns:repeat(3,1fr)}.insta-p img:nth-child(n+4){display:none}.insta-t{padding:6px 6px 4px}}
 </style>
 </head>
 <body>
@@ -527,7 +560,7 @@ body.fall .no-fall{display:none}
   <a href="#book" class="btn btn-fill mnav-cta">지금 예약하기</a>
 </nav>
 
-<div class="hero">
+<div class="hero" id="hero">
   <div class="wrap">
     <div class="eyebrow" style="font-size:1rem;letter-spacing:.08em"><span class="no-fall">곡성 섬진강 자락, 원효계곡</span><span class="fall-only">11월 · 곡성 단풍 시즌</span></div>
     <h1 style="font-size:clamp(2.6rem,7.5vw,4.4rem);line-height:1.12;margin:.1em 0 .05em"><span class="no-fall">곡성 계곡을 품은 하룻밤</span><span class="fall-only">계곡에 단풍이 내려앉은 하룻밤</span></h1>
@@ -563,6 +596,11 @@ body.fall .no-fall{display:none}
       <span class="klabel">Why Hidden Valley</span>
       <h2>계곡이 마당이 되는 곳</h2>
       <p>펜션 바로 앞에 흐르는 맑은 원효계곡, 편백나무 향 가득한 객실과 한옥 황토방. 곡성 기차마을·섬진강 레일바이크·도깨비마을이 지척인 여행의 거점입니다.</p>
+    </div>
+    <div class="iph">
+      <img src="img/intro-1.jpg" alt="하늘에서 본 히든벨리 펜션 한옥 객실동" loading="lazy" width="1400" height="900">
+      <img src="img/pyeonbaek-1.jpg" alt="편백 객실" loading="lazy">
+      <img src="img/hwangto-3.jpg" alt="한옥 황토방" loading="lazy">
     </div>
     <div class="feat">
       <div><div class="n">01</div><h3>계곡 물놀이</h3><p>펜션 앞 맑은 원효계곡에서 여름엔 물놀이, 사계절 산책을.</p></div>
@@ -833,31 +871,41 @@ body.fall .no-fall{display:none}
   </div>
 </section>
 
+<div class="band" aria-label="히든벨리 공간">
+  <figure><img src="img/band-1.jpg" alt="1관 히든벨리 샤브 홀" loading="lazy" width="1100" height="680"><figcaption>1관 샤브 · 넓은 홀과 단체석</figcaption></figure>
+  <figure><img src="img/band-2.jpg" alt="2층 히든벨리 카페" loading="lazy" width="1100" height="680"><figcaption>2층 카페 · 통창 너머 숲</figcaption></figure>
+  <figure><img src="img/band-3.jpg" alt="2관 히든벨리 갈비 홀" loading="lazy" width="1100" height="680"><figcaption>2관 갈비 · 단풍이 보이는 창가</figcaption></figure>
+</div>
 <section id="reviews">
   <div class="wrap">
     <div class="shead"><span class="klabel">Reviews</span><h2>다녀간 분들이 남긴 이야기</h2><p>네이버에 실제로 남겨주신 방문 후기 기준입니다.</p></div>
     <div class="rv-grid">
       <div class="rv-score">
-        <span class="n">77</span><span class="l">네이버 방문자 리뷰</span>
-        <span class="n">30</span><span class="l">블로그 후기</span>
+        <span class="n" id="rvVisitor">78</span><span class="l">네이버 방문자 리뷰</span>
+        <span class="n" id="rvBlog">31</span><span class="l">블로그 후기</span>
         <a href="https://m.place.naver.com/restaurant/2095248241/review/visitor" target="_blank" rel="noopener">네이버에서 후기 전체 보기</a>
       </div>
       <div class="rv-kw">
         <h3>방문자들이 가장 많이 고른 한마디</h3>
-        <p class="s">리뷰를 남긴 77명이 직접 고른 키워드입니다</p>
-        <div class="kw"><span>음식이 맛있어요</span><i><b style="width:88%"></b></i><em>68</em></div>
-        <div class="kw"><span>재료가 신선해요</span><i><b style="width:81%"></b></i><em>62</em></div>
-        <div class="kw"><span>매장이 넓어요</span><i><b style="width:53%"></b></i><em>41</em></div>
-        <div class="kw"><span>인테리어가 멋져요</span><i><b style="width:27%"></b></i><em>21</em></div>
-        <div class="kw"><span>친절해요</span><i><b style="width:27%"></b></i><em>21</em></div>
-        <div class="kw"><span>양이 많아요</span><i><b style="width:23%"></b></i><em>18</em></div>
+        <p class="s" id="rvSub">리뷰를 남긴 78명이 직접 고른 키워드입니다</p>
+        <div id="rvKw">
+        <div class="kw"><span>음식이 맛있어요</span><i><b style="width:90%"></b></i><em>70</em></div>
+        <div class="kw"><span>재료가 신선해요</span><i><b style="width:82%"></b></i><em>64</em></div>
+        <div class="kw"><span>매장이 넓어요</span><i><b style="width:54%"></b></i><em>42</em></div>
+        <div class="kw"><span>인테리어가 멋져요</span><i><b style="width:29%"></b></i><em>23</em></div>
+        <div class="kw"><span>친절해요</span><i><b style="width:28%"></b></i><em>22</em></div>
+        <div class="kw"><span>양이 많아요</span><i><b style="width:24%"></b></i><em>19</em></div>
         <div class="kw"><span>매장이 청결해요</span><i><b style="width:19%"></b></i><em>15</em></div>
-        <div class="kw"><span>단체모임 하기 좋아요</span><i><b style="width:17%"></b></i><em>13</em></div>
+        <div class="kw"><span>단체모임 하기 좋아요</span><i><b style="width:18%"></b></i><em>14</em></div>
+        </div>
       </div>
     </div>
-    <div class="reviews">
-      <a class="review js-insta" href="https://www.instagram.com/hiddenvalley.kr/" target="_blank" rel="noopener"><div class="src js-insta-handle">인스타그램 @hiddenvalley.kr</div><p>펜션의 사계절 사진과 소식을 인스타그램에서 보실 수 있습니다</p></a>
-    </div>
+    <a class="insta js-insta" href="https://www.instagram.com/hiddenvalley.kr/" target="_blank" rel="noopener">
+      <div class="insta-t"><div class="src js-insta-handle">인스타그램 @hiddenvalley.kr</div><p>펜션의 사계절 사진과 소식을 인스타그램에서 보실 수 있습니다</p><span>인스타그램 보러 가기</span></div>
+      <div class="insta-p">
+        <img src="img/fall-1.jpg" alt="" loading="lazy"><img src="img/shabu-1s.jpg" alt="" loading="lazy"><img src="img/galbi-1s.jpg" alt="" loading="lazy"><img src="img/air-1.jpg" alt="" loading="lazy"><img src="img/shabu-9s.jpg" alt="" loading="lazy">
+      </div>
+    </a>
     <h3 class="rv-sub">블로그 후기</h3>
     <div class="blogs">
       <a class="blog" href="https://m.blog.naver.com/ab______cd/224471999196" target="_blank" rel="noopener"><b>곡성 맛집 히든벨리 샤브&amp;카페 샤브샤브 무한리필 샤브샤브 카페 모임추천</b><span>네이버 블로그 · 2026.11.10</span></a>
@@ -867,7 +915,7 @@ body.fall .no-fall{display:none}
       <a class="blog" href="https://m.blog.naver.com/libra_531/224463070695" target="_blank" rel="noopener"><b>[곡성 맛집] 곡성 신상 무한리필 샤브샤브 전문점 히든밸리샤브 솔직 방문 후기: 주차, 고기, 육수 꿀팁</b><span>네이버 블로그 · 2026.11.03</span></a>
       <a class="blog" href="https://m.blog.naver.com/happy0463/224458416606" target="_blank" rel="noopener"><b>곡성 샤브샤브 맛집 히든벨리 광주 근교 소고기 무한리필 맛집</b><span>네이버 블로그 · 2026.10.30</span></a>
     </div>
-    <p class="rv-note">* 히든벨리 샤브·갈비·카페·펜션이 함께 등록된 네이버 플레이스 기준 (2026년 11월). 블로그 글은 누르면 작성자 블로그로 이동합니다.</p>
+    <p class="rv-note">* 히든벨리 샤브·갈비·카페·펜션이 함께 등록된 네이버 플레이스 기준 (<span id="rvAt">2026년 11월 19일</span>, 매일 아침 자동 갱신). 블로그 글은 누르면 작성자 블로그로 이동합니다.</p>
   </div>
 </section>
 
@@ -1186,7 +1234,19 @@ loadRooms();loadOptions();loadSettings();loadAvail();
 let GS_SET={};
 function acctStr(){return `${GS_SET.bank_name||'농협'} ${GS_SET.bank_account||'351-9781-9969-53'} (예금주 ${GS_SET.bank_holder||'한다연'})`;}
 async function loadSettings(){try{GS_SET=await api('settings')||{};}catch(_){GS_SET={};}gsApplySettings();}
+function gsApplyReviews(){
+  let d;try{d=JSON.parse(GS_SET.reviews_json||'null');}catch(_){d=null;}
+  if(!d||!(d.visitor>0)||!Array.isArray(d.kw)||d.kw.length<3)return;
+  const $=id=>document.getElementById(id);
+  if($('rvVisitor'))$('rvVisitor').textContent=d.visitor;
+  if($('rvBlog')&&d.blog>0)$('rvBlog').textContent=d.blog;
+  if($('rvSub'))$('rvSub').textContent='리뷰를 남긴 '+d.visitor+'명이 직접 고른 키워드입니다';
+  if($('rvKw')){const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+    $('rvKw').innerHTML=d.kw.slice(0,8).map(k=>'<div class="kw"><span>'+esc(k.n)+'</span><i><b style="width:'+Math.min(100,Math.round(k.c/d.visitor*100))+'%"></b></i><em>'+(+k.c)+'</em></div>').join('');}
+  if($('rvAt')&&/^\d{4}-\d{2}-\d{2}$/.test(d.at||'')){const p=d.at.split('-');$('rvAt').textContent=p[0]+'년 '+(+p[1])+'월 '+(+p[2])+'일';}
+}
 function gsApplySettings(){
+  try{gsApplyReviews();}catch(_){}
   try{
     if(GS_SET.instagram)document.querySelectorAll('a.js-insta').forEach(a=>a.href=GS_SET.instagram);
     document.querySelectorAll('a.js-naver').forEach(a=>{if(GS_SET.naver_place){a.href=GS_SET.naver_place;a.style.display='';}else{a.style.display='none';}});
@@ -1250,5 +1310,21 @@ try{const c=localStorage.getItem('gs_photos');if(c)gsApplyPhotos(JSON.parse(c));
 api('photos').then(m=>{gsApplyPhotos(m);try{localStorage.setItem('gs_photos',JSON.stringify(m));}catch(_){}}).catch(()=>{});
 </script>
 <script>(function(){var v=document.getElementById('filmVid');if(!v||!('IntersectionObserver' in window))return;new IntersectionObserver(function(es){es.forEach(function(e){if(!v.isConnected)return;if(e.isIntersecting){var p=v.play();if(p&&p.catch)p.catch(function(){});}else if(!v.paused)v.pause();});},{threshold:.35}).observe(v);})();</script>
+<script>(function(){
+  var hero=document.getElementById('hero');if(!hero)return;
+  if(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+  var m=window.matchMedia&&matchMedia('(max-width:720px)').matches;
+  var L=m?['img/hero-fall-m.jpg','img/hero-air-m.jpg','img/hero-valley-m.jpg','img/hero.jpg']:['img/hero-fall.jpg','img/hero-air.jpg','img/hero-valley.jpg','img/hero.jpg'];
+  var i=0,layers=[],dots,timer=null,busy=false;
+  function ready(){return !(hero.style.backgroundImage);}   // 관리자가 대문 사진을 따로 올렸으면 슬라이드 안 함
+  function layer(k){if(!layers[k]){var d=document.createElement('div');d.className='hs';d.style.backgroundImage='url("'+L[k]+'")';hero.insertBefore(d,hero.firstChild);layers[k]=d;}return layers[k];}
+  function show(k){if(busy||k===i)return;busy=true;var im=new Image();im.onload=function(){var d=layer(k);requestAnimationFrame(function(){requestAnimationFrame(function(){layers.forEach(function(x,j){if(x)x.classList.toggle('on',j===k);});
+      i=k;if(dots)[].forEach.call(dots.children,function(b,j){b.classList.toggle('on',j===k);});busy=false;});});};im.onerror=function(){busy=false;};im.src=L[k];}
+  function next(){if(document.hidden||!ready())return;show((i+1)%L.length);}
+  function start(){if(!ready())return;layer(0).classList.add('on');
+    dots=document.createElement('div');dots.className='hero-dots';L.forEach(function(_,k){var b=document.createElement('button');b.type='button';b.setAttribute('aria-label','대문 사진 '+(k+1));if(k===0)b.className='on';b.addEventListener('click',function(){clearInterval(timer);show(k);timer=setInterval(next,6000);});dots.appendChild(b);});hero.appendChild(dots);
+    timer=setInterval(next,6000);}
+  if(document.readyState==='complete')setTimeout(start,2500);else window.addEventListener('load',function(){setTimeout(start,2500);});
+})();</script>
 </body>
 </html>
