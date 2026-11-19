@@ -482,6 +482,15 @@ body.fall .no-fall{display:none}
 .bk-step .rp-thumbs{display:none}
 @media(max-width:900px){.bk-step .rp-carousel{height:190px}}
 @media(max-width:900px){.bk-step .roomprev{display:none!important}}
+
+/* ===== 2관 갈비 사진 ===== */
+.ggal-wrap{margin-top:16px;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:26px 28px 28px;box-shadow:var(--shadow)}
+.ggal-h{font-family:var(--serif);font-size:1.2rem;font-weight:700;margin:0 0 16px}
+.ggal-h small{font-family:var(--sans);font-size:.8rem;font-weight:400;color:var(--stone);margin-left:8px}
+.ggal{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.ggal img{width:100%;height:100%;aspect-ratio:4/3;object-fit:cover;border-radius:10px;background:var(--line);cursor:zoom-in;display:block}
+.ggal img:first-child{grid-column:span 2;grid-row:span 2}
+@media(max-width:760px){.ggal-wrap{padding:20px 16px}.ggal{grid-template-columns:1fr 1fr;gap:8px}.ggal-h small{display:block;margin:4px 0 0}}
 </style>
 </head>
 <body>
@@ -763,6 +772,20 @@ body.fall .no-fall{display:none}
         </ul>
       </article>
     </div>
+    <div class="ggal-wrap">
+      <h4 class="ggal-h">2관 히든벨리 갈비 <small>사진을 누르면 크게 보입니다</small></h4>
+      <div class="ggal" id="galbiGal">
+        <img src="img/galbi-1s.jpg" data-full="img/galbi-1.jpg" alt="불판에 굽는 담양식 돼지갈비 한 상" loading="lazy" width="1000" height="750">
+        <img src="img/galbi-2s.jpg" data-full="img/galbi-2.jpg" alt="단풍 든 히든벨리 돼지갈비 2관 외관" loading="lazy" width="560" height="420">
+        <img src="img/galbi-3s.jpg" data-full="img/galbi-3.jpg" alt="2관 홀 좌석" loading="lazy" width="560" height="420">
+        <img src="img/galbi-4s.jpg" data-full="img/galbi-4.jpg" alt="갈비·반찬 셀프바" loading="lazy" width="560" height="420">
+        <img src="img/galbi-5s.jpg" data-full="img/galbi-5.jpg" alt="상추에 올린 돼지갈비 쌈" loading="lazy" width="560" height="420">
+        <img src="img/galbi-6s.jpg" data-full="img/galbi-6.jpg" alt="돼지갈비 상차림" loading="lazy" width="560" height="420">
+        <img src="img/galbi-7s.jpg" data-full="img/galbi-7.jpg" alt="양념 돼지갈비" loading="lazy" width="560" height="420">
+        <img src="img/galbi-8s.jpg" data-full="img/galbi-8.jpg" alt="비빔밥 코너" loading="lazy" width="560" height="420">
+        <img src="img/galbi-9s.jpg" data-full="img/galbi-9.jpg" alt="단풍 숲속 2관 전경" loading="lazy" width="560" height="420">
+      </div>
+    </div>
     <div class="gdinfo">
       <div>
         <h4>이용 요금 <small>1관·2관 같음</small></h4>
@@ -788,7 +811,6 @@ body.fall .no-fall{display:none}
         <p class="gnote">룸·단체석 4~100명 · 주차 · 지역화폐 가능</p>
       </div>
     </div>
-    <p style="text-align:center;margin-top:16px;font-size:.85rem;color:var(--stone)">* 매장 실제 사진은 순차 업데이트됩니다.</p>
   </div>
 </section>
 
@@ -1203,6 +1225,7 @@ function gsLightbox(imgs,start){
 }
 function gsLbGo(d){LB.i=(LB.i+d+LB.imgs.length)%LB.imgs.length;gsLbRender();}
 function gsLbRender(){const ov=document.getElementById('gsLb');ov.querySelector('.lb-img').src=LB.imgs[LB.i];const nav=LB.imgs.length>1;ov.querySelector('.lb-prev').style.display=nav?'':'none';ov.querySelector('.lb-next').style.display=nav?'':'none';ov.querySelector('.lb-dots').textContent=nav?(LB.i+1)+' / '+LB.imgs.length:'';}
+(function(){const g=document.getElementById('galbiGal');if(!g)return;const L=[...g.querySelectorAll('img')];L.forEach((im,i)=>im.addEventListener('click',()=>gsLightbox(L.map(x=>x.dataset.full||x.src),i)));})();
 document.querySelectorAll('.rc[data-room]').forEach(card=>{card.style.cursor='zoom-in';card.addEventListener('click',()=>gsLightbox(gsRoomImages(card),0));});
 try{const c=localStorage.getItem('gs_photos');if(c)gsApplyPhotos(JSON.parse(c));}catch(_){}
 api('photos').then(m=>{gsApplyPhotos(m);try{localStorage.setItem('gs_photos',JSON.stringify(m));}catch(_){}}).catch(()=>{});
